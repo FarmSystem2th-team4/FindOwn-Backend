@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class MemberService {
     private final MemberRepository memberRepository;
     @Transactional
-    public Member saveMember(@RequestBody MemberRequestInfo request){
-        return memberRepository.save(request.toMember());
+    public Member saveMember(MemberRequestInfo tempMember){
+        return memberRepository.save(tempMember.toMember());
     }
 }
