@@ -18,5 +18,9 @@ public class Member {
     private String phoneNumber;
     private String email;
     protected Member(){} //JPA 사용을 위한 빈 생성자
+    public String changePassword(String newPassword){
+        this.password = newPassword;
+        return this.id;
+    }
 
 }
