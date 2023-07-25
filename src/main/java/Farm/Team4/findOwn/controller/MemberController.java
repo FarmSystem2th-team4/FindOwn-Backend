@@ -5,10 +5,11 @@ import Farm.Team4.findOwn.dto.FindPasswordRequestInfo;
 import Farm.Team4.findOwn.dto.SaveMemberRequestInfo;
 import Farm.Team4.findOwn.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
@@ -27,7 +28,7 @@ public class MemberController {
 
         String originPassword = memberService.findByEmail(request.getEmail()).getPassword();
 
-        if (originPassword != request.getOldPassword())
+        if (!originPassword.equals(request.getOldPassword()))
             throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
 
         memberService.changePassword(request); // 비밀번호 변경 지점
