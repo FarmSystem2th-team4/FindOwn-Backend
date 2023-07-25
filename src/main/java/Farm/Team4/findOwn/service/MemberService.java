@@ -2,14 +2,12 @@ package Farm.Team4.findOwn.service;
 
 import Farm.Team4.findOwn.domain.Member;
 import Farm.Team4.findOwn.dto.FindPasswordRequestInfo;
-import Farm.Team4.findOwn.dto.MemberRequestInfo;
+import Farm.Team4.findOwn.dto.SaveMemberRequestInfo;
 import Farm.Team4.findOwn.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -18,7 +16,7 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     @Transactional
-    public Member saveMember(MemberRequestInfo tempMember){
+    public Member saveMember(SaveMemberRequestInfo tempMember){
         return memberRepository.save(tempMember.toMember());
     }
     public boolean duplicatedMember(String id){
