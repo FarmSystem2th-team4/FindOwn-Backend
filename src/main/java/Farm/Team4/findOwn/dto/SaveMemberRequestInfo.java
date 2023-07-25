@@ -4,7 +4,7 @@ import Farm.Team4.findOwn.domain.Member;
 import lombok.Getter;
 
 @Getter
-public class MemberRequestInfo {
+public class SaveMemberRequestInfo {
     private String id;
     private String password;
     private String name;
