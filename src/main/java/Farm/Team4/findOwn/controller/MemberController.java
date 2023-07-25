@@ -1,11 +1,13 @@
 package Farm.Team4.findOwn.controller;
 
 import Farm.Team4.findOwn.domain.Member;
+import Farm.Team4.findOwn.dto.DeleteMemberRequestInfo;
 import Farm.Team4.findOwn.dto.FindPasswordRequestInfo;
 import Farm.Team4.findOwn.dto.SaveMemberRequestInfo;
 import Farm.Team4.findOwn.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,4 +36,11 @@ public class MemberController {
         memberService.changePassword(request); // 비밀번호 변경 지점
         return memberService.findByEmail(request.getEmail());
     }
+    @DeleteMapping("/member")
+    public String deleteMember(@RequestBody DeleteMemberRequestInfo request){
+        Member findMember = memberService.findById(request.getId());
+        memberService.deleteMember(findMember);
+        return "delete complete";
+    }
+
 }
