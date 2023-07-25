@@ -27,6 +27,7 @@ public class MemberService {
     public boolean existedMember (String email){
         return memberRepository.existsByEmail(email);
     }
+    public Member findByEmail (String email){return memberRepository.findByEmail(email);}
     @Transactional
     public Member changePassword(FindPasswordRequestInfo findPasswordRequestInfo){
         String memberEmail = findPasswordRequestInfo.getEmail();

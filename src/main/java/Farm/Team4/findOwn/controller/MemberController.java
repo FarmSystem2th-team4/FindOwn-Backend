@@ -24,10 +24,13 @@ public class MemberController {
     public Member findMyPassword(@RequestBody FindPasswordRequestInfo request){
         if (!memberService.existedMember(request.getEmail()))
             throw new IllegalArgumentException("해당 이메일로 저장된 회원이 없습니다.");
-        /*
-            별도의 인증 과정이 필요할 듯
-         */
-        Member member = memberService.changePassword(request);
-        return member;
+
+        String originPassword = memberService.findByEmail(request.getEmail()).getPassword();
+
+        if (originPassword != request.getOldPassword())
+            throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
+
+        memberService.changePassword(request); // 비밀번호 변경 지점
+        return memberService.findByEmail(request.getEmail());
     }
 }
