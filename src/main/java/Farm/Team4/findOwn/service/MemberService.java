@@ -39,12 +39,8 @@ public class MemberService {
         memberRepository.delete(member);
     }
     @Transactional
-    public Member changePassword(ChangePasswordRequestInfo changePasswordRequestInfo){
-        String memberEmail = changePasswordRequestInfo.getEmail();
-        log.info("member email: " + memberEmail);
-        String newPassword = changePasswordRequestInfo.getNewPassword();
-        log.info("member new password: " + newPassword);
-        Member findMember = memberRepository.findByEmail(memberEmail);
+    public Member changePassword(String email, String newPassword){
+        Member findMember = memberRepository.findByEmail(email);
         findMember.changePassword(newPassword);
         return findMember;
     }

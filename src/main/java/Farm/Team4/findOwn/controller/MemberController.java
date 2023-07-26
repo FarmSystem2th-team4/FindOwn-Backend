@@ -3,7 +3,9 @@ package Farm.Team4.findOwn.controller;
 import Farm.Team4.findOwn.domain.Member;
 import Farm.Team4.findOwn.dto.DeleteMemberRequestInfo;
 import Farm.Team4.findOwn.dto.ChangePasswordRequestInfo;
+import Farm.Team4.findOwn.dto.FindPasswordRequestInfo;
 import Farm.Team4.findOwn.dto.SaveMemberRequestInfo;
+import Farm.Team4.findOwn.service.GenerateRandomString;
 import Farm.Team4.findOwn.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,12 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+    private final GenerateRandomString generateRandomString;
     @PostMapping("/member/save")
     public String saveMember(@RequestBody SaveMemberRequestInfo request){
         if (memberService.duplicatedMember(request.getId()))
             throw new IllegalArgumentException("이미 아이디가 존재합니다.");
         Member saveMember = memberService.saveMember(request);
         return saveMember.getId();
+    }
+    @PostMapping("/member/find")
+    public Member findMyPassword(@RequestBody FindPasswordRequestInfo request){
+        if(!memberService.existedMember(request.getEmail()))
+            throw new IllegalArgumentException("존재하지 않는 회원입니다");
+
+        return memberService.changePassword(request.getEmail(), generateRandomString.getTempPassword());
     }
     @PostMapping("/member/change")
     public Member changeMyPassword(@RequestBody ChangePasswordRequestInfo request){
@@ -33,7 +43,7 @@ public class MemberController {
         if (!originPassword.equals(request.getOldPassword()))
             throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
 
-        memberService.changePassword(request); // 비밀번호 변경 지점
+        memberService.changePassword(request.getEmail(), request.getNewPassword()); // 비밀번호 변경 지점
         return memberService.findByEmail(request.getEmail());
     }
     @DeleteMapping("/member")

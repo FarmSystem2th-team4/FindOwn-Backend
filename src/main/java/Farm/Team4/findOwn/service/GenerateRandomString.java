@@ -1,8 +1,10 @@
 package Farm.Team4.findOwn.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.util.Random;
+@Service
 public class GenerateRandomString {
     @Value("${RANDOM_LENGTH}")
     private int passwordLength;
