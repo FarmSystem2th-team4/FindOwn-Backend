@@ -1,10 +1,8 @@
 package Farm.Team4.findOwn.dto;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class FindPasswordRequestInfo {
     private String email;
-    private String oldPassword;
-    private String newPassword;
 }

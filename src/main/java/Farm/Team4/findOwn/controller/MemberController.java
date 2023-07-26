@@ -2,7 +2,7 @@ package Farm.Team4.findOwn.controller;
 
 import Farm.Team4.findOwn.domain.Member;
 import Farm.Team4.findOwn.dto.DeleteMemberRequestInfo;
-import Farm.Team4.findOwn.dto.FindPasswordRequestInfo;
+import Farm.Team4.findOwn.dto.ChangePasswordRequestInfo;
 import Farm.Team4.findOwn.dto.SaveMemberRequestInfo;
 import Farm.Team4.findOwn.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +23,8 @@ public class MemberController {
         Member saveMember = memberService.saveMember(request);
         return saveMember.getId();
     }
-    @PostMapping("member/change")
-    public Member changeMyPassword(@RequestBody FindPasswordRequestInfo request){
+    @PostMapping("/member/change")
+    public Member changeMyPassword(@RequestBody ChangePasswordRequestInfo request){
         if (!memberService.existedMember(request.getEmail()))
             throw new IllegalArgumentException("해당 이메일로 저장된 회원이 없습니다.");
 
