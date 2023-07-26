@@ -23,8 +23,8 @@ public class MemberController {
         Member saveMember = memberService.saveMember(request);
         return saveMember.getId();
     }
-    @PostMapping("member/find")
-    public Member findMyPassword(@RequestBody FindPasswordRequestInfo request){
+    @PostMapping("member/change")
+    public Member changeMyPassword(@RequestBody FindPasswordRequestInfo request){
         if (!memberService.existedMember(request.getEmail()))
             throw new IllegalArgumentException("해당 이메일로 저장된 회원이 없습니다.");
 
