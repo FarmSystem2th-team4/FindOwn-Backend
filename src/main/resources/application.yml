@@ -13,10 +13,10 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
   mail:
-    host: smtp.naver.com
-    port: 465
-    username: jwl5015@naver.com
-    password: dlawjddn1234!
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
       debug: true
       mail:
