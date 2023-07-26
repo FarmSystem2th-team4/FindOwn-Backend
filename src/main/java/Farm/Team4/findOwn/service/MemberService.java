@@ -1,7 +1,7 @@
 package Farm.Team4.findOwn.service;
 
 import Farm.Team4.findOwn.domain.Member;
-import Farm.Team4.findOwn.dto.FindPasswordRequestInfo;
+import Farm.Team4.findOwn.dto.ChangePasswordRequestInfo;
 import Farm.Team4.findOwn.dto.SaveMemberRequestInfo;
 import Farm.Team4.findOwn.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -39,12 +39,8 @@ public class MemberService {
         memberRepository.delete(member);
     }
     @Transactional
-    public Member changePassword(FindPasswordRequestInfo findPasswordRequestInfo){
-        String memberEmail = findPasswordRequestInfo.getEmail();
-        log.info("member email: " + memberEmail);
-        String newPassword = findPasswordRequestInfo.getNewPassword();
-        log.info("member new password: " + newPassword);
-        Member findMember = memberRepository.findByEmail(memberEmail);
+    public Member changePassword(String email, String newPassword){
+        Member findMember = memberRepository.findByEmail(email);
         findMember.changePassword(newPassword);
         return findMember;
     }
