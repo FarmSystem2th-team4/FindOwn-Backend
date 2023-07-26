@@ -12,6 +12,23 @@ spring:
         show_sql: true
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: jwl5015@naver.com
+    password: dlawjddn1234!
+    properties:
+      debug: true
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+            trust: smtp.naver.com
+          starttls:
+            enable: true
+
+
 
 generate:
   random_string:
