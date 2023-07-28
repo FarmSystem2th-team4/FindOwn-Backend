@@ -18,11 +18,13 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class EmailService {
     private final JavaMailSender javaMailSender;
+    private final RedisService redisService;
     private final String authCode = createCode();
     @Value("${MAIL_USERNAME}")
     private String id;
     public String sendMessage(String dest) throws Exception{
         try{
+            redisService.setDataExpire(authCode, dest, 180 * 1L);
             javaMailSender.send(createMessage(dest));
         }catch (MailException em){
             em.printStackTrace();
