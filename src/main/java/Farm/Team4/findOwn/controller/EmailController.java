@@ -1,15 +1,13 @@
 package Farm.Team4.findOwn.controller;
 
 import Farm.Team4.findOwn.domain.Member;
+import Farm.Team4.findOwn.dto.VerifyMemberRequestInfo;
 import Farm.Team4.findOwn.service.EmailService;
 import Farm.Team4.findOwn.service.MemberService;
 import Farm.Team4.findOwn.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -18,26 +16,24 @@ public class EmailController {
     private final EmailService emailService;
     private final RedisService redisService;
     private final MemberService memberService;
-    @GetMapping("/mail/send/code/{userEmail}")
-    public String mailConfirm(@PathVariable String userEmail) throws Exception{
-        String code = emailService.sendMessage(userEmail);
+    @GetMapping("/mail/send/code")
+    //localhost:8080/mail/send/code?email=jwl5015@naver.com
+    public String mailConfirm(@RequestParam String email) throws Exception{
+        String code = emailService.sendMessage(email);
         return code;
     }
-    @GetMapping("/mail/verify")
-    // localhost:8080/mail/verify?code=숫자
-    public String verifyCode(@RequestParam String code) {
-        String emailAddress = redisService.getData(code);
-        log.info("redis에서 가져온 요청한 이메일 주소:" + emailAddress);
-        if ("jwl5015@naver.com".equals(emailAddress))
-            return "OK";
-        //Member findMember = memberService.findByEmail(redisService.getData(code));
-        /*
-        if (findMember == null)
-            throw new IllegalArgumentException("잘못된 요청입니다.");
-
-         */
-        redisService.deleteData(code);
-        return "tlqkf..";
+    @PostMapping("/mail/verify/code")
+    public String verifyCode(@RequestBody VerifyMemberRequestInfo request) {
+        String redisEmailAddress = redisService.getData(request.getCode());
+        log.info("email address from redis: " + redisEmailAddress);
+        if (redisEmailAddress.equals(request.getEmail())){
+            redisService.deleteData(request.getCode());
+            log.info("요청 이메일 일치 = 인증 성공");
+            return "verify email success";
+        }
+        log.info("요청 이메일 불일치 = 인증 실패");
+        redisService.deleteData(request.getCode());
+        return "verify email fail";
     }
 
 }
