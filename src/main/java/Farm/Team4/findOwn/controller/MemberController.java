@@ -18,15 +18,16 @@ public class MemberController {
     public String saveMember(@RequestBody SaveMemberRequestInfo request){
         if (memberService.duplicatedMember(request.getId()))
             throw new IllegalArgumentException("이미 아이디가 존재합니다.");
+        String password = request.getPassword();
         Member saveMember = memberService.saveMember(request);
         return saveMember.getId();
     }
-    @PostMapping("/member/find")
-    public Member findMyPassword(@RequestBody FindPasswordRequestInfo request){
-        if(!memberService.existedMember(request.getEmail()))
+    @GetMapping("/member/find")
+    public Member findMyPassword(@RequestParam String email){
+        if(!memberService.existedMember(email))
             throw new IllegalArgumentException("존재하지 않는 회원입니다");
 
-        return memberService.changePassword(request.getEmail(), generateRandomString.getTempPassword());
+        return memberService.changePassword(email, generateRandomString.getTempPassword());
     }
     @PostMapping("/member/change/password")
     public Member changeMyPassword(@RequestBody ChangePasswordRequestInfo request){
