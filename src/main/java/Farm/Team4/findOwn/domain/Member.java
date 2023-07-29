@@ -22,5 +22,9 @@ public class Member {
         this.password = newPassword;
         return this.id;
     }
+    public String changeEmail(String newEmail){
+        this.email = newEmail;
+        return this.email;
+    }
 
 }

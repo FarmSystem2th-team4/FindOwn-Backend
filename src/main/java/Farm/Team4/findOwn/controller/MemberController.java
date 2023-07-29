@@ -1,18 +1,13 @@
 package Farm.Team4.findOwn.controller;
 
 import Farm.Team4.findOwn.domain.Member;
-import Farm.Team4.findOwn.dto.DeleteMemberRequestInfo;
-import Farm.Team4.findOwn.dto.ChangePasswordRequestInfo;
-import Farm.Team4.findOwn.dto.FindPasswordRequestInfo;
-import Farm.Team4.findOwn.dto.SaveMemberRequestInfo;
+import Farm.Team4.findOwn.dto.*;
 import Farm.Team4.findOwn.service.GenerateRandomString;
 import Farm.Team4.findOwn.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +28,7 @@ public class MemberController {
 
         return memberService.changePassword(request.getEmail(), generateRandomString.getTempPassword());
     }
-    @PostMapping("/member/change")
+    @PostMapping("/member/change/password")
     public Member changeMyPassword(@RequestBody ChangePasswordRequestInfo request){
         if (!memberService.existedMember(request.getEmail()))
             throw new IllegalArgumentException("해당 이메일로 저장된 회원이 없습니다.");
@@ -45,6 +40,10 @@ public class MemberController {
 
         memberService.changePassword(request.getEmail(), request.getNewPassword()); // 비밀번호 변경 지점
         return memberService.findByEmail(request.getEmail());
+    }
+    @PostMapping("/member/change/email")
+    public Member changeMyEmail(@RequestBody ChangeEmailRequestInfo request){
+        return memberService.changeEmail(request.getOldEmail(), request.getNewEmail());
     }
     @DeleteMapping("/member")
     public String deleteMember(@RequestBody DeleteMemberRequestInfo request){
