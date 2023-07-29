@@ -19,22 +19,24 @@ import java.util.Random;
 public class EmailService {
     private final JavaMailSender javaMailSender;
     private final RedisService redisService;
-    private final String authCode = createCode();
+    private String code = createCode();
     @Value("${MAIL_USERNAME}")
     private String id;
     public String sendMessage(String dest) throws Exception{
+        redisService.deleteData(code); //  기존에 발급 했던 코드 삭제 (널 가능)
+        code = createCode();
         try{
-            redisService.setDataExpire(authCode, dest, 180 * 1L);
+            redisService.setDataExpire(code, dest, 180 * 1L);
             javaMailSender.send(createMessage(dest));
         }catch (MailException em){
             em.printStackTrace();
             throw new IllegalArgumentException("메일 전송 실패");
         }
-        return authCode;
+        return code;
     }
     public MimeMessage createMessage(String dest) throws MessagingException, UnsupportedEncodingException{
         log.info("받을 사람: " + dest);
-        log.info("인증코드: " + authCode);
+        log.info("인증코드: " + code);
         MimeMessage message = javaMailSender.createMimeMessage();
 
         message.addRecipients(MimeMessage.RecipientType.TO, dest);
@@ -45,7 +47,7 @@ public class EmailService {
         content += "<h1 style=\"font-size: 30px; padding-right: 30px; padding-left: 30px;\">이메일 주소 확인</h1>";
         content += "<p style=\"font-size: 17px; padding-right: 30px; padding-left: 30px;\">아래 확인 코드를 회원가입 화면에서 입력해주세요.</p>";
         content += "<div style=\"padding-right: 30px; padding-left: 30px; margin: 32px 0 40px;\"><table style=\"border-collapse: collapse; border: 0; background-color: #F4F4F4; height: 70px; table-layout: fixed; word-wrap: break-word; border-radius: 6px;\"><tbody><tr><td style=\"text-align: center; vertical-align: middle; font-size: 30px;\">";
-        content += authCode;
+        content += code;
         content += "</td></tr></tbody></table></div>";
         // 메일 내용 기입 완료
 

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class EmailController {
     private final EmailService emailService;
     private final RedisService redisService;
-    private final MemberService memberService;
     @GetMapping("/mail/send/code")
     //localhost:8080/mail/send/code?email=jwl5015@naver.com
     public String mailConfirm(@RequestParam String email) throws Exception{
