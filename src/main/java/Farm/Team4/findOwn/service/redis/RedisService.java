@@ -1,4 +1,4 @@
-package Farm.Team4.findOwn.service;
+package Farm.Team4.findOwn.service.redis;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;

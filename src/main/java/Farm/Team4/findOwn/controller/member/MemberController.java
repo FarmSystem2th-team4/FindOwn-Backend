@@ -1,9 +1,9 @@
-package Farm.Team4.findOwn.controller;
+package Farm.Team4.findOwn.controller.member;
 
 import Farm.Team4.findOwn.domain.Member;
 import Farm.Team4.findOwn.dto.*;
-import Farm.Team4.findOwn.service.GenerateRandomString;
-import Farm.Team4.findOwn.service.MemberService;
+import Farm.Team4.findOwn.service.member.MemberUtils;
+import Farm.Team4.findOwn.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
-    private final GenerateRandomString generateRandomString;
+    private final MemberUtils memberUtils;
     @PostMapping("/member/save")
     public String saveMember(@RequestBody SaveMemberRequestInfo request){
         if (memberService.duplicatedMember(request.getId()))
@@ -27,7 +27,7 @@ public class MemberController {
         if(!memberService.existedMember(email))
             throw new IllegalArgumentException("존재하지 않는 회원입니다");
 
-        return memberService.changePassword(email, generateRandomString.getTempPassword());
+        return memberService.changePassword(email, memberUtils.getTempPassword());
     }
     @PostMapping("/member/change/password")
     public Member changeMyPassword(@RequestBody ChangePasswordRequestInfo request){

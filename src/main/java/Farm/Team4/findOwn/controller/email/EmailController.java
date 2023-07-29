@@ -1,10 +1,8 @@
-package Farm.Team4.findOwn.controller;
+package Farm.Team4.findOwn.controller.email;
 
-import Farm.Team4.findOwn.domain.Member;
 import Farm.Team4.findOwn.dto.VerifyMemberRequestInfo;
-import Farm.Team4.findOwn.service.EmailService;
-import Farm.Team4.findOwn.service.MemberService;
-import Farm.Team4.findOwn.service.RedisService;
+import Farm.Team4.findOwn.service.email.EmailService;
+import Farm.Team4.findOwn.service.redis.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
