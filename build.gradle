@@ -36,7 +36,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 	//redis -> 인증코드 유효시간 안에 임시 저장을 위해 사용
-	//Redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
