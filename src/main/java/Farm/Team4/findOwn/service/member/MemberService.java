@@ -1,4 +1,4 @@
-package Farm.Team4.findOwn.service;
+package Farm.Team4.findOwn.service.member;
 
 import Farm.Team4.findOwn.domain.Member;
 import Farm.Team4.findOwn.dto.ChangePasswordRequestInfo;

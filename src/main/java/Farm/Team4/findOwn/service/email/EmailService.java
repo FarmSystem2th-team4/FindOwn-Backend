@@ -1,5 +1,6 @@
-package Farm.Team4.findOwn.service;
+package Farm.Team4.findOwn.service.email;
 
+import Farm.Team4.findOwn.service.redis.RedisService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
