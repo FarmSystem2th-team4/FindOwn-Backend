@@ -18,7 +18,10 @@ public class MemberController {
     public String saveMember(@RequestBody SaveMemberRequestInfo request){
         if (memberService.duplicatedMember(request.getId()))
             throw new IllegalArgumentException("이미 아이디가 존재합니다.");
-        String password = request.getPassword();
+        if (!memberUtils.checkLengthOfPassword(request.getPassword()))
+            throw new IllegalArgumentException("비밀번호는 8자 이상으로 구성 돼야 합니다.");
+        if (!memberUtils.checkExistOfSpecialSymbol(request.getPassword()))
+            throw new IllegalArgumentException("비밀번호는 특수문자를 포함 해야 합니다");
         Member saveMember = memberService.saveMember(request);
         return saveMember.getId();
     }

@@ -21,5 +21,19 @@ public class MemberUtils {
         }
         return tempPassword;
     }
+    public boolean checkLengthOfPassword(String password){
+        if (password.length() >= 8) return true;
+        return false;
+    }
+    public boolean checkExistOfSpecialSymbol(String password){
+        char[] specialSymbols = {'!', '@', '#', '$', '%', '^', '&', '*'};
+        for(int i = 0; i < password.length(); i++){
+            for(int j = 0; j < specialSymbols.length; j++){
+                if (password.charAt(i) == specialSymbols[j])
+                    return true;
+            }
+        }
+        return false;
+    }
 
 }
