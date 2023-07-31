@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -19,7 +20,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     @Transactional
     public Member saveMember(SaveMemberRequestInfo tempMember){
-        return memberRepository.save(tempMember.toMember());
+        return memberRepository.save(tempMember.toMember(new Date()));
     }
     public boolean duplicatedMember(String id){
         return memberRepository.existsById(id);

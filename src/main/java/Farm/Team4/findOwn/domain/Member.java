@@ -1,26 +1,37 @@
 package Farm.Team4.findOwn.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
+@NoArgsConstructor
 public class Member {
     @Id
+    @Column(name = "member_id")
     private String id;
     private String password;
     private String name;
     private String phoneNumber;
     private String email;
     private Date membershipDate;
-    protected Member(){} //JPA 사용을 위한 빈 생성자
+    @OneToMany(mappedBy = "member")
+    private List<MemberHistory> history = new ArrayList<>();
+    public Member(String id, String password, String name, String phoneNumber, String email, Date now){
+        this.id = id;
+        this.password = password;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.membershipDate = now;
+    }
     public String changePassword(String newPassword){
         this.password = newPassword;
         return this.id;
