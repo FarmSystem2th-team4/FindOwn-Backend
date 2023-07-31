@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Builder
@@ -17,6 +19,7 @@ public class Member {
     private String name;
     private String phoneNumber;
     private String email;
+    private Date membershipDate;
     protected Member(){} //JPA 사용을 위한 빈 생성자
     public String changePassword(String newPassword){
         this.password = newPassword;
