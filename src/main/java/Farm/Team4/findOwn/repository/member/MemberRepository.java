@@ -1,4 +1,4 @@
-package Farm.Team4.findOwn.repository;
+package Farm.Team4.findOwn.repository.member;
 
 import Farm.Team4.findOwn.domain.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -2,7 +2,7 @@ package Farm.Team4.findOwn.service.member;
 
 import Farm.Team4.findOwn.domain.member.Member;
 import Farm.Team4.findOwn.dto.member.SaveMemberRequestInfo;
-import Farm.Team4.findOwn.repository.MemberRepository;
+import Farm.Team4.findOwn.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
