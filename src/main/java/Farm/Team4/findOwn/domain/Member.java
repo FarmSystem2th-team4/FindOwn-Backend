@@ -1,8 +1,6 @@
 package Farm.Team4.findOwn.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,7 +21,9 @@ public class Member {
     private String email;
     private Date membershipDate;
     @OneToMany(mappedBy = "member")
-    private List<MemberHistory> history = new ArrayList<>();
+    private List<MemberDesignHistory> designHistories = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<MemberTrademarkHistory> trademarkHistories = new ArrayList<>();
     public Member(String id, String password, String name, String phoneNumber, String email, Date now){
         this.id = id;
         this.password = password;

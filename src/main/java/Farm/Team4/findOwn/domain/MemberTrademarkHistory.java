@@ -7,12 +7,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class MemberHistory {
+public class MemberTrademarkHistory {
     @Id
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int saveSequence;
-
+    @OneToOne
+    private Trademark trademark;
 }

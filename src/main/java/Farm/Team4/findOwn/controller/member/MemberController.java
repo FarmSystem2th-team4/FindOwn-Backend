@@ -34,13 +34,21 @@ public class MemberController {
     }
     @PostMapping("/member/change/password")
     public Member changeMyPassword(@RequestBody ChangePasswordRequestInfo request){
+        // 회원 중복 검사
         if (!memberService.existedMember(request.getEmail()))
             throw new IllegalArgumentException("해당 이메일로 저장된 회원이 없습니다.");
 
         String originPassword = memberService.findByEmail(request.getEmail()).getPassword();
 
+        //기존 비밀번호 입력, 기존 비밀번호 일치 여부 확인
         if (!originPassword.equals(request.getOldPassword()))
             throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
+
+        //새로운 비밀번호, 비밀번호 검증 로직에 맞는지 확인
+        if (!memberUtils.checkLengthOfPassword(request.getNewPassword()))
+            throw new IllegalArgumentException("비밀번호는 8자 이상으로 구성 돼야 합니다.");
+        if (!memberUtils.checkExistOfSpecialSymbol(request.getNewPassword()))
+            throw new IllegalArgumentException("비밀번호는 특수문자를 포함 해야 합니다");
 
         memberService.changePassword(request.getEmail(), request.getNewPassword()); // 비밀번호 변경 지점
         return memberService.findByEmail(request.getEmail());
