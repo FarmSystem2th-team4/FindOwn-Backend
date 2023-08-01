@@ -37,6 +37,9 @@ dependencies {
 
 	//redis -> 인증코드 유효시간 안에 임시 저장을 위해 사용
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	//공공데이터 포털에서 xml 사용을 위한 디펜던시
+	implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml'
 }
 
 tasks.named('test') {
