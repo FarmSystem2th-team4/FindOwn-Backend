@@ -1,7 +1,10 @@
 package Farm.Team4.findOwn.controller.member;
 
-import Farm.Team4.findOwn.domain.Member;
-import Farm.Team4.findOwn.dto.*;
+import Farm.Team4.findOwn.domain.member.Member;
+import Farm.Team4.findOwn.dto.member.ChangeEmailRequestInfo;
+import Farm.Team4.findOwn.dto.member.ChangePasswordRequestInfo;
+import Farm.Team4.findOwn.dto.member.DeleteMemberRequestInfo;
+import Farm.Team4.findOwn.dto.member.SaveMemberRequestInfo;
 import Farm.Team4.findOwn.service.member.MemberUtils;
 import Farm.Team4.findOwn.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
