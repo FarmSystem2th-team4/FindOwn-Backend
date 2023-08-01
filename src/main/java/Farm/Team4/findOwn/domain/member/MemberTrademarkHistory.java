@@ -10,9 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MemberTrademarkHistory {
     @Id
+    @OneToOne
+    private Trademark trademark;
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
-    @OneToOne
-    private Trademark trademark;
+
 }

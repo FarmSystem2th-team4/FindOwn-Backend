@@ -10,9 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MemberDesignHistory {
     @Id
+    @OneToOne
+    private Design design;
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
-    @OneToOne
-    private Design design;
+
 }
