@@ -1,8 +1,7 @@
 package Farm.Team4.findOwn.service.member;
 
-import Farm.Team4.findOwn.domain.Member;
-import Farm.Team4.findOwn.dto.ChangePasswordRequestInfo;
-import Farm.Team4.findOwn.dto.SaveMemberRequestInfo;
+import Farm.Team4.findOwn.domain.member.Member;
+import Farm.Team4.findOwn.dto.member.SaveMemberRequestInfo;
 import Farm.Team4.findOwn.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
