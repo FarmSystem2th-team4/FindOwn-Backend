@@ -1,5 +1,7 @@
 package Farm.Team4.findOwn.domain.member;
 
+import Farm.Team4.findOwn.domain.judgment.DesignJudgment;
+import Farm.Team4.findOwn.domain.judgment.TrademarkJudgment;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +22,10 @@ public class Member {
     private String phoneNumber;
     private String email;
     private Date membershipDate;
-    
+    @OneToMany(mappedBy = "member")
+    private List<DesignJudgment> designJudgments = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<TrademarkJudgment> trademarkJudgments = new ArrayList<>();
     @OneToMany(mappedBy = "member")
     private List<MemberOwnDesign> ownDesigns = new ArrayList<>();
     @OneToMany(mappedBy = "member")

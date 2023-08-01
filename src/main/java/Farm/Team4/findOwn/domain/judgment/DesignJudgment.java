@@ -17,8 +17,10 @@ public class DesignJudgment {
     private Long id; // 저장 순서
     private Date savedDate; // 저장 날짜
     private String result; // 결과
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "member_id")
     private Member member;
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "design_id")
     private Design design;
 }

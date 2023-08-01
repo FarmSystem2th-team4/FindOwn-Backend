@@ -17,8 +17,10 @@ public class TrademarkJudgment {
     private Long id;
     private Date savedDate; // 저장 날짜
     private String result; // 결과
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "member_id")
     private Member member;
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "trademark_id")
     private Trademark trademark;
 }

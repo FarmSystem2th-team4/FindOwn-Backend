@@ -10,7 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MemberOwnTrademark {
     @Id
-    @OneToOne
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "trademark_id")
     private Trademark trademark;
     @ManyToOne
     @JoinColumn(name = "member_id")
