@@ -20,10 +20,11 @@ public class Member {
     private String phoneNumber;
     private String email;
     private Date membershipDate;
+    
     @OneToMany(mappedBy = "member")
-    private List<MemberDesignHistory> designHistories = new ArrayList<>();
+    private List<MemberOwnDesign> ownDesigns = new ArrayList<>();
     @OneToMany(mappedBy = "member")
-    private List<MemberTrademarkHistory> trademarkHistories = new ArrayList<>();
+    private List<MemberOwnTrademark> ownTrademarks = new ArrayList<>();
     public Member(String id, String password, String name, String phoneNumber, String email, Date now){
         this.id = id;
         this.password = password;
