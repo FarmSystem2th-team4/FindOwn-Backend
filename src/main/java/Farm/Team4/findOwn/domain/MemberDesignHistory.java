@@ -4,15 +4,17 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
-public class MemberHistory {
+public class MemberDesignHistory {
     @Id
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int saveSequence;
-
+    @OneToOne
+    private Design design;
 }
