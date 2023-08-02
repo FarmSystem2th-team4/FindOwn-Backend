@@ -1,6 +1,6 @@
 package Farm.Team4.findOwn.controller.member;
 
-import Farm.Team4.findOwn.dto.member.right.SaveMemberDesignRequestInfo;
+import Farm.Team4.findOwn.dto.member.right.design.SaveMemberDesignRequestInfo;
 import Farm.Team4.findOwn.service.member.right.MemberRightService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

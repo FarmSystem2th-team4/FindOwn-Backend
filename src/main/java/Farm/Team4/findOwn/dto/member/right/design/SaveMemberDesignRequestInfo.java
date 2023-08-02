@@ -1,4 +1,4 @@
-package Farm.Team4.findOwn.dto.member.right;
+package Farm.Team4.findOwn.dto.member.right.design;
 
 import Farm.Team4.findOwn.domain.design.Design;
 import lombok.Data;

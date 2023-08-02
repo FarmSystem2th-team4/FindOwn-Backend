@@ -3,7 +3,7 @@ package Farm.Team4.findOwn.service.member.right;
 import Farm.Team4.findOwn.domain.design.Design;
 import Farm.Team4.findOwn.domain.member.Member;
 import Farm.Team4.findOwn.domain.member.MemberOwnDesign;
-import Farm.Team4.findOwn.dto.member.right.SaveMemberDesignRequestInfo;
+import Farm.Team4.findOwn.dto.member.right.design.SaveMemberDesignRequestInfo;
 import Farm.Team4.findOwn.repository.design.DesignRepository;
 import Farm.Team4.findOwn.repository.member.MemberOwnDesignRepository;
 import Farm.Team4.findOwn.repository.member.MemberOwnTrademarkRepository;
