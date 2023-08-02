@@ -1,6 +1,8 @@
 package Farm.Team4.findOwn.domain.member;
 
 import Farm.Team4.findOwn.domain.design.Design;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +18,7 @@ public class MemberOwnDesign {
     @JoinColumn(name = "design_id")
     private Design design;
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "member_id")
     private Member member;
 

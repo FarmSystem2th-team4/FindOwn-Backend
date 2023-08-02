@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -56,5 +57,9 @@ public class MemberRightService {
         MemberOwnTrademark savedInfo = memberOwnTrademarkRepository.save(new MemberOwnTrademark(ownTrademark, findMember));
         log.info("멤버 소유 상표권 저장완료");
         return savedInfo.getId();
+    }
+    public List<MemberOwnDesign> memberOwnDesignList(String memberId){
+        List<MemberOwnDesign> memberOwnDesignByMemberId = memberOwnDesignRepository.findAllByMember_Id(memberId);
+        return memberOwnDesignByMemberId;
     }
 }

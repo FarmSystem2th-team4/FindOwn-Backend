@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class TrademarkService {
     private final TrademarkRepository trademarkRepository;
     public Long saveTrademark(Trademark trademark){
+        log.info("tradeService 진입 성공");
         Trademark savedTrademark = trademarkRepository.save(trademark);
         return savedTrademark.getId();
     }
