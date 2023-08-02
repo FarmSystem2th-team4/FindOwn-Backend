@@ -1,6 +1,7 @@
 package Farm.Team4.findOwn.controller.member;
 
 import Farm.Team4.findOwn.domain.member.MemberOwnDesign;
+import Farm.Team4.findOwn.domain.member.MemberOwnTrademark;
 import Farm.Team4.findOwn.dto.member.right.design.SaveMemberDesignRequestInfo;
 import Farm.Team4.findOwn.dto.member.right.trademark.SaveMemberTrademarkRequestInfo;
 import Farm.Team4.findOwn.service.member.right.MemberRightService;
@@ -30,7 +31,11 @@ public class MemberRightController {
     }
     @GetMapping("/member/own-design")
     public List<MemberOwnDesign> memberOwnDesignList(@RequestParam String memberId){
-        return memberRightService.memberOwnDesignList(memberId);
+        return memberRightService.findMemberOwnDesignList(memberId);
+    }
+    @GetMapping("/member/own-trademark")
+    public List<MemberOwnTrademark> memberOwnTrademarkList(@RequestParam String memberId){
+        return memberRightService.findMemberOwnTrademarkList(memberId);
     }
 
 }

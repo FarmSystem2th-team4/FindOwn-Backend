@@ -17,8 +17,8 @@ public class MemberOwnDesign {
     @JoinColumn(name = "design_id")
     private Design design;
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "member_id")
+    @JsonBackReference
     private Member member;
 
     public MemberOwnDesign(Design design, Member member) {

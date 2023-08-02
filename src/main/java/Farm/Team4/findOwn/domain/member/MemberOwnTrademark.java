@@ -1,6 +1,7 @@
 package Farm.Team4.findOwn.domain.member;
 
 import Farm.Team4.findOwn.domain.trademark.Trademark;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ public class MemberOwnTrademark {
     private Trademark trademark;
     @ManyToOne
     @JoinColumn(name = "member_id")
+    @JsonBackReference
     private Member member;
 
     public MemberOwnTrademark(Trademark trademark, Member member) {
