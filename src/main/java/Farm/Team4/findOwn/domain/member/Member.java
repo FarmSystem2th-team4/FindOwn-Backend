@@ -2,6 +2,7 @@ package Farm.Team4.findOwn.domain.member;
 
 import Farm.Team4.findOwn.domain.judgment.DesignJudgment;
 import Farm.Team4.findOwn.domain.judgment.TrademarkJudgment;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<TrademarkJudgment> trademarkJudgments = new ArrayList<>();
     @OneToMany(mappedBy = "member")
+    @JsonManagedReference
     private List<MemberOwnDesign> ownDesigns = new ArrayList<>();
     @OneToMany(mappedBy = "member")
     private List<MemberOwnTrademark> ownTrademarks = new ArrayList<>();
