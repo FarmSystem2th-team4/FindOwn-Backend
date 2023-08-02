@@ -20,4 +20,8 @@ public class MemberOwnTrademark {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    public MemberOwnTrademark(Trademark trademark, Member member) {
+        this.trademark = trademark;
+        this.member = member;
+    }
 }
