@@ -22,7 +22,6 @@ public class Trademark {
     private String markClass;
     private Long registerNum;
     private String state;
-    @ElementCollection
-    private List<String> classification = new ArrayList<>(); // 상표 구분
+    private String classification;// 상표 구분
 
 }

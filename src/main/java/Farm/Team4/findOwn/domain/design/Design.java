@@ -22,7 +22,15 @@ public class Design {
     private String designClass; //  한국분류(디자인 분류에는 국제분류도 있고 한국 분류도 있다), 국제분류를 따르는 경우 한국분류 값이 없는 디자인권들이 존재
     private Long registerNum; // 등록 번호, '-'을 제외한 출원번호 전체
     private String state; // 법적 상태
-    @ElementCollection
-    private List<String> classification = new ArrayList<>(); // 디자인 구분(시각 디자인, 편집 디자인 등등), 하나의 디자인은 여러 구분을 가질 수 있음
+    private String classification; // 디자인 구분(시각 디자인, 편집 디자인 등등), 하나의 디자인은 여러 구분을 가질 수 있음
 
+    public Design(Long id, String image, String applicant, String designClass, Long registerNum, String state, String classification) {
+        this.id = id;
+        this.image = image;
+        this.applicant = applicant;
+        this.designClass = designClass;
+        this.registerNum = registerNum;
+        this.state = state;
+        this.classification = classification;
+    }
 }

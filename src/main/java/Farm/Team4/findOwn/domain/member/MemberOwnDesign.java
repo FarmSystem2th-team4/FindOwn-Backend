@@ -19,4 +19,8 @@ public class MemberOwnDesign {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    public MemberOwnDesign(Design design, Member member) {
+        this.design = design;
+        this.member = member;
+    }
 }
