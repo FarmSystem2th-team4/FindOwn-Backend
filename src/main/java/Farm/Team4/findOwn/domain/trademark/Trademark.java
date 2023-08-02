@@ -1,5 +1,6 @@
 package Farm.Team4.findOwn.domain.trademark;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -14,13 +15,13 @@ import java.util.List;
 @NoArgsConstructor
 public class Trademark {
     @Id
+    @Column(name = "trademark_id")
     private Long id;
     private String image;
     private String applicant;
     private String markClass;
     private Long registerNum;
     private String state;
-    @ElementCollection
-    private List<String> classification = new ArrayList<>(); // 상표 구분
+    private String classification;// 상표 구분
 
 }

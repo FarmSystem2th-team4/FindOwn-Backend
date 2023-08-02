@@ -8,12 +8,19 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class MemberDesignHistory {
+public class MemberOwnDesign {
     @Id
-    @OneToOne
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @ManyToOne
+    @JoinColumn(name = "design_id")
     private Design design;
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
+    public MemberOwnDesign(Design design, Member member) {
+        this.design = design;
+        this.member = member;
+    }
 }

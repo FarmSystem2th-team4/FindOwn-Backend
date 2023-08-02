@@ -1,12 +1,12 @@
 package Farm.Team4.findOwn.controller.member;
 
 import Farm.Team4.findOwn.domain.member.Member;
-import Farm.Team4.findOwn.dto.member.ChangeEmailRequestInfo;
-import Farm.Team4.findOwn.dto.member.ChangePasswordRequestInfo;
-import Farm.Team4.findOwn.dto.member.DeleteMemberRequestInfo;
-import Farm.Team4.findOwn.dto.member.SaveMemberRequestInfo;
-import Farm.Team4.findOwn.service.member.MemberUtils;
-import Farm.Team4.findOwn.service.member.MemberService;
+import Farm.Team4.findOwn.dto.member.information.ChangeEmailRequestInfo;
+import Farm.Team4.findOwn.dto.member.information.ChangePasswordRequestInfo;
+import Farm.Team4.findOwn.dto.member.information.DeleteMemberRequestInfo;
+import Farm.Team4.findOwn.dto.member.information.SaveMemberRequestInfo;
+import Farm.Team4.findOwn.service.member.information.MemberUtils;
+import Farm.Team4.findOwn.service.member.information.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +60,7 @@ public class MemberController {
     public Member changeMyEmail(@RequestBody ChangeEmailRequestInfo request){
         return memberService.changeEmail(request.getOldEmail(), request.getNewEmail());
     }
-    @DeleteMapping("/member")
+    @DeleteMapping("/member/delete")
     public String deleteMember(@RequestBody DeleteMemberRequestInfo request){
         Member findMember = memberService.findById(request.getId());
         memberService.deleteMember(findMember);

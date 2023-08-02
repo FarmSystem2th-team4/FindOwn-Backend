@@ -1,4 +1,4 @@
-package Farm.Team4.findOwn.dto.member;
+package Farm.Team4.findOwn.dto.member.information;
 
 import lombok.Data;
 
