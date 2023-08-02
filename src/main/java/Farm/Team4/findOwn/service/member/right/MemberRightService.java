@@ -7,10 +7,8 @@ import Farm.Team4.findOwn.domain.member.MemberOwnTrademark;
 import Farm.Team4.findOwn.domain.trademark.Trademark;
 import Farm.Team4.findOwn.dto.member.right.design.SaveMemberDesignRequestInfo;
 import Farm.Team4.findOwn.dto.member.right.trademark.SaveMemberTrademarkRequestInfo;
-import Farm.Team4.findOwn.repository.design.DesignRepository;
 import Farm.Team4.findOwn.repository.member.MemberOwnDesignRepository;
 import Farm.Team4.findOwn.repository.member.MemberOwnTrademarkRepository;
-import Farm.Team4.findOwn.repository.member.MemberRepository;
 import Farm.Team4.findOwn.service.design.DesignService;
 import Farm.Team4.findOwn.service.member.information.MemberService;
 import Farm.Team4.findOwn.service.trademark.TrademarkService;
@@ -19,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
