@@ -55,8 +55,11 @@ public class MemberRightService {
         log.info("멤버 소유 상표권 저장완료");
         return savedInfo.getId();
     }
-    public List<MemberOwnDesign> memberOwnDesignList(String memberId){
-        List<MemberOwnDesign> memberOwnDesignByMemberId = memberOwnDesignRepository.findAllByMember_Id(memberId);
+    public List<MemberOwnDesign> findMemberOwnDesignList(String memberId){
+        List<MemberOwnDesign> memberOwnDesignByMemberId = memberOwnDesignRepository.findMemberOwnDesignByMember_Id(memberId);
         return memberOwnDesignByMemberId;
+    }
+    public List<MemberOwnTrademark> findMemberOwnTrademarkList(String memberId){
+        return memberOwnTrademarkRepository.findMemberOwnTrademarksByMember_Id(memberId);
     }
 }

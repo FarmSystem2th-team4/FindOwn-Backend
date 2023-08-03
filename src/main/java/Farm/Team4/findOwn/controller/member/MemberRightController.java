@@ -1,6 +1,7 @@
 package Farm.Team4.findOwn.controller.member;
 
 import Farm.Team4.findOwn.domain.member.MemberOwnDesign;
+import Farm.Team4.findOwn.domain.member.MemberOwnTrademark;
 import Farm.Team4.findOwn.dto.member.right.design.SaveMemberDesignRequestInfo;
 import Farm.Team4.findOwn.dto.member.right.trademark.SaveMemberTrademarkRequestInfo;
 import Farm.Team4.findOwn.service.member.right.MemberRightService;
@@ -17,8 +18,8 @@ public class MemberRightController {
     private final MemberRightService memberRightService;
     @PostMapping("/member/own-design/save")
     public String saveMemberDesign(@RequestBody SaveMemberDesignRequestInfo request){
-        Long savedMemberOwnDesignId = memberRightService.saveMemberOwnDesign(request);
-        log.info("회원 소유 디자인권 정보 저장 완료, 해당 아이디: " + savedMemberOwnDesignId.toString());
+        Long saveMemberOwnDesignId = memberRightService.saveMemberOwnDesign(request);
+        log.info("회원 소유 디자인권 정보 저장 완료, 해당 아이디: " + saveMemberOwnDesignId.toString());
 
         return "ok";
     }
@@ -30,7 +31,11 @@ public class MemberRightController {
     }
     @GetMapping("/member/own-design")
     public List<MemberOwnDesign> memberOwnDesignList(@RequestParam String memberId){
-        return memberRightService.memberOwnDesignList(memberId);
+        return memberRightService.findMemberOwnDesignList(memberId);
+    }
+    @GetMapping("/member/own-trademark")
+    public List<MemberOwnTrademark> memberOwnTrademarkList(@RequestParam String memberId){
+        return memberRightService.findMemberOwnTrademarkList(memberId);
     }
 
 }

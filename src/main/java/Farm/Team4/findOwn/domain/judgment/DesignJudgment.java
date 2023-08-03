@@ -13,8 +13,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class DesignJudgment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id; // 저장 순서
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id = null; // 저장 순서
     private Date savedDate; // 저장 날짜
     private String result; // 결과
     @ManyToOne

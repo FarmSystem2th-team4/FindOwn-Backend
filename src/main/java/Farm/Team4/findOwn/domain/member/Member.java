@@ -31,6 +31,7 @@ public class Member {
     @JsonManagedReference
     private List<MemberOwnDesign> ownDesigns = new ArrayList<>();
     @OneToMany(mappedBy = "member")
+    @JsonManagedReference
     private List<MemberOwnTrademark> ownTrademarks = new ArrayList<>();
     public Member(String id, String password, String name, String phoneNumber, String email, Date now){
         this.id = id;

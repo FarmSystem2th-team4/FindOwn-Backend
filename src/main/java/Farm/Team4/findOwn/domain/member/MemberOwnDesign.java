@@ -11,18 +11,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MemberOwnDesign {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id = null;
     @ManyToOne
     @JoinColumn(name = "design_id")
     private Design design;
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "member_id")
+    @JsonBackReference
     private Member member;
 
     public MemberOwnDesign(Design design, Member member) {
         this.design = design;
         this.member = member;
     }
+
 }

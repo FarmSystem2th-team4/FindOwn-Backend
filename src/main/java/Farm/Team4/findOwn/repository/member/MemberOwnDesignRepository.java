@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface MemberOwnDesignRepository extends JpaRepository<MemberOwnDesign, Long> {
-    List<MemberOwnDesign> findAllByMember_Id(String memberId);
+public interface MemberOwnDesignRepository extends JpaRepository<MemberOwnDesign, String> {
+    List<MemberOwnDesign> findMemberOwnDesignByMember_Id(String memberId);
 }
