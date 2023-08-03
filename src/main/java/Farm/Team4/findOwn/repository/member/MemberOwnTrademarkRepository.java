@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface MemberOwnTrademarkRepository extends JpaRepository<MemberOwnTrademark, Long> {
+public interface MemberOwnTrademarkRepository extends JpaRepository<MemberOwnTrademark, String> {
     List<MemberOwnTrademark> findMemberOwnTrademarksByMember_Id(String memberId);
 }

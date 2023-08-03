@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MemberOwnDesign {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id = null;
     @ManyToOne
     @JoinColumn(name = "design_id")
     private Design design;
@@ -25,4 +25,5 @@ public class MemberOwnDesign {
         this.design = design;
         this.member = member;
     }
+
 }

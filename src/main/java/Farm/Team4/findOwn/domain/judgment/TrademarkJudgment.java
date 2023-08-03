@@ -13,8 +13,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class TrademarkJudgment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id = null;
     private Date savedDate; // 저장 날짜
     private String result; // 결과
     @ManyToOne

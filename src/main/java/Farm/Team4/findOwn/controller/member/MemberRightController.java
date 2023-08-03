@@ -18,8 +18,8 @@ public class MemberRightController {
     private final MemberRightService memberRightService;
     @PostMapping("/member/own-design/save")
     public String saveMemberDesign(@RequestBody SaveMemberDesignRequestInfo request){
-        Long savedMemberOwnDesignId = memberRightService.saveMemberOwnDesign(request);
-        log.info("회원 소유 디자인권 정보 저장 완료, 해당 아이디: " + savedMemberOwnDesignId.toString());
+        Long saveMemberOwnDesignId = memberRightService.saveMemberOwnDesign(request);
+        log.info("회원 소유 디자인권 정보 저장 완료, 해당 아이디: " + saveMemberOwnDesignId.toString());
 
         return "ok";
     }
