@@ -1,6 +1,6 @@
 package Farm.Team4.findOwn.controller.email;
 
-import Farm.Team4.findOwn.dto.VerifyMemberRequestInfo;
+import Farm.Team4.findOwn.dto.member.information.VerifyMemberRequestInfo;
 import Farm.Team4.findOwn.service.email.EmailService;
 import Farm.Team4.findOwn.service.redis.RedisService;
 import lombok.RequiredArgsConstructor;
