@@ -27,6 +27,9 @@ public class MemberService {
     public boolean existedMemberByEmail(String email){
         return memberRepository.existsByEmail(email);
     }
+    public boolean existedMemberById(String memberId){
+        return memberRepository.existsById(memberId);
+    }
     public Member findByEmail(String email){
         Optional<Member> findMember = memberRepository.findByEmail(email);
         if (findMember == null || findMember.isEmpty())
