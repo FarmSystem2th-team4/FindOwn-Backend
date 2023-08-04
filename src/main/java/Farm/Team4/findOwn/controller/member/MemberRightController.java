@@ -31,11 +31,17 @@ public class MemberRightController {
     }
     @GetMapping("/member/own-design")
     public List<MemberOwnDesign> memberOwnDesignList(@RequestParam String memberId){
-        return memberRightService.findMemberOwnDesignList(memberId);
+        List<MemberOwnDesign> memberOwnDesigns = memberRightService.findMemberOwnDesignList(memberId);
+        if (memberOwnDesigns.isEmpty())
+            throw new RuntimeException("조회된 결과가 없습니다, 회원아이디를 확인해주세요");
+        return memberOwnDesigns;
     }
     @GetMapping("/member/own-trademark")
     public List<MemberOwnTrademark> memberOwnTrademarkList(@RequestParam String memberId){
-        return memberRightService.findMemberOwnTrademarkList(memberId);
+        List<MemberOwnTrademark> memberOwnTrademarks = memberRightService.findMemberOwnTrademarkList(memberId);
+        if (memberOwnTrademarks.isEmpty())
+            throw new IllegalArgumentException("조회된 결과가 없습니다, 회원아이디를 확인해주세요");
+        return memberOwnTrademarks;
     }
 
 }

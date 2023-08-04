@@ -56,8 +56,7 @@ public class MemberRightService {
         return savedInfo.getId();
     }
     public List<MemberOwnDesign> findMemberOwnDesignList(String memberId){
-        List<MemberOwnDesign> memberOwnDesignByMemberId = memberOwnDesignRepository.findMemberOwnDesignByMember_Id(memberId);
-        return memberOwnDesignByMemberId;
+        return memberOwnDesignRepository.findMemberOwnDesignByMember_Id(memberId);
     }
     public List<MemberOwnTrademark> findMemberOwnTrademarkList(String memberId){
         return memberOwnTrademarkRepository.findMemberOwnTrademarksByMember_Id(memberId);
