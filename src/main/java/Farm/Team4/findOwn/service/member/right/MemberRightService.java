@@ -33,7 +33,7 @@ public class MemberRightService {
         log.info("디자인권 정보 저장 완료");
 
         Member findMember = memberService.findById(request.getMemberId());
-        if (!memberService.existedMember(findMember.getEmail()))
+        if (!memberService.existedMemberByEmail(findMember.getEmail()))
             throw new IllegalArgumentException("존재하지 않는 회원입니다.");
         log.info("회원 찾기 완료");
 
@@ -47,7 +47,7 @@ public class MemberRightService {
         log.info("상표권 정보 저장 완료");
 
         Member findMember = memberService.findById(request.getMemberId());
-        if (!memberService.existedMember(findMember.getEmail()))
+        if (!memberService.existedMemberByEmail(findMember.getEmail()))
             throw new IllegalArgumentException("존재하지 않는 회원입니다.");
         log.info("회원 찾기 완료");
 

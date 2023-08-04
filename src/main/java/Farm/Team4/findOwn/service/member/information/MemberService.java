@@ -24,7 +24,7 @@ public class MemberService {
     public boolean duplicatedMember(String id){
         return memberRepository.existsById(id);
     }
-    public boolean existedMember(String email){
+    public boolean existedMemberByEmail(String email){
         return memberRepository.existsByEmail(email);
     }
     public Member findByEmail(String email){

@@ -30,7 +30,7 @@ public class MemberController {
     }
     @GetMapping("/member/find")
     public Member findMyPassword(@RequestParam String email){
-        if(!memberService.existedMember(email))
+        if(!memberService.existedMemberByEmail(email))
             throw new IllegalArgumentException("존재하지 않는 회원입니다");
 
         return memberService.changePassword(email, memberUtils.getTempPassword());
@@ -38,7 +38,7 @@ public class MemberController {
     @PostMapping("/member/change/password")
     public Member changeMyPassword(@RequestBody ChangePasswordRequestInfo request){
         // 회원 중복 검사
-        if (!memberService.existedMember(request.getEmail()))
+        if (!memberService.existedMemberByEmail(request.getEmail()))
             throw new IllegalArgumentException("해당 이메일로 저장된 회원이 없습니다.");
 
         String originPassword = memberService.findByEmail(request.getEmail()).getPassword();
