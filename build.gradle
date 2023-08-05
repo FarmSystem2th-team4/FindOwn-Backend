@@ -40,6 +40,7 @@ dependencies {
 
 	//공공데이터 포털에서 xml 사용을 위한 디펜던시
 	implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml'
+
 }
 
 tasks.named('test') {

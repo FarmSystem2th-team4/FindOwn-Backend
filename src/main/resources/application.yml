@@ -32,7 +32,10 @@ spring:
       host: 127.0.0.1
       port: 6379
 
-
+government:
+  data:
+    search-trademark: ${SEARCH_TRADEMARK_URL}
+    private-key: ${SERVICE_KEY}
 
 generate:
   random_string:
