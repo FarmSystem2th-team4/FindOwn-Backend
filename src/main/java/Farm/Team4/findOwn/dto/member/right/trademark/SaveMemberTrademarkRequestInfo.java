@@ -14,6 +14,6 @@ public class SaveMemberTrademarkRequestInfo {
     private String state;
     private String classification;
     public Trademark changeToTrademark(){
-        return new Trademark(this.trademarkId, this.image, this.applicant, this.markClass, this.registerNum, this.state, this.classification);
+        return new Trademark(this.trademarkId, this.image, this.applicant,this.registerNum, this.state, this.classification);
     }
 }
