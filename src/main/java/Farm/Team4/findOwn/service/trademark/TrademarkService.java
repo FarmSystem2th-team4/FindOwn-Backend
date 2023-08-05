@@ -49,8 +49,8 @@ public class TrademarkService {
         List<Item> items = response.getBody().getItems();
         return items;
     }
-    public List<Trademark> selectRegisteredTrademark(List<Item> dtos){
-        List<Trademark> trademarks = dtos.stream()
+    public List<Trademark> selectRegisteredTrademark(List<Item> apiResult){
+        List<Trademark> trademarks = apiResult.stream()
                 .filter(item -> item.getApplicationStatus().equals("등록"))
                 .map(item -> new Trademark(
                         item.getApplicationNumber(),
@@ -62,6 +62,7 @@ public class TrademarkService {
                 .collect(Collectors.toList());
         log.info("등록 데이터만 가져오기 성공");
         return trademarks;
+
 
     }
     public Long saveTrademark(Trademark trademark){
