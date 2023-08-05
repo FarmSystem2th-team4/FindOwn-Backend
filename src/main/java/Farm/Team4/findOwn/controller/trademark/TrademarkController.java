@@ -1,5 +1,5 @@
 package Farm.Team4.findOwn.controller.trademark;
-import Farm.Team4.findOwn.dto.trademark.parsing.Response;
+import Farm.Team4.findOwn.domain.trademark.Trademark;
 import Farm.Team4.findOwn.dto.trademark.parsing.body.Item;
 import Farm.Team4.findOwn.service.trademark.TrademarkService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,7 +15,8 @@ import java.util.List;
 public class TrademarkController {
     private final TrademarkService trademarkService;
     @GetMapping("/find/trademark")
-    public List<Item> findTrademark(@RequestParam String searchString) throws JsonProcessingException {
-         return trademarkService.findTrademark(searchString);
+    public List<Trademark> findTrademark(@RequestParam String searchString) throws JsonProcessingException {
+        List<Item> trademarksDto = trademarkService.findTrademark(searchString);
+        return trademarkService.selectRegisteredTrademark(trademarksDto);
     }
 }
