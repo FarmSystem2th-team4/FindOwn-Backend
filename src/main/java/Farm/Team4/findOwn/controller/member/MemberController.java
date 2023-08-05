@@ -5,10 +5,13 @@ import Farm.Team4.findOwn.dto.member.information.ChangeEmailRequestInfo;
 import Farm.Team4.findOwn.dto.member.information.ChangePasswordRequestInfo;
 import Farm.Team4.findOwn.dto.member.information.DeleteMemberRequestInfo;
 import Farm.Team4.findOwn.dto.member.information.SaveMemberRequestInfo;
+import Farm.Team4.findOwn.dto.member.response.ResponseMember;
 import Farm.Team4.findOwn.service.member.information.MemberUtils;
 import Farm.Team4.findOwn.service.member.information.MemberService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -65,6 +68,17 @@ public class MemberController {
         Member findMember = memberService.findById(request.getId());
         memberService.deleteMember(findMember);
         return "delete complete";
+    }
+
+    @PostMapping("/member/login")
+    public ResponseMember<String> loginMember(@RequestBody Member member, HttpSession session) {
+        Member principal = memberService.loginMember(member);
+        if(principal != null) {
+            session.setAttribute("principal", principal);
+            return new ResponseMember<String>(HttpStatus.OK.value(), "Success");
+        } else {
+            return new ResponseMember<String>(HttpStatus.BAD_REQUEST.value(), "Login failed");
+        }
     }
 
 }
