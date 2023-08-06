@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -65,6 +66,7 @@ public class TrademarkService {
 
 
     }
+    @Transactional
     public Long saveTrademark(Trademark trademark){
         log.info("tradeService 진입 성공");
         Trademark savedTrademark = trademarkRepository.save(trademark);
