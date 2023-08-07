@@ -27,20 +27,14 @@ public class MemberService {
     public boolean existedMemberByEmail(String email){
         return memberRepository.existsByEmail(email);
     }
-    public boolean existedMemberById(String memberId){
-        return memberRepository.existsById(memberId);
-    }
+    public boolean existedMemberById(String memberId){return memberRepository.existsById(memberId);}
     public Member findByEmail(String email){
-        Optional<Member> findMember = memberRepository.findByEmail(email);
-        if (findMember == null || findMember.isEmpty())
-            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
-        return findMember.get();
+        return  memberRepository.findByEmail(email)
+                .orElseThrow(() -> (new IllegalArgumentException("존재하지 않는 회원입니다")));
     }
     public Member findById(String id){
-        Optional<Member> findMember = memberRepository.findById(id);
-        if (findMember == null || findMember.isEmpty())
-            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
-        return findMember.get();
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
     }
     @Transactional
     public void deleteMember (Member member){
@@ -48,19 +42,17 @@ public class MemberService {
     }
     @Transactional
     public Member changeEmail(String oldEmail, String newEmail){
-        Optional<Member> findMember = memberRepository.findByEmail(oldEmail);
-        if (findMember == null || findMember.isEmpty())
-            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
-        findMember.get().changeEmail(newEmail);
-        return findMember.get();
+        Member member = memberRepository.findByEmail(oldEmail)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        member.changeEmail(newEmail);
+        return member;
     }
     @Transactional
     public Member changePassword(String email, String newPassword){
-        Optional<Member> findMember = memberRepository.findByEmail(email);
-        if (findMember == null || findMember.isEmpty())
-            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
-        findMember.get().changePassword(newPassword);
-        return findMember.get();
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        member.changePassword(newPassword);
+        return member;
     }
 
     @Transactional(readOnly = true)

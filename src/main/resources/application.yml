@@ -35,7 +35,9 @@ spring:
 government:
   data:
     search-trademark: ${SEARCH_TRADEMARK_URL}
-    private-key: ${SERVICE_KEY}
+    trademark-private-key: ${TRADEMARK_SERVICE_KEY}
+    search-design: ${SEARCH_DESIGN_URL}
+    design-private-key: ${DESIGN_SERVICE_KEY}
 
 generate:
   random_string:

@@ -15,16 +15,14 @@ public class Trademark {
     private Long id;
     private String image;
     private String applicant;
-    private String markClass;
     private Long registerNum;
     private String state;
     private String classification;// 상표 구분
 
-    public Trademark(Long id, String image, String applicant, String markClass, Long registerNum, String state, String classification) {
+    public Trademark(Long id, String image, String applicant, Long registerNum, String state, String classification) {
         this.id = id;
         this.image = image;
         this.applicant = applicant;
-        this.markClass = markClass;
         this.registerNum = registerNum;
         this.state = state;
         this.classification = classification;
