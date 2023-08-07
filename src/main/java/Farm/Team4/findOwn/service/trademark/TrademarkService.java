@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -63,8 +64,21 @@ public class TrademarkService {
                 .collect(Collectors.toList());
         log.info("등록 데이터만 가져오기 성공");
         return trademarks;
-
-
+    }
+    public Trademark findAndSelectOne(String applicantName) throws JsonProcessingException {
+        Trademark trademark = findTrademark(applicantName).stream()
+                .filter(mark -> mark.getApplicantName().equals(applicantName))
+                .findFirst()
+                .map(mark -> new Trademark(
+                        mark.getApplicationNumber(),
+                        mark.getBigDrawing(),
+                        mark.getApplicantName(),
+                        mark.getRegistrationNumber(),
+                        mark.getApplicationStatus(),
+                        mark.getClassificationCode()))
+                .orElseThrow(() -> new RuntimeException("입력한 정보를 확인해주세요"));
+        saveTrademark(trademark);
+        return trademark;
     }
     @Transactional
     public Long saveTrademark(Trademark trademark){

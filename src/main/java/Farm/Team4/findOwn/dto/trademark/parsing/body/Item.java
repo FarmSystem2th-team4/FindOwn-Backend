@@ -23,7 +23,7 @@ public class Item {
     private String regPrivilegeName;
     private String regReferenceNumber;
     private String registrationDate;
-    private String registrationNumber;
+    private Long registrationNumber;
     private String registrationPublicDate;
     private String registrationPublicNumber;
     private String title;
