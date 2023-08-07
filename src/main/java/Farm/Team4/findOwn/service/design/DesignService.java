@@ -41,7 +41,7 @@ public class DesignService {
          */
 
         DefaultUriBuilderFactory defaultUriBuilderFactory = new DefaultUriBuilderFactory();
-        defaultUriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE); //  URL encoding 사용 
+        defaultUriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE); //  URL encoding 사용
 
         restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8)); // Xml response
         restTemplate.setUriTemplateHandler(defaultUriBuilderFactory);
