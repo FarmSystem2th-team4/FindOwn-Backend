@@ -26,8 +26,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TrademarkService {
     private final TrademarkRepository trademarkRepository;
-    private final RestTemplate restTemplate = new RestTemplate();
-    @Value("${SERVICE_KEY}")
+    private RestTemplate restTemplate = new RestTemplate();
+    @Value("${TRADEMARK_SERVICE_KEY}")
     private String dataServiceKey;
     @Value("${SEARCH_TRADEMARK_URL}")
     private String searchTrademarkUrl;
