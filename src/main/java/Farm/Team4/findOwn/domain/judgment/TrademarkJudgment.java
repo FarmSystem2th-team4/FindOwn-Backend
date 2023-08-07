@@ -16,11 +16,17 @@ public class TrademarkJudgment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id = null;
     private Date savedDate; // 저장 날짜
-    private String result; // 결과
+    private int result; // 결과
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
     @ManyToOne
     @JoinColumn(name = "trademark_id")
     private Trademark trademark;
+    public TrademarkJudgment(int result, Member member, Trademark trademark){
+        this.savedDate = new Date();
+        this.result = result;
+        this.member = member;
+        this.trademark = trademark;
+    }
 }
