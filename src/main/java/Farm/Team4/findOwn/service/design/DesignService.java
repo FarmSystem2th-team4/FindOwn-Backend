@@ -15,9 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
@@ -27,7 +24,7 @@ import java.nio.charset.StandardCharsets;
 public class DesignService {
     private final DesignRepository designRepository;
     private RestTemplate restTemplate = new RestTemplate();
-    @Value("${DESIGN_SERVICE_KEY}")
+    @Value("${DESIGN_ENCODED_SERVICE_KEY}")
     private String dataServiceKey;
     @Value("${SEARCH_DESIGN_URL}")
     private String searchDesignUrl;
@@ -51,7 +48,7 @@ public class DesignService {
 
         System.out.println(dataServiceKey);
         return restTemplate.exchange(
-                searchDesignUrl +"?serviceKey=" + "B7y6mnXwYiqT8J24zK9IAyF7EGDjLktqZMwR%2F0h8yg6Tq6Scw%2Fj5naZkQIInZ6b2iM%2B6Ndvk%2FFrG4qoTK3gK1Q%3D%3D" + "&articleName=" + URLEncoder.encode(articleName, StandardCharsets.UTF_8),
+                searchDesignUrl +"?serviceKey=" + dataServiceKey + "&articleName=" + URLEncoder.encode(articleName, StandardCharsets.UTF_8),
                 HttpMethod.GET,
                 request,
                 String.class
