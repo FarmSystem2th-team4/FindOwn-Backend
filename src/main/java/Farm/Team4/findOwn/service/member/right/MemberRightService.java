@@ -32,8 +32,6 @@ public class MemberRightService {
         designService.saveDesign(ownDesign);
         log.info("디자인권 정보 저장 완료");
 
-        if(!memberService.existedMemberById(request.getMemberId()))
-            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
         Member findMember = memberService.findById(request.getMemberId());
         log.info("회원 찾기 완료");
 
@@ -46,8 +44,6 @@ public class MemberRightService {
         trademarkService.saveTrademark(ownTrademark);
         log.info("상표권 정보 저장 완료");
 
-        if(!memberService.existedMemberById(request.getMemberId()))
-            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
         Member findMember = memberService.findById(request.getMemberId());
         log.info("회원 찾기 완료");
 

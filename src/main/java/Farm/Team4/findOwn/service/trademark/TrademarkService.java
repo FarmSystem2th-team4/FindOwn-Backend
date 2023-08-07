@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -25,8 +26,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TrademarkService {
     private final TrademarkRepository trademarkRepository;
-    private final RestTemplate restTemplate = new RestTemplate();
-    @Value("${SERVICE_KEY}")
+    private RestTemplate restTemplate = new RestTemplate();
+    @Value("${TRADEMARK_SERVICE_KEY}")
     private String dataServiceKey;
     @Value("${SEARCH_TRADEMARK_URL}")
     private String searchTrademarkUrl;
@@ -65,6 +66,7 @@ public class TrademarkService {
 
 
     }
+    @Transactional
     public Long saveTrademark(Trademark trademark){
         log.info("tradeService 진입 성공");
         Trademark savedTrademark = trademarkRepository.save(trademark);
