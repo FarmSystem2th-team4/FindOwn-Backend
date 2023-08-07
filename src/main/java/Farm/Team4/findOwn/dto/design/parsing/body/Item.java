@@ -28,5 +28,5 @@ public class Item {
     private String publicationNumber;
     private String regReferenceNumber;
     private String registrationDate;
-    private String registrationNumber;
+    private Long registrationNumber;
 }

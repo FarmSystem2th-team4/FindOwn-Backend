@@ -1,4 +1,4 @@
-package Farm.Team4.findOwn.dto.design;
+package Farm.Team4.findOwn.dto.design.parsing;
 
 import Farm.Team4.findOwn.dto.design.parsing.body.Body;
 import Farm.Team4.findOwn.dto.design.parsing.count.Count;
