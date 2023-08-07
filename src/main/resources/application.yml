@@ -34,10 +34,14 @@ spring:
 
 government:
   data:
-    search-trademark: ${SEARCH_TRADEMARK_URL}
-    trademark-private-key: ${TRADEMARK_SERVICE_KEY}
-    search-design: ${SEARCH_DESIGN_URL}
-    design-private-key: ${DESIGN_SERVICE_KEY}
+    trademark:
+      search-trademark: ${SEARCH_TRADEMARK_URL}
+      trademark-private-key: ${TRADEMARK_SERVICE_KEY}
+    design:
+      search-design: ${SEARCH_DESIGN_URL}
+      design-private-key: ${DESIGN_SERVICE_KEY}
+      design-encoded-private-key: ${DESIGN_ENCODED_SERVICE_KEY}
+
 
 generate:
   random_string:
