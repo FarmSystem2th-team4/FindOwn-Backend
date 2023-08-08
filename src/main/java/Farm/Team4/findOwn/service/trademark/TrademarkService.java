@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TrademarkService {
     private final TrademarkRepository trademarkRepository;
-    private final RestTemplate restTemplate;
+    private RestTemplate restTemplate = new RestTemplate();
     @Value("${TRADEMARK_SERVICE_KEY}")
     private String dataServiceKey;
     @Value("${SEARCH_TRADEMARK_URL}")
@@ -35,8 +35,8 @@ public class TrademarkService {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<Void> request = new HttpEntity(headers);
         restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8)); // Xml response UTF-8 encoding
-        String xmlContent =  restTemplate.exchange(
-                searchTrademarkUrl +"?serviceKey=" + dataServiceKey + "&searchString=" + searchString,
+        String xmlContent = restTemplate.exchange(
+                searchTrademarkUrl + "?serviceKey=" + dataServiceKey + "&searchString=" + searchString,
                 HttpMethod.GET,
                 request,
                 String.class
@@ -75,7 +75,7 @@ public class TrademarkService {
                         mark.getRegistrationNumber(),
                         mark.getApplicationStatus(),
                         mark.getClassificationCode()))
-                .orElseThrow(() -> new RuntimeException("입력한 정보를 확인해주세요"));
+                .orElseThrow(() -> new RuntimeException("현재 등록 상태인 상표권이 없습니다."));
         saveTrademark(trademark);
         return trademark;
     }
