@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,8 +35,8 @@ public class TrademarkService {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<Void> request = new HttpEntity(headers);
         restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8)); // Xml response UTF-8 encoding
-        String xmlContent =  restTemplate.exchange(
-                searchTrademarkUrl +"?serviceKey=" + dataServiceKey + "&searchString=" + searchString,
+        String xmlContent = restTemplate.exchange(
+                searchTrademarkUrl + "?serviceKey=" + dataServiceKey + "&searchString=" + searchString,
                 HttpMethod.GET,
                 request,
                 String.class
@@ -76,7 +75,7 @@ public class TrademarkService {
                         mark.getRegistrationNumber(),
                         mark.getApplicationStatus(),
                         mark.getClassificationCode()))
-                .orElseThrow(() -> new RuntimeException("입력한 정보를 확인해주세요"));
+                .orElseThrow(() -> new RuntimeException("현재 등록 상태인 상표권이 없습니다."));
         saveTrademark(trademark);
         return trademark;
     }

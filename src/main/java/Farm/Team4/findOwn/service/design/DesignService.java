@@ -13,12 +13,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
+import java.io.DataInput;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -34,7 +37,7 @@ public class DesignService {
     private String dataServiceKey;
     @Value("${SEARCH_DESIGN_URL}")
     private String searchDesignUrl;
-    public List<Item> findDesign(String articleName) throws JsonProcessingException {
+    public List<Item> findDesign(String articleName) throws IOException {
         /*
             제공받은 service key가 url encoding 문제가 있음 -> '/', '+' 같은 특수 기호 때문에 똑바로 인코딩이 안 됨
             그래서 DefaultUriBuilderFactory를 사용하고 DefaultUriBuilderFactory의 setEncodingMode를 사용해서
@@ -54,7 +57,7 @@ public class DesignService {
         log.info("Request Message 생성완료");
 
         String xmlContent = restTemplate.exchange(
-                searchDesignUrl +"?serviceKey=" + dataServiceKey + "&articleName=" + URLEncoder.encode(articleName, StandardCharsets.UTF_8),
+                searchDesignUrl + "?serviceKey=" + dataServiceKey + "&articleName=" + URLEncoder.encode(articleName, StandardCharsets.UTF_8),
                 HttpMethod.GET,
                 request,
                 String.class
@@ -64,11 +67,11 @@ public class DesignService {
         ObjectMapper xmlMapper = new XmlMapper();
         Response response = xmlMapper.readValue(xmlContent, Response.class);
         log.info("xml parsing 완료");
-
-
+        
         return response.getBody().getItems();
     }
     public List<Design> selectRegisteredTrademark(List<Item> apiResult){
+        log.info("dto -> domain 변환 진입");
         return apiResult.stream()
                 .filter(item -> item.getApplicationStatus().equals("등록"))
                 .map(item -> new Design(
@@ -81,6 +84,25 @@ public class DesignService {
                         item.getDesignMainClassification()
                 ))
                 .collect(Collectors.toList());
+    }
+    public Design findAndSelectOne(String articleName) throws IOException {
+        Design design = findDesign(articleName).stream()
+                .filter(item -> item.getApplicationStatus().equals("등록"))
+                .findFirst()
+                .map(item -> new Design(
+                        item.getApplicationNumber(),
+                        item.getImagePathLarge(),
+                        item.getApplicantName(),
+                        item.getDesignNumber(),
+                        item.getRegistrationNumber(),
+                        item.getApplicationStatus(),
+                        item.getDesignMainClassification()
+                ))
+                .orElseThrow(() -> new IllegalArgumentException("등록 상태인 디자인권이 없습니다."));
+        log.info("정확한 한 개의 디자인으로 변환 성공");
+        saveDesign(design);
+        log.info("해당 디자인 저장 성공");
+        return design;
     }
     @Transactional
     public Long saveDesign(Design design){
