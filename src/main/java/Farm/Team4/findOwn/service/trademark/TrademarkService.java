@@ -34,21 +34,17 @@ public class TrademarkService {
     public List<Item> findTrademark(String searchString) throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<Void> request = new HttpEntity(headers);
+
         restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8)); // Xml response UTF-8 encoding
-        String xmlContent = restTemplate.exchange(
+
+        Response response = restTemplate.exchange(
                 searchTrademarkUrl + "?serviceKey=" + dataServiceKey + "&searchString=" + searchString,
                 HttpMethod.GET,
                 request,
-                String.class
+                Response.class
         ).getBody();
         log.info("공공데이터포털 api 데이터 수신 완료");
-
-        ObjectMapper xmlMapper = new XmlMapper();
-        Response response = xmlMapper.readValue(xmlContent, Response.class);
-        log.info("xml parsing 완료");
-
-        List<Item> items = response.getBody().getItems();
-        return items;
+        return response.getBody().getItems();
     }
     public List<Trademark> selectRegisteredTrademark(List<Item> apiResult){
         List<Trademark> trademarks = apiResult.stream()
