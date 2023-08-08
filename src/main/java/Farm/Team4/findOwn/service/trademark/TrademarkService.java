@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TrademarkService {
     private final TrademarkRepository trademarkRepository;
-    private RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
     @Value("${TRADEMARK_SERVICE_KEY}")
     private String dataServiceKey;
     @Value("${SEARCH_TRADEMARK_URL}")

@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DesignService {
     private final DesignRepository designRepository;
-    private RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
     @Value("${DESIGN_ENCODED_SERVICE_KEY}")
     private String dataServiceKey;
     @Value("${SEARCH_DESIGN_URL}")
@@ -64,8 +64,7 @@ public class DesignService {
         ObjectMapper xmlMapper = new XmlMapper();
         Response response = xmlMapper.readValue(xmlContent, Response.class);
         log.info("xml parsing 완료");
-
-
+        
         return response.getBody().getItems();
     }
     public List<Design> selectRegisteredTrademark(List<Item> apiResult){
