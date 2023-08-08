@@ -56,18 +56,13 @@ public class DesignService {
         HttpEntity<Void> request = new HttpEntity<>(headers);
         log.info("Request Message 생성완료");
 
-        String xmlContent = restTemplate.exchange(
+        Response response = restTemplate.exchange(
                 searchDesignUrl + "?serviceKey=" + dataServiceKey + "&articleName=" + URLEncoder.encode(articleName, StandardCharsets.UTF_8),
                 HttpMethod.GET,
                 request,
-                String.class
+                Response.class
         ).getBody();
         log.info("공공데이터포털 api 정보 수신 완료");
-
-        ObjectMapper xmlMapper = new XmlMapper();
-        Response response = xmlMapper.readValue(xmlContent, Response.class);
-        log.info("xml parsing 완료");
-        
         return response.getBody().getItems();
     }
     public List<Design> selectRegisteredTrademark(List<Item> apiResult){
