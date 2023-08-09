@@ -20,15 +20,6 @@ public class MemberController {
     private final MemberUtils memberUtils;
     @PostMapping("/member/save")
     public String saveMember(@Valid @RequestBody SaveMemberRequestInfo request){
-        /*
-        if (memberService.duplicatedMember(request.getId()))
-            throw new IllegalArgumentException("이미 아이디가 존재합니다.");
-        if (!memberUtils.checkLengthOfPassword(request.getPassword()))
-            throw new IllegalArgumentException("비밀번호는 8자 이상으로 구성 돼야 합니다.");
-        if (!memberUtils.checkExistOfSpecialSymbol(request.getPassword()))
-            throw new IllegalArgumentException("비밀번호는 특수문자를 포함 해야 합니다");
-
-         */
         Member saveMember = memberService.saveMember(request);
         return saveMember.getId();
     }
@@ -37,7 +28,7 @@ public class MemberController {
         if(!memberService.existedMemberByEmail(email))
             throw new IllegalArgumentException("존재하지 않는 회원입니다");
 
-        return memberService.changePassword(email, memberUtils.getTempPassword());
+        return memberService.changePassword(email, memberUtils.createTempPassword());
     }
     @PostMapping("/member/change/password")
     public Member changeMyPassword(@RequestBody ChangePasswordRequestInfo request){
@@ -50,15 +41,6 @@ public class MemberController {
         //기존 비밀번호 입력, 기존 비밀번호 일치 여부 확인
         if (!originPassword.equals(request.getOldPassword()))
             throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
-        /*
-
-        //새로운 비밀번호, 비밀번호 검증 로직에 맞는지 확인
-        if (!memberUtils.checkLengthOfPassword(request.getNewPassword()))
-            throw new IllegalArgumentException("비밀번호는 8자 이상으로 구성 돼야 합니다.");
-        if (!memberUtils.checkExistOfSpecialSymbol(request.getNewPassword()))
-            throw new IllegalArgumentException("비밀번호는 특수문자를 포함 해야 합니다");
-
-         */
 
         memberService.changePassword(request.getEmail(), request.getNewPassword()); // 비밀번호 변경 지점
         return memberService.findByEmail(request.getEmail());

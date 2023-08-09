@@ -12,28 +12,25 @@ public class MemberUtils {
     private int start;
     @Value("${RANDOM_BOUND_END}")
     private int end;
-    public String getTempPassword(){
+    private Random random = new Random();
+    //'숫자', '문자', '특수문자' 무조건 1개 이상, 비밀번호 '최소 8자에서 최대 16자'까지 허용
+    //(특수문자는 정의된 특수문자만 사용 가능)
+    // 숫자: 48 ~ 57
+    // 소문자: 97 ~ 122
+    // 대문자: 65 ~ 90
+    public String createTempPassword(){
         String tempPassword = "";
-        Random random = new Random();
+        char[] specialSymbols = {'!', '@', '#', '$', '%', '^', '&', '*'}; // -> 정의된 특수문자
         for(int i=0; i<passwordLength; i++){
-            int randomNum = random.nextInt(end);
-            tempPassword += (char) (randomNum + start);
+            int randomNum = random.nextInt(10);
+            tempPassword += (char) (randomNum + separateNumber());
         }
+        tempPassword += specialSymbols[random.nextInt(8)];
         return tempPassword;
     }
-    public boolean checkLengthOfPassword(String password){
-        if (password.length() >= 8) return true;
-        return false;
+    private int separateNumber(){
+        int separator = random.nextInt(2);
+        if (separator == 0) return 48;
+        else return 97;
     }
-    public boolean checkExistOfSpecialSymbol(String password){
-        char[] specialSymbols = {'!', '@', '#', '$', '%', '^', '&', '*'};
-        for(int i = 0; i < password.length(); i++){
-            for(int j = 0; j < specialSymbols.length; j++){
-                if (password.charAt(i) == specialSymbols[j])
-                    return true;
-            }
-        }
-        return false;
-    }
-
 }
