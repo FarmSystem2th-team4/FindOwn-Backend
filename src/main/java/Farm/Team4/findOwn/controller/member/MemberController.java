@@ -24,11 +24,11 @@ public class MemberController {
         return saveMember.getId();
     }
     @GetMapping("/member/find")
-    public Member findMyPassword(@RequestParam String email){
-        if(!memberService.existedMemberByEmail(email))
+    public Member findMyPassword(@RequestParam String id){
+        if(!memberService.existedMemberById(id))
             throw new IllegalArgumentException("존재하지 않는 회원입니다");
 
-        return memberService.changePassword(email, memberUtils.createTempPassword());
+        return memberService.changePassword(id, memberUtils.createTempPassword());
     }
     @PostMapping("/member/change/password")
     public Member changeMyPassword(@RequestBody ChangePasswordRequestInfo request){

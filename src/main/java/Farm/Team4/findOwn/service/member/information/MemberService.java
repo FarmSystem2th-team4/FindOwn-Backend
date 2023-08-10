@@ -21,9 +21,6 @@ public class MemberService {
     public Member saveMember(SaveMemberRequestInfo tempMember){
         return memberRepository.save(tempMember.toMember(new Date()));
     }
-    public boolean duplicatedMember(String id){
-        return memberRepository.existsById(id);
-    }
     public boolean existedMemberByEmail(String email){
         return memberRepository.existsByEmail(email);
     }
@@ -41,8 +38,8 @@ public class MemberService {
         memberRepository.delete(member);
     }
     @Transactional
-    public Member changeEmail(String oldEmail, String newEmail){
-        Member member = memberRepository.findByEmail(oldEmail)
+    public Member changeEmail(String Id, String newEmail){
+        Member member = memberRepository.findById(Id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         member.changeEmail(newEmail);
         return member;
