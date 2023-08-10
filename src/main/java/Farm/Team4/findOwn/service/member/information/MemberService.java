@@ -21,17 +21,7 @@ public class MemberService {
     public Member saveMember(SaveMemberRequestInfo tempMember){
         return memberRepository.save(tempMember.toMember(new Date()));
     }
-    public boolean duplicatedMember(String id){
-        return memberRepository.existsById(id);
-    }
-    public boolean existedMemberByEmail(String email){
-        return memberRepository.existsByEmail(email);
-    }
     public boolean existedMemberById(String memberId){return memberRepository.existsById(memberId);}
-    public Member findByEmail(String email){
-        return  memberRepository.findByEmail(email)
-                .orElseThrow(() -> (new IllegalArgumentException("존재하지 않는 회원입니다")));
-    }
     public Member findById(String id){
         return memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
@@ -48,8 +38,8 @@ public class MemberService {
         return member;
     }
     @Transactional
-    public Member changePassword(String email, String newPassword){
-        Member member = memberRepository.findByEmail(email)
+    public Member changePassword(String id, String newPassword){
+        Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         member.changePassword(newPassword);
         return member;

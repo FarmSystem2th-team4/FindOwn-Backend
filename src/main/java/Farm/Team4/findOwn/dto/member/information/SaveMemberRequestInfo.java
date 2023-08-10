@@ -12,7 +12,6 @@ public class SaveMemberRequestInfo {
     private String name;
     private String phoneNumber;
     private String email;
-    private Date membershipDate;
     public Member toMember(Date now){
         return new Member(
                 this.id,

@@ -24,26 +24,26 @@ public class MemberController {
         return saveMember.getId();
     }
     @GetMapping("/member/find")
-    public Member findMyPassword(@RequestParam String email){
-        if(!memberService.existedMemberByEmail(email))
+    public Member findMyPassword(@RequestParam String id){
+        if(!memberService.existedMemberById(id))
             throw new IllegalArgumentException("존재하지 않는 회원입니다");
 
-        return memberService.changePassword(email, memberUtils.createTempPassword());
+        return memberService.changePassword(id, memberUtils.createTempPassword());
     }
     @PostMapping("/member/change/password")
     public Member changeMyPassword(@RequestBody ChangePasswordRequestInfo request){
         // 회원 중복 검사
-        if (!memberService.existedMemberByEmail(request.getEmail()))
-            throw new IllegalArgumentException("해당 이메일로 저장된 회원이 없습니다.");
+        if (!memberService.existedMemberById(request.getId()))
+            throw new IllegalArgumentException("해당 회원이 없습니다.");
 
-        String originPassword = memberService.findByEmail(request.getEmail()).getPassword();
+        String originPassword = memberService.findById(request.getId()).getPassword();
 
         //기존 비밀번호 입력, 기존 비밀번호 일치 여부 확인
         if (!originPassword.equals(request.getOldPassword()))
             throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
 
-        memberService.changePassword(request.getEmail(), request.getNewPassword()); // 비밀번호 변경 지점
-        return memberService.findByEmail(request.getEmail());
+        memberService.changePassword(request.getId(), request.getNewPassword()); // 비밀번호 변경 지점
+        return memberService.findById(request.getId());
     }
     @PostMapping("/member/change/email")
     public Member changeMyEmail(@RequestBody ChangeEmailRequestInfo request){
