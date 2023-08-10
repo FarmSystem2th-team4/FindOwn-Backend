@@ -21,14 +21,7 @@ public class MemberService {
     public Member saveMember(SaveMemberRequestInfo tempMember){
         return memberRepository.save(tempMember.toMember(new Date()));
     }
-    public boolean existedMemberByEmail(String email){
-        return memberRepository.existsByEmail(email);
-    }
     public boolean existedMemberById(String memberId){return memberRepository.existsById(memberId);}
-    public Member findByEmail(String email){
-        return  memberRepository.findByEmail(email)
-                .orElseThrow(() -> (new IllegalArgumentException("존재하지 않는 회원입니다")));
-    }
     public Member findById(String id){
         return memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
@@ -38,15 +31,15 @@ public class MemberService {
         memberRepository.delete(member);
     }
     @Transactional
-    public Member changeEmail(String Id, String newEmail){
-        Member member = memberRepository.findById(Id)
+    public Member changeEmail(String oldEmail, String newEmail){
+        Member member = memberRepository.findByEmail(oldEmail)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         member.changeEmail(newEmail);
         return member;
     }
     @Transactional
-    public Member changePassword(String email, String newPassword){
-        Member member = memberRepository.findByEmail(email)
+    public Member changePassword(String id, String newPassword){
+        Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         member.changePassword(newPassword);
         return member;
