@@ -22,9 +22,16 @@ public class MemberService {
         return memberRepository.save(tempMember.toMember(new Date()));
     }
     public boolean existedMemberById(String memberId){return memberRepository.existsById(memberId);}
+    public boolean existedMemberByEmail(String email){
+        return memberRepository.existsByEmail(email);
+    }
     public Member findById(String id){
         return memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+    }
+    public Member findByEmail(String email){
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
     }
     @Transactional
     public void deleteMember (Member member){
