@@ -16,6 +16,7 @@ public class EmailController {
     @GetMapping("/mail/send/code")
     //localhost:8080/mail/send/code?email=jwl5015@naver.com
     public String mailConfirm(@RequestParam String email) throws Exception{
+        log.info("email: " + email);
         String code = emailService.sendMessage(email);
         return code;
     }
