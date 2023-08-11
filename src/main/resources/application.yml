@@ -49,3 +49,7 @@ generate:
     start-bound: ${RANDOM_BOUND_START}
     end-bound: ${RANDOM_BOUND_END}
 
+logging:
+  level:
+    web: debug
+
