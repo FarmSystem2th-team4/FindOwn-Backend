@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class MemberController {
     private final MemberService memberService;
     private final MemberUtils memberUtils;
@@ -23,7 +24,13 @@ public class MemberController {
         Member saveMember = memberService.saveMember(request);
         return saveMember.getId();
     }
-    @GetMapping("/member/find")
+    @GetMapping("/member/find/id")
+    public String findMyId(@RequestParam String email){
+        if (!memberService.existedMemberByEmail(email))
+            throw new IllegalArgumentException("존재하지 않는 이메일 정보 입니다");
+        return memberService.findByEmail(email).getId();
+    }
+    @GetMapping("/member/find/password")
     public Member findMyPassword(@RequestParam String id){
         if(!memberService.existedMemberById(id))
             throw new IllegalArgumentException("존재하지 않는 회원입니다");
