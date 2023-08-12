@@ -1,7 +1,9 @@
-package Farm.Team4.findOwn.dto.trademark.parsing.body;
-import lombok.Data;
+package Farm.Team4.findOwn.dto.design.parsing.body;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Item {
     private String agentName;
     private String appReferenceNumber;
@@ -9,23 +11,24 @@ public class Item {
     private String applicationDate;
     private Long applicationNumber;
     private String applicationStatus;
-    private String bigDrawing;
-    private String classificationCode;
-    private String drawing;
+    private String articleName;
+    private String designMainClassification;
+    private String designNumber;
+    private String dsShpClssCd;
     private char fullText;
-    private int indexNo;
+    private String imagePath;
+    private String imagePathLarge;
     private String internationalRegisterDate;
     private String internationalRegisterNumber;
+    private String inventorName;
+    private int number;
+    private String openDate;
+    private String openNumber;
     private String priorityDate;
     private String priorityNumber;
     private String publicationDate;
     private String publicationNumber;
-    private String regPrivilegeName;
     private String regReferenceNumber;
     private String registrationDate;
     private Long registrationNumber;
-    private String registrationPublicDate;
-    private String registrationPublicNumber;
-    private String title;
-    private String viennaCode;
 }

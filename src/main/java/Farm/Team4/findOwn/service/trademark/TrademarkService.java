@@ -34,21 +34,17 @@ public class TrademarkService {
     public List<Item> findTrademark(String searchString) throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<Void> request = new HttpEntity(headers);
+
         restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8)); // Xml response UTF-8 encoding
-        String xmlContent =  restTemplate.exchange(
-                searchTrademarkUrl +"?serviceKey=" + dataServiceKey + "&searchString=" + searchString,
+
+        Response response = restTemplate.exchange(
+                searchTrademarkUrl + "?serviceKey=" + dataServiceKey + "&searchString=" + searchString,
                 HttpMethod.GET,
                 request,
-                String.class
+                Response.class
         ).getBody();
         log.info("공공데이터포털 api 데이터 수신 완료");
-
-        ObjectMapper xmlMapper = new XmlMapper();
-        Response response = xmlMapper.readValue(xmlContent, Response.class);
-        log.info("xml parsing 완료");
-
-        List<Item> items = response.getBody().getItems();
-        return items;
+        return response.getBody().getItems();
     }
     public List<Trademark> selectRegisteredTrademark(List<Item> apiResult){
         List<Trademark> trademarks = apiResult.stream()
@@ -63,8 +59,21 @@ public class TrademarkService {
                 .collect(Collectors.toList());
         log.info("등록 데이터만 가져오기 성공");
         return trademarks;
-
-
+    }
+    public Trademark findAndSelectOne(String applicantName) throws JsonProcessingException {
+        Trademark trademark = findTrademark(applicantName).stream()
+                .filter(mark -> mark.getApplicantName().equals(applicantName))
+                .findFirst()
+                .map(mark -> new Trademark(
+                        mark.getApplicationNumber(),
+                        mark.getBigDrawing(),
+                        mark.getApplicantName(),
+                        mark.getRegistrationNumber(),
+                        mark.getApplicationStatus(),
+                        mark.getClassificationCode()))
+                .orElseThrow(() -> new RuntimeException("현재 등록 상태인 상표권이 없습니다."));
+        saveTrademark(trademark);
+        return trademark;
     }
     @Transactional
     public Long saveTrademark(Trademark trademark){

@@ -24,6 +24,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.jetbrains:annotations:23.0.0'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -40,6 +41,9 @@ dependencies {
 
 	//공공데이터 포털에서 xml 사용을 위한 디펜던시
 	implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml'
+
+	//validation -> 값에 대한 확인 과정 (null 처리, 형식 일치 유무)
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 }
 

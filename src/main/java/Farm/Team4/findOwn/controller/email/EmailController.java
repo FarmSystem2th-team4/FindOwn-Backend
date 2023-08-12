@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class EmailController {
     private final EmailService emailService;
     private final RedisService redisService;
     @GetMapping("/mail/send/code")
     //localhost:8080/mail/send/code?email=jwl5015@naver.com
     public String mailConfirm(@RequestParam String email) throws Exception{
+        log.info("email: " + email);
         String code = emailService.sendMessage(email);
         return code;
     }
