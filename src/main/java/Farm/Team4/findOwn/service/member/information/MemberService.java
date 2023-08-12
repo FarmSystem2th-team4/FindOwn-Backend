@@ -51,9 +51,4 @@ public class MemberService {
         member.changePassword(newPassword);
         return member;
     }
-
-    @Transactional(readOnly = true)
-    public Member loginMember(Member member) {
-        return memberRepository.findByIdAndPassword(member.getId(), member.getPassword());
-    }
 }
