@@ -14,34 +14,39 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class MemberRightController {
     private final MemberRightService memberRightService;
-    @PostMapping("/member/own-design")
+    @PostMapping("/own-design")
     public String saveMemberDesign(@RequestBody SaveMemberDesignRequestInfo request){
         Long saveMemberOwnDesignId = memberRightService.saveMemberOwnDesign(request);
         log.info("회원 소유 디자인권 정보 저장 완료, 해당 아이디: " + saveMemberOwnDesignId.toString());
 
         return "ok";
     }
-    @PostMapping("/member/own-trademark")
+    @PostMapping("/own-trademark")
     public String saveMemberTrademark(@RequestBody SaveMemberTrademarkRequestInfo request){
         Long savedMemberOwnTrademarkId = memberRightService.saveMemberOwnTrademark(request);
         log.info("회원 소유 상표권 정보 저장 완료, 해당 아이디: " + savedMemberOwnTrademarkId.toString());
         return "ok";
     }
-    @GetMapping("/member/own-design")
+    @GetMapping("/own-designs")
     public List<MemberOwnDesign> memberOwnDesignList(@RequestParam String memberId){
         List<MemberOwnDesign> memberOwnDesigns = memberRightService.findMemberOwnDesignList(memberId);
         if (memberOwnDesigns.isEmpty())
             throw new RuntimeException("조회된 결과가 없습니다, 회원아이디를 확인해주세요");
         return memberOwnDesigns;
     }
-    @GetMapping("/member/own-trademark")
+    @GetMapping("/own-trademarks")
     public List<MemberOwnTrademark> memberOwnTrademarkList(@RequestParam String memberId){
         List<MemberOwnTrademark> memberOwnTrademarks = memberRightService.findMemberOwnTrademarkList(memberId);
         if (memberOwnTrademarks.isEmpty())
             throw new IllegalArgumentException("조회된 결과가 없습니다, 회원아이디를 확인해주세요");
         return memberOwnTrademarks;
+    }
+    @GetMapping("/own-design")
+    public MemberOwnDesign findMemberOwnDesign(@RequestParam String ownDesignId){
+        return memberRightService.findMyOwnDesign(ownDesignId);
     }
 
 }
