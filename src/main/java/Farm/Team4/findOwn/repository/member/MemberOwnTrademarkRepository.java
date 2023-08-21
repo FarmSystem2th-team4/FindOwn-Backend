@@ -4,7 +4,9 @@ import Farm.Team4.findOwn.domain.member.MemberOwnTrademark;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface MemberOwnTrademarkRepository extends JpaRepository<MemberOwnTrademark, String> {
+public interface MemberOwnTrademarkRepository extends JpaRepository<MemberOwnTrademark, Long> {
+    Optional<MemberOwnTrademark> findById(Long id);
     List<MemberOwnTrademark> findMemberOwnTrademarksByMember_Id(String memberId);
 }
