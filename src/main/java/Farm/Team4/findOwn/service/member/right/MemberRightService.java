@@ -15,6 +15,7 @@ import Farm.Team4.findOwn.service.trademark.TrademarkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class MemberRightService {
     private final TrademarkService trademarkService;
     private final MemberOwnDesignRepository memberOwnDesignRepository;
     private final MemberOwnTrademarkRepository memberOwnTrademarkRepository;
+    @Transactional
     public Long saveMemberOwnDesign(SaveMemberDesignRequestInfo request){
         Design ownDesign = request.changeToDesign();
         designService.saveDesign(ownDesign);
@@ -39,6 +41,7 @@ public class MemberRightService {
         log.info("멤버 소유 디자인권 저장 완료");
         return savedInfo.getId();
     }
+    @Transactional
     public Long saveMemberOwnTrademark(SaveMemberTrademarkRequestInfo request){
         Trademark ownTrademark = request.changeToTrademark();
         trademarkService.saveTrademark(ownTrademark);
@@ -56,5 +59,9 @@ public class MemberRightService {
     }
     public List<MemberOwnTrademark> findMemberOwnTrademarkList(String memberId){
         return memberOwnTrademarkRepository.findMemberOwnTrademarksByMember_Id(memberId);
+    }
+    public MemberOwnDesign findMyOwnDesign(String ownDesignId){
+        return memberOwnDesignRepository.findById(ownDesignId)
+                .orElseThrow(() -> new IllegalArgumentException("회원 소유 디자인권에 대한 아이디 값이 올바르지 않습니다."));
     }
 }
