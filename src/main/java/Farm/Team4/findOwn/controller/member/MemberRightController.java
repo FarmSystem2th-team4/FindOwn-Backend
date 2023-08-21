@@ -45,8 +45,12 @@ public class MemberRightController {
         return memberOwnTrademarks;
     }
     @GetMapping("/own-design")
-    public MemberOwnDesign findMemberOwnDesign(@RequestParam String ownDesignId){
+    public MemberOwnDesign findMemberOwnDesign(@RequestParam Long ownDesignId){
         return memberRightService.findMyOwnDesign(ownDesignId);
+    }
+    @GetMapping("/own-trademark")
+    public MemberOwnTrademark findMemberOwnTrademark(@RequestParam Long ownTrademarkId){
+        return memberRightService.findMyOwnTrademark(ownTrademarkId);
     }
 
 }
