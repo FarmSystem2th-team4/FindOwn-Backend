@@ -14,14 +14,13 @@ import org.springframework.web.bind.annotation.*;
 public class EmailController {
     private final EmailService emailService;
     private final RedisService redisService;
-    @GetMapping("/mail/send/code")
-    //localhost:8080/mail/send/code?email=jwl5015@naver.com
+    @GetMapping("/mail")
     public String mailConfirm(@RequestParam String email) throws Exception{
         log.info("email: " + email);
         String code = emailService.sendMessage(email);
         return code;
     }
-    @PostMapping("/mail/verify/code")
+    @PostMapping("/mail")
     public String verifyCode(@RequestBody VerifyMemberRequestInfo request) {
         String redisEmailAddress = redisService.getData(request.getCode());
         log.info("email address from redis: " + redisEmailAddress);
