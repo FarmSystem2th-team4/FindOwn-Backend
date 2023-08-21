@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface MemberOwnDesignRepository extends JpaRepository<MemberOwnDesign, String> {
-    Optional<MemberOwnDesign> findById(String id);
+public interface MemberOwnDesignRepository extends JpaRepository<MemberOwnDesign, Long> {
+    Optional<MemberOwnDesign> findById(Long id);
 
     List<MemberOwnDesign> findMemberOwnDesignByMember_Id(String memberId);
 }
