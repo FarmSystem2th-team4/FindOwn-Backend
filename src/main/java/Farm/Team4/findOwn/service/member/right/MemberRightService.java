@@ -60,8 +60,12 @@ public class MemberRightService {
     public List<MemberOwnTrademark> findMemberOwnTrademarkList(String memberId){
         return memberOwnTrademarkRepository.findMemberOwnTrademarksByMember_Id(memberId);
     }
-    public MemberOwnDesign findMyOwnDesign(String ownDesignId){
+    public MemberOwnDesign findMyOwnDesign(Long ownDesignId){
         return memberOwnDesignRepository.findById(ownDesignId)
                 .orElseThrow(() -> new IllegalArgumentException("회원 소유 디자인권에 대한 아이디 값이 올바르지 않습니다."));
+    }
+    public MemberOwnTrademark findMyOwnTrademark(Long ownTrademarkId){
+        return memberOwnTrademarkRepository.findById(ownTrademarkId)
+                .orElseThrow(()-> new IllegalArgumentException("회원 소유 상표권에 대한 아이디 값이 올바르지 않습니다."));
     }
 }
