@@ -16,14 +16,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberRightController {
     private final MemberRightService memberRightService;
-    @PostMapping("/member/own-design/save")
+    @PostMapping("/member/own-design")
     public String saveMemberDesign(@RequestBody SaveMemberDesignRequestInfo request){
         Long saveMemberOwnDesignId = memberRightService.saveMemberOwnDesign(request);
         log.info("회원 소유 디자인권 정보 저장 완료, 해당 아이디: " + saveMemberOwnDesignId.toString());
 
         return "ok";
     }
-    @PostMapping("/member/own-trademark/save")
+    @PostMapping("/member/own-trademark")
     public String saveMemberTrademark(@RequestBody SaveMemberTrademarkRequestInfo request){
         Long savedMemberOwnTrademarkId = memberRightService.saveMemberOwnTrademark(request);
         log.info("회원 소유 상표권 정보 저장 완료, 해당 아이디: " + savedMemberOwnTrademarkId.toString());

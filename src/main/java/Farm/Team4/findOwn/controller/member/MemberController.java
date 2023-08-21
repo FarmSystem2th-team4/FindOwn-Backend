@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
     private final MemberUtils memberUtils;
-    @PostMapping("/member/save")
+    @PostMapping("/member")
     public String saveMember(@Valid @RequestBody SaveMemberRequestInfo request){
         Member saveMember = memberService.saveMember(request);
         return saveMember.getId();
@@ -37,7 +37,7 @@ public class MemberController {
 
         return memberService.changePassword(id, memberUtils.createTempPassword());
     }
-    @PostMapping("/member/change/password")
+    @PatchMapping("/member/change/password")
     public Member changeMyPassword(@RequestBody ChangePasswordRequestInfo request){
         // 회원 중복 검사
         if (!memberService.existedMemberById(request.getId()))
@@ -52,11 +52,11 @@ public class MemberController {
         memberService.changePassword(request.getId(), request.getNewPassword()); // 비밀번호 변경 지점
         return memberService.findById(request.getId());
     }
-    @PostMapping("/member/change/email")
+    @PatchMapping("/member/change/email")
     public Member changeMyEmail(@RequestBody ChangeEmailRequestInfo request){
         return memberService.changeEmail(request.getOldEmail(), request.getNewEmail());
     }
-    @DeleteMapping("/member/delete")
+    @DeleteMapping("/member")
     public String deleteMember(@RequestBody DeleteMemberRequestInfo request){
         Member findMember = memberService.findById(request.getId());
         memberService.deleteMember(findMember);
