@@ -72,23 +72,13 @@ public class MemberRightService {
     }
     @Transactional
     public MemberOwnDesign updateMemberOwnDesign(UpdateMemberDesignRequest request){
-        log.info("진입성공");
         MemberOwnDesign findMemberOwnDesign = findMyOwnDesign(request.getMemberOwnDesignId());
         log.info("사용자 소유 디자인권 조회 성공");
+
         if (!findMemberOwnDesign.getMember().getId().equals(request.getMemberId()))
             throw new IllegalArgumentException("소유자와 수정자가 일치하지 않습니다. 동일한 사람만 수정이 가능합니다.");
-        Design updatedDesign = findMemberOwnDesign.getDesign().update(
-                new UpdateDesignRequest(
-                        request.getDesignId(),
-                        request.getImage(),
-                        request.getApplicant(),
-                        request.getDesignClass(),
-                        request.getRegisterNum(),
-                        request.getState(),
-                        request.getClassification()
-                )
-        );
 
+        Design updatedDesign = designService.updateDesign(request);
         log.info("회원 소유 디자인권 내용 수정 완료");
         return findMemberOwnDesign.updateDesign(updatedDesign);
     }
