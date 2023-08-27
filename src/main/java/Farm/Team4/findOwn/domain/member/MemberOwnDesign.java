@@ -25,5 +25,9 @@ public class MemberOwnDesign {
         this.design = design;
         this.member = member;
     }
+    public MemberOwnDesign updateDesign(Design design){
+        this.design = design;
+        return this;
+    }
 
 }
