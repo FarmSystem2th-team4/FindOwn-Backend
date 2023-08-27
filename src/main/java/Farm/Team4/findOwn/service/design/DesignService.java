@@ -1,26 +1,22 @@
 package Farm.Team4.findOwn.service.design;
 
 import Farm.Team4.findOwn.domain.design.Design;
+import Farm.Team4.findOwn.dto.design.UpdateDesignRequest;
 import Farm.Team4.findOwn.dto.design.parsing.Response;
 import Farm.Team4.findOwn.dto.design.parsing.body.Item;
 import Farm.Team4.findOwn.repository.design.DesignRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import java.io.DataInput;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -103,5 +99,15 @@ public class DesignService {
     public Long saveDesign(Design design){
         Design saveDesign = designRepository.save(design);
         return saveDesign.getId();
+    }
+    public Design findById(Long designId){
+        return designRepository.findById(designId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 디자인 id 입니다"));
+    }
+    @Transactional
+    public Design updateDesign(UpdateDesignRequest request){
+        Design findDesign = findById(request.getDesignId());
+        //return findDesign.update(request);
+        return null;
     }
 }

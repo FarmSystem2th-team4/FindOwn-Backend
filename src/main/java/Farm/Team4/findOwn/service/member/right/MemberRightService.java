@@ -5,7 +5,9 @@ import Farm.Team4.findOwn.domain.member.Member;
 import Farm.Team4.findOwn.domain.member.MemberOwnDesign;
 import Farm.Team4.findOwn.domain.member.MemberOwnTrademark;
 import Farm.Team4.findOwn.domain.trademark.Trademark;
-import Farm.Team4.findOwn.dto.member.right.design.SaveMemberDesignRequestInfo;
+import Farm.Team4.findOwn.dto.design.UpdateDesignRequest;
+import Farm.Team4.findOwn.dto.member.right.design.request.SaveMemberDesignRequestInfo;
+import Farm.Team4.findOwn.dto.member.right.design.request.UpdateMemberDesignRequest;
 import Farm.Team4.findOwn.dto.member.right.trademark.SaveMemberTrademarkRequestInfo;
 import Farm.Team4.findOwn.repository.member.MemberOwnDesignRepository;
 import Farm.Team4.findOwn.repository.member.MemberOwnTrademarkRepository;
@@ -67,5 +69,27 @@ public class MemberRightService {
     public MemberOwnTrademark findMyOwnTrademark(Long ownTrademarkId){
         return memberOwnTrademarkRepository.findById(ownTrademarkId)
                 .orElseThrow(()-> new IllegalArgumentException("회원 소유 상표권에 대한 아이디 값이 올바르지 않습니다."));
+    }
+    @Transactional
+    public MemberOwnDesign updateMemberOwnDesign(UpdateMemberDesignRequest request){
+        log.info("진입성공");
+        MemberOwnDesign findMemberOwnDesign = findMyOwnDesign(request.getMemberOwnDesignId());
+        log.info("사용자 소유 디자인권 조회 성공");
+        if (!findMemberOwnDesign.getMember().getId().equals(request.getMemberId()))
+            throw new IllegalArgumentException("소유자와 수정자가 일치하지 않습니다. 동일한 사람만 수정이 가능합니다.");
+        Design updatedDesign = findMemberOwnDesign.getDesign().update(
+                new UpdateDesignRequest(
+                        request.getDesignId(),
+                        request.getImage(),
+                        request.getApplicant(),
+                        request.getDesignClass(),
+                        request.getRegisterNum(),
+                        request.getState(),
+                        request.getClassification()
+                )
+        );
+
+        log.info("회원 소유 디자인권 내용 수정 완료");
+        return findMemberOwnDesign.updateDesign(updatedDesign);
     }
 }
