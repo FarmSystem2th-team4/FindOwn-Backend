@@ -56,13 +56,10 @@ public class MemberController {
     public Member changeMyEmail(@RequestBody ChangeEmailRequestInfo request){
         return memberService.changeEmail(request.getOldEmail(), request.getNewEmail());
     }
-    /*
-    deleteMember 수정 해야함 -> 비밀번호 일치 로직 추가 필요
-     */
     @DeleteMapping("/member")
     public String deleteMember(@RequestBody DeleteMemberRequestInfo request){
         Member findMember = memberService.findById(request.getId());
-        memberService.deleteMember(findMember);
+        memberService.deleteMember(findMember,request);
         return "delete complete";
     }
 

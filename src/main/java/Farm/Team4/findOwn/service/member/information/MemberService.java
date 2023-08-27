@@ -1,6 +1,7 @@
 package Farm.Team4.findOwn.service.member.information;
 
 import Farm.Team4.findOwn.domain.member.Member;
+import Farm.Team4.findOwn.dto.member.information.DeleteMemberRequestInfo;
 import Farm.Team4.findOwn.dto.member.information.SaveMemberRequestInfo;
 import Farm.Team4.findOwn.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,10 +35,6 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
     }
     @Transactional
-    public void deleteMember (Member member){
-        memberRepository.delete(member);
-    }
-    @Transactional
     public Member changeEmail(String oldEmail, String newEmail){
         Member member = memberRepository.findByEmail(oldEmail)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
@@ -50,5 +47,11 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
         member.changePassword(newPassword);
         return member;
+    }
+    @Transactional
+    public void deleteMember (Member member, DeleteMemberRequestInfo request){
+        if (!member.getPassword().equals(request.getPassword()))
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        memberRepository.delete(member);
     }
 }
