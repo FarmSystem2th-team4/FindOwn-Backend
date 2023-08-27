@@ -4,6 +4,7 @@ import Farm.Team4.findOwn.domain.design.Design;
 import Farm.Team4.findOwn.dto.design.UpdateDesignRequest;
 import Farm.Team4.findOwn.dto.design.parsing.Response;
 import Farm.Team4.findOwn.dto.design.parsing.body.Item;
+import Farm.Team4.findOwn.dto.member.right.design.request.UpdateMemberDesignRequest;
 import Farm.Team4.findOwn.repository.design.DesignRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -105,9 +106,17 @@ public class DesignService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 디자인 id 입니다"));
     }
     @Transactional
-    public Design updateDesign(UpdateDesignRequest request){
+    public Design updateDesign(UpdateMemberDesignRequest request){
         Design findDesign = findById(request.getDesignId());
-        //return findDesign.update(request);
-        return null;
+        UpdateDesignRequest updateDesignRequest = new UpdateDesignRequest(
+                request.getDesignId(),
+                request.getImage(),
+                request.getApplicant(),
+                request.getDesignClass(),
+                request.getRegisterNum(),
+                request.getState(),
+                request.getClassification()
+        );
+        return findDesign.update(updateDesignRequest);
     }
 }

@@ -57,6 +57,7 @@ public class MemberRightController {
     @PatchMapping("/own-design")
     public UpdateMemberOwnDesignResponse updateMemberOwnDesign(@RequestBody UpdateMemberDesignRequest request){
         MemberOwnDesign memberOwnDesign = memberRightService.updateMemberOwnDesign(request);
+        log.info("회원 소유 디자인권 수정 완료");
         return new UpdateMemberOwnDesignResponse(memberOwnDesign);
     }
 
