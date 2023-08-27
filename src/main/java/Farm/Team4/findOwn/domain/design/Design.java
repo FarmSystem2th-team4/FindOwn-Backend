@@ -1,5 +1,6 @@
 package Farm.Team4.findOwn.domain.design;
 
+import Farm.Team4.findOwn.dto.design.UpdateDesignRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -28,5 +29,14 @@ public class Design {
         this.registerNum = registerNum;
         this.state = state;
         this.classification = classification;
+    }
+    public Design update(UpdateDesignRequest request){
+        this.image = request.getImage();
+        this.applicant = request.getApplicant();
+        this.designClass = request.getDesignClass();
+        this.registerNum = request.getRegisterNum();
+        this.state = request.getState();
+        this.classification = request.getClassification();
+        return this;
     }
 }
