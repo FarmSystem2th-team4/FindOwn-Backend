@@ -2,12 +2,12 @@ package Farm.Team4.findOwn.controller.member;
 
 import Farm.Team4.findOwn.domain.member.MemberOwnDesign;
 import Farm.Team4.findOwn.domain.member.MemberOwnTrademark;
-import Farm.Team4.findOwn.dto.member.right.design.request.DeleteMemberOwnDesign;
+import Farm.Team4.findOwn.dto.member.right.design.request.DeleteMemberOwnDesignRequest;
 import Farm.Team4.findOwn.dto.member.right.design.request.SaveMemberDesignRequestInfo;
 import Farm.Team4.findOwn.dto.member.right.design.request.UpdateMemberDesignRequest;
 import Farm.Team4.findOwn.dto.member.right.design.response.UpdateMemberOwnDesignResponse;
-import Farm.Team4.findOwn.dto.member.right.trademark.SaveMemberTrademarkRequestInfo;
-import Farm.Team4.findOwn.service.member.information.MemberService;
+import Farm.Team4.findOwn.dto.member.right.trademark.request.DeleteMemberOwnTrademarkRequest;
+import Farm.Team4.findOwn.dto.member.right.trademark.request.SaveMemberTrademarkRequestInfo;
 import Farm.Team4.findOwn.service.member.right.MemberRightService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,8 +56,12 @@ public class MemberRightController {
         return new UpdateMemberOwnDesignResponse(memberOwnDesign);
     }
     @DeleteMapping("/own-design")
-    public String deleteMemberOwnDesign(@RequestBody DeleteMemberOwnDesign request){
+    public String deleteMemberOwnDesign(@RequestBody DeleteMemberOwnDesignRequest request){
         return memberRightService.deleteMemberOwnDesign(request);
+    }
+    @DeleteMapping("/own-trademark")
+    public String deleteMemberOwnTrademark(@RequestBody DeleteMemberOwnTrademarkRequest request){
+        return memberRightService.deleteMemberOwnTrademark(request);
     }
 
 }
