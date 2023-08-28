@@ -24,20 +24,17 @@ public class TrademarkJudgmentService {
     private final TrademarkService trademarkService;
     private final TrademarkJudgmentRepository trademarkJudgmentRepository;
     public ShowTrademarkJudgmentResult showTrademarkJudgment(TrademarkJudgmentResult result) throws JsonProcessingException {
+        Member findMember = memberService.findById(result.getMemberId());
         Trademark findTrademark = findAndSelectOne(result.getApplicant());
-        Member findMember = findMember(result.getMemberId());
         saveTrademarkJudgment(result.getSimilarity(), findTrademark, findMember);
 
         return new ShowTrademarkJudgmentResult(result.getSimilarity(), findTrademark);
     }
-    @Transactional
-    public TrademarkJudgment saveTrademarkJudgment(int similarity, Trademark trademark, Member member){
-        return trademarkJudgmentRepository.save(new TrademarkJudgment(similarity, member, trademark));
-    }
     private Trademark findAndSelectOne(String applicantName) throws JsonProcessingException {
         return trademarkService.findAndSelectOne(applicantName);
     }
-    private Member findMember(String memberId){
-        return memberService.findById(memberId);
+    @Transactional
+    public TrademarkJudgment saveTrademarkJudgment(int similarity, Trademark trademark, Member member){
+        return trademarkJudgmentRepository.save(new TrademarkJudgment(similarity, member, trademark));
     }
 }
