@@ -2,6 +2,7 @@ package Farm.Team4.findOwn.controller.member;
 
 import Farm.Team4.findOwn.domain.member.MemberOwnDesign;
 import Farm.Team4.findOwn.domain.member.MemberOwnTrademark;
+import Farm.Team4.findOwn.dto.member.right.design.request.DeleteMemberOwnDesign;
 import Farm.Team4.findOwn.dto.member.right.design.request.SaveMemberDesignRequestInfo;
 import Farm.Team4.findOwn.dto.member.right.design.request.UpdateMemberDesignRequest;
 import Farm.Team4.findOwn.dto.member.right.design.response.UpdateMemberOwnDesignResponse;
@@ -59,6 +60,10 @@ public class MemberRightController {
         MemberOwnDesign memberOwnDesign = memberRightService.updateMemberOwnDesign(request);
         log.info("회원 소유 디자인권 수정 완료");
         return new UpdateMemberOwnDesignResponse(memberOwnDesign);
+    }
+    @DeleteMapping("/own-design")
+    public String deleteMemberOwnDesign(@RequestBody DeleteMemberOwnDesign request){
+        return memberRightService.deleteMemberOwnDesign(request);
     }
 
 }
