@@ -85,11 +85,11 @@ public class MemberRightService {
     }
     @Transactional
     public String deleteMemberOwnDesign(DeleteMemberOwnDesign request){
-        MemberOwnDesign myOwnDesign = findMyOwnDesign(request.getMemberOwnDesignId());
-        Member me = myOwnDesign.getMember();
-        if (!me.getId().equals(request.getMemberId()))
-            throw new IllegalArgumentException("나의 디자인권만 삭제할 수 있습니다.");
-        memberOwnDesignRepository.delete(myOwnDesign);
+        MemberOwnDesign findMemberOwnDesign = memberService.findById(request.getMemberId()).getOwnDesigns().stream()
+                .filter(memberOwnDesign -> memberOwnDesign.getId().equals(request.getMemberOwnDesignId()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 소유 디자인입니다."));
+        memberOwnDesignRepository.delete(findMemberOwnDesign);
         log.info("회원 소유 디자인권 삭제 완료");
         return "ok";
     }
