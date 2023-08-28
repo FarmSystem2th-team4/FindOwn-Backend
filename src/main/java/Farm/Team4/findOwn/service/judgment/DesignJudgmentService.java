@@ -26,7 +26,7 @@ public class DesignJudgmentService {
     private final DesignService designService;
     private final DesignJudgmentRepository designJudgmentRepository;
     public ShowDesignJudgmentResult showDesignJudgmentResult(DesignJudgmentResult result) throws IOException {
-        Member findMember = findMember(result.getMemberId());
+        Member findMember = memberService.findById(result.getMemberId());
         Design findDesign = findAndSelectOne(result.getApplicant());
 
         saveTrademarkJudgment(result.getSimilarity(), findMember, findDesign);
@@ -34,15 +34,12 @@ public class DesignJudgmentService {
 
         return new ShowDesignJudgmentResult(result.getSimilarity(), findDesign);
     }
+    private Design findAndSelectOne(String articleName) throws IOException {
+        return designService.findAndSelectOne(articleName);
+    }
     @Transactional
     public DesignJudgment saveTrademarkJudgment(int similarity, Member member, Design design){
         return designJudgmentRepository.save(new DesignJudgment(similarity, member, design));
-    }
-    private Member findMember(String memberId){
-        return memberService.findById(memberId);
-    }
-    private Design findAndSelectOne(String articleName) throws IOException {
-        return designService.findAndSelectOne(articleName);
     }
 
 }
