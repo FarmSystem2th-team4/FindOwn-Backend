@@ -58,10 +58,10 @@ public class MemberRightService {
         return savedInfo.getId();
     }
     public List<MemberOwnDesign> findMemberOwnDesignList(String memberId){
-        return memberOwnDesignRepository.findMemberOwnDesignByMember_Id(memberId);
+        return memberService.findById(memberId).getOwnDesigns();
     }
     public List<MemberOwnTrademark> findMemberOwnTrademarkList(String memberId){
-        return memberOwnTrademarkRepository.findMemberOwnTrademarksByMember_Id(memberId);
+        return memberService.findById(memberId).getOwnTrademarks();
     }
     public MemberOwnDesign findMyOwnDesign(Long ownDesignId){
         return memberOwnDesignRepository.findById(ownDesignId)

@@ -8,6 +8,4 @@ import java.util.Optional;
 
 public interface MemberOwnDesignRepository extends JpaRepository<MemberOwnDesign, Long> {
     Optional<MemberOwnDesign> findById(Long id);
-
-    List<MemberOwnDesign> findMemberOwnDesignByMember_Id(String memberId);
 }

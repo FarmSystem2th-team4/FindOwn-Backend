@@ -7,6 +7,7 @@ import Farm.Team4.findOwn.dto.member.right.design.request.SaveMemberDesignReques
 import Farm.Team4.findOwn.dto.member.right.design.request.UpdateMemberDesignRequest;
 import Farm.Team4.findOwn.dto.member.right.design.response.UpdateMemberOwnDesignResponse;
 import Farm.Team4.findOwn.dto.member.right.trademark.SaveMemberTrademarkRequestInfo;
+import Farm.Team4.findOwn.service.member.information.MemberService;
 import Farm.Team4.findOwn.service.member.right.MemberRightService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,6 @@ public class MemberRightController {
     public String saveMemberDesign(@RequestBody SaveMemberDesignRequestInfo request){
         Long saveMemberOwnDesignId = memberRightService.saveMemberOwnDesign(request);
         log.info("회원 소유 디자인권 정보 저장 완료, 해당 아이디: " + saveMemberOwnDesignId.toString());
-
         return "ok";
     }
     @PostMapping("/own-trademark")
@@ -35,17 +35,11 @@ public class MemberRightController {
     }
     @GetMapping("/own-designs")
     public List<MemberOwnDesign> memberOwnDesignList(@RequestParam String memberId){
-        List<MemberOwnDesign> memberOwnDesigns = memberRightService.findMemberOwnDesignList(memberId);
-        if (memberOwnDesigns.isEmpty())
-            throw new RuntimeException("조회된 결과가 없습니다, 회원아이디를 확인해주세요");
-        return memberOwnDesigns;
+        return memberRightService.findMemberOwnDesignList(memberId);
     }
     @GetMapping("/own-trademarks")
     public List<MemberOwnTrademark> memberOwnTrademarkList(@RequestParam String memberId){
-        List<MemberOwnTrademark> memberOwnTrademarks = memberRightService.findMemberOwnTrademarkList(memberId);
-        if (memberOwnTrademarks.isEmpty())
-            throw new IllegalArgumentException("조회된 결과가 없습니다, 회원아이디를 확인해주세요");
-        return memberOwnTrademarks;
+        return memberRightService.findMemberOwnTrademarkList(memberId);
     }
     @GetMapping("/own-design")
     public MemberOwnDesign findMemberOwnDesign(@RequestParam Long ownDesignId){
