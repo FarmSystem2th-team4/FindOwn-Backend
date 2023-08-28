@@ -6,6 +6,7 @@ import Farm.Team4.findOwn.domain.member.MemberOwnDesign;
 import Farm.Team4.findOwn.domain.member.MemberOwnTrademark;
 import Farm.Team4.findOwn.domain.trademark.Trademark;
 import Farm.Team4.findOwn.dto.design.UpdateDesignRequest;
+import Farm.Team4.findOwn.dto.member.right.design.request.DeleteMemberOwnDesign;
 import Farm.Team4.findOwn.dto.member.right.design.request.SaveMemberDesignRequestInfo;
 import Farm.Team4.findOwn.dto.member.right.design.request.UpdateMemberDesignRequest;
 import Farm.Team4.findOwn.dto.member.right.trademark.SaveMemberTrademarkRequestInfo;
@@ -81,5 +82,15 @@ public class MemberRightService {
         Design updatedDesign = designService.updateDesign(request);
         log.info("회원 소유 디자인권 내용 수정 완료");
         return findMemberOwnDesign.updateDesign(updatedDesign);
+    }
+    @Transactional
+    public String deleteMemberOwnDesign(DeleteMemberOwnDesign request){
+        MemberOwnDesign myOwnDesign = findMyOwnDesign(request.getMemberOwnDesignId());
+        Member me = myOwnDesign.getMember();
+        if (!me.getId().equals(request.getMemberId()))
+            throw new IllegalArgumentException("나의 디자인권만 삭제할 수 있습니다.");
+        memberOwnDesignRepository.delete(myOwnDesign);
+        log.info("회원 소유 디자인권 삭제 완료");
+        return "ok";
     }
 }
