@@ -40,14 +40,14 @@ public class Member {
     private String email;
     @NotNull
     private Date membershipDate;
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<DesignJudgment> designJudgments = new ArrayList<>();
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<TrademarkJudgment> trademarkJudgments = new ArrayList<>();
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<MemberOwnDesign> ownDesigns = new ArrayList<>();
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<MemberOwnTrademark> ownTrademarks = new ArrayList<>();
     public Member(String id, String password, String name, String phoneNumber, String email, Date now){
