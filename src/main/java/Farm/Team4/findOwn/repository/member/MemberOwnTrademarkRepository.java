@@ -8,5 +8,4 @@ import java.util.Optional;
 
 public interface MemberOwnTrademarkRepository extends JpaRepository<MemberOwnTrademark, Long> {
     Optional<MemberOwnTrademark> findById(Long id);
-    List<MemberOwnTrademark> findMemberOwnTrademarksByMember_Id(String memberId);
 }
