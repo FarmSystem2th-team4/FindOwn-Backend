@@ -5,11 +5,11 @@ import Farm.Team4.findOwn.domain.member.Member;
 import Farm.Team4.findOwn.domain.member.MemberOwnDesign;
 import Farm.Team4.findOwn.domain.member.MemberOwnTrademark;
 import Farm.Team4.findOwn.domain.trademark.Trademark;
-import Farm.Team4.findOwn.dto.design.UpdateDesignRequest;
-import Farm.Team4.findOwn.dto.member.right.design.request.DeleteMemberOwnDesign;
+import Farm.Team4.findOwn.dto.member.right.design.request.DeleteMemberOwnDesignRequest;
 import Farm.Team4.findOwn.dto.member.right.design.request.SaveMemberDesignRequestInfo;
 import Farm.Team4.findOwn.dto.member.right.design.request.UpdateMemberDesignRequest;
-import Farm.Team4.findOwn.dto.member.right.trademark.SaveMemberTrademarkRequestInfo;
+import Farm.Team4.findOwn.dto.member.right.trademark.request.DeleteMemberOwnTrademarkRequest;
+import Farm.Team4.findOwn.dto.member.right.trademark.request.SaveMemberTrademarkRequestInfo;
 import Farm.Team4.findOwn.repository.member.MemberOwnDesignRepository;
 import Farm.Team4.findOwn.repository.member.MemberOwnTrademarkRepository;
 import Farm.Team4.findOwn.service.design.DesignService;
@@ -84,13 +84,23 @@ public class MemberRightService {
         return findMemberOwnDesign.updateDesign(updatedDesign);
     }
     @Transactional
-    public String deleteMemberOwnDesign(DeleteMemberOwnDesign request){
+    public String deleteMemberOwnDesign(DeleteMemberOwnDesignRequest request){
         MemberOwnDesign findMemberOwnDesign = memberService.findById(request.getMemberId()).getOwnDesigns().stream()
                 .filter(memberOwnDesign -> memberOwnDesign.getId().equals(request.getMemberOwnDesignId()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 소유 디자인입니다."));
         memberOwnDesignRepository.delete(findMemberOwnDesign);
         log.info("회원 소유 디자인권 삭제 완료");
+        return "ok";
+    }
+    @Transactional
+    public String deleteMemberOwnTrademark(DeleteMemberOwnTrademarkRequest request){
+        MemberOwnTrademark findMemberOwnTrademark = memberService.findById(request.getMemberId()).getOwnTrademarks().stream()
+                .filter(memberOwnTrademark -> memberOwnTrademark.getId().equals(request.getMemberOwnTrademarkId()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 소유 상표권입니다."));
+        memberOwnTrademarkRepository.delete(findMemberOwnTrademark);
+        log.info("회원 소유 상표권 삭제 완료");
         return "ok";
     }
 }
