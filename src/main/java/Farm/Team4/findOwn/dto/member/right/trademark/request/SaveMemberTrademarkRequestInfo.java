@@ -1,4 +1,4 @@
-package Farm.Team4.findOwn.dto.member.right.trademark;
+package Farm.Team4.findOwn.dto.member.right.trademark.request;
 
 import Farm.Team4.findOwn.domain.trademark.Trademark;
 import lombok.Data;
