@@ -26,4 +26,8 @@ public class MemberOwnTrademark {
         this.trademark = trademark;
         this.member = member;
     }
+    public MemberOwnTrademark updateTrademark(Trademark trademark){
+        this.trademark = trademark;
+        return this;
+    }
 }

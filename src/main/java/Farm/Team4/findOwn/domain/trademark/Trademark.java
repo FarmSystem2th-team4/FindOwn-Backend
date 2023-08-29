@@ -1,5 +1,7 @@
 package Farm.Team4.findOwn.domain.trademark;
 
+import Farm.Team4.findOwn.dto.member.right.trademark.request.UpdateMemberOwnTrademarkRequest;
+import Farm.Team4.findOwn.dto.trademark.UpdateTrademarkRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -26,5 +28,13 @@ public class Trademark {
         this.registerNum = registerNum;
         this.state = state;
         this.classification = classification;
+    }
+    public Trademark updateTrademark(UpdateTrademarkRequest request){
+        this.image = request.getImage();
+        this.applicant = request.getApplicant();
+        this.registerNum = request.getRegisterNum();
+        this.state = request.getState();
+        this.classification = request.getClassification();
+        return this;
     }
 }

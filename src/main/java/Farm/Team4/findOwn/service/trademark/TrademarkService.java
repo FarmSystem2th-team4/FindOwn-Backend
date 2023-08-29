@@ -1,6 +1,8 @@
 package Farm.Team4.findOwn.service.trademark;
 
 import Farm.Team4.findOwn.domain.trademark.Trademark;
+import Farm.Team4.findOwn.dto.member.right.trademark.request.UpdateMemberOwnTrademarkRequest;
+import Farm.Team4.findOwn.dto.trademark.UpdateTrademarkRequest;
 import Farm.Team4.findOwn.dto.trademark.parsing.Response;
 import Farm.Team4.findOwn.dto.trademark.parsing.body.Item;
 import Farm.Team4.findOwn.repository.trademark.TrademarkRepository;
@@ -80,5 +82,21 @@ public class TrademarkService {
         log.info("tradeService 진입 성공");
         Trademark savedTrademark = trademarkRepository.save(trademark);
         return savedTrademark.getId();
+    }
+    public Trademark findById(Long trademarkId){
+        return trademarkRepository.findById(trademarkId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 아이디입니다."));
+    }
+    @Transactional
+    public Trademark updateTrademark(UpdateMemberOwnTrademarkRequest request){
+        Trademark findTrademark = findById(request.getTrademarkId());
+        UpdateTrademarkRequest updateRequest = new UpdateTrademarkRequest(
+                request.getImage(),
+                request.getApplicant(),
+                request.getRegisterNum(),
+                request.getState(),
+                request.getClassification()
+        );
+        return findTrademark.updateTrademark(updateRequest);
     }
 }
