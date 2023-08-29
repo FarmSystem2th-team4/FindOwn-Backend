@@ -3,6 +3,8 @@ package Farm.Team4.findOwn.service.member.information;
 import Farm.Team4.findOwn.domain.member.Member;
 import Farm.Team4.findOwn.dto.member.information.DeleteMemberRequestInfo;
 import Farm.Team4.findOwn.dto.member.information.SaveMemberRequestInfo;
+import Farm.Team4.findOwn.exception.CustomErrorCode;
+import Farm.Team4.findOwn.exception.FindOwnException;
 import Farm.Team4.findOwn.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -22,36 +23,38 @@ public class MemberService {
     public Member saveMember(SaveMemberRequestInfo tempMember){
         return memberRepository.save(tempMember.toMember(new Date()));
     }
-    public boolean existedMemberById(String memberId){return memberRepository.existsById(memberId);}
-    public boolean existedMemberByEmail(String email){
-        return memberRepository.existsByEmail(email);
-    }
     public Member findById(String id){
         return memberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_FOUND_MEMBER));
     }
     public Member findByEmail(String email){
         return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다"));
+                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_FOUND_MEMBER));
     }
     @Transactional
     public Member changeEmail(String oldEmail, String newEmail){
-        Member member = memberRepository.findByEmail(oldEmail)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        Member member = findByEmail(oldEmail);
         member.changeEmail(newEmail);
         return member;
     }
     @Transactional
-    public Member changePassword(String id, String newPassword){
-        Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
-        member.changePassword(newPassword);
-        return member;
+    public String changeTempPassword(String id, String tempPassword){
+        Member member = findById(id);
+        return member.changePassword(tempPassword);
+    }
+    @Transactional
+    public String changeNewPassword(String memberId, String originPassword, String newPassword){
+        if (!findById(memberId).getPassword().equals(originPassword))
+            throw new FindOwnException(CustomErrorCode.NOT_MATCH_PASSWORD);
+        log.info("기존 비밀번호와 일치 여부 확인 완료");
+
+        Member findMember = findById(memberId);
+        return findMember.changePassword(newPassword);
     }
     @Transactional
     public void deleteMember (Member member, DeleteMemberRequestInfo request){
         if (!member.getPassword().equals(request.getPassword()))
-            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+            throw new FindOwnException(CustomErrorCode.NOT_MATCH_PASSWORD);
         memberRepository.delete(member);
     }
 }
