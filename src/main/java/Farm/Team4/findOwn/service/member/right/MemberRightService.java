@@ -10,6 +10,7 @@ import Farm.Team4.findOwn.dto.member.right.design.request.SaveMemberDesignReques
 import Farm.Team4.findOwn.dto.member.right.design.request.UpdateMemberDesignRequest;
 import Farm.Team4.findOwn.dto.member.right.trademark.request.DeleteMemberOwnTrademarkRequest;
 import Farm.Team4.findOwn.dto.member.right.trademark.request.SaveMemberTrademarkRequestInfo;
+import Farm.Team4.findOwn.dto.member.right.trademark.request.UpdateMemberOwnTrademarkRequest;
 import Farm.Team4.findOwn.repository.member.MemberOwnDesignRepository;
 import Farm.Team4.findOwn.repository.member.MemberOwnTrademarkRepository;
 import Farm.Team4.findOwn.service.design.DesignService;
@@ -82,6 +83,20 @@ public class MemberRightService {
         Design updatedDesign = designService.updateDesign(request);
         log.info("회원 소유 디자인권 내용 수정 완료");
         return findMemberOwnDesign.updateDesign(updatedDesign);
+    }
+    @Transactional
+    public MemberOwnTrademark updateMemberOwnTrademark(UpdateMemberOwnTrademarkRequest request){
+        MemberOwnTrademark findMyOwnTrademark = findMyOwnTrademark(request.getMemberOwnTrademarkId());
+        log.info("사용자 소유 상표권 조회 성공");
+
+        if (!findMyOwnTrademark.getMember().getId().equals(request.getMemberId()))
+            throw new IllegalArgumentException("소유자만이 정보를 변경할 수 있습니다.");
+
+        Trademark updatedTrademark = trademarkService.updateTrademark(request);
+        log.info("상표권 정보 수정 완료");
+
+        return findMyOwnTrademark.updateTrademark(updatedTrademark);
+
     }
     @Transactional
     public String deleteMemberOwnDesign(DeleteMemberOwnDesignRequest request){

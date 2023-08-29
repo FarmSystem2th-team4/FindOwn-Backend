@@ -8,6 +8,8 @@ import Farm.Team4.findOwn.dto.member.right.design.request.UpdateMemberDesignRequ
 import Farm.Team4.findOwn.dto.member.right.design.response.UpdateMemberOwnDesignResponse;
 import Farm.Team4.findOwn.dto.member.right.trademark.request.DeleteMemberOwnTrademarkRequest;
 import Farm.Team4.findOwn.dto.member.right.trademark.request.SaveMemberTrademarkRequestInfo;
+import Farm.Team4.findOwn.dto.member.right.trademark.request.UpdateMemberOwnTrademarkRequest;
+import Farm.Team4.findOwn.dto.member.right.trademark.response.UpdateMemberOwnTrademarkResponse;
 import Farm.Team4.findOwn.service.member.right.MemberRightService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +56,12 @@ public class MemberRightController {
         MemberOwnDesign memberOwnDesign = memberRightService.updateMemberOwnDesign(request);
         log.info("회원 소유 디자인권 수정 완료");
         return new UpdateMemberOwnDesignResponse(memberOwnDesign);
+    }
+    @PatchMapping("/own-trademark")
+    public UpdateMemberOwnTrademarkResponse updateMemberOwnTrademark(@RequestBody UpdateMemberOwnTrademarkRequest request){
+        MemberOwnTrademark memberOwnTrademark = memberRightService.updateMemberOwnTrademark(request);
+        log.info("회원 소유 상표권 수정 완료");
+        return new UpdateMemberOwnTrademarkResponse(memberOwnTrademark);
     }
     @DeleteMapping("/own-design")
     public String deleteMemberOwnDesign(@RequestBody DeleteMemberOwnDesignRequest request){
