@@ -5,8 +5,7 @@ import lombok.Getter;
 @Getter
 public class FindOwnException extends RuntimeException{
     private final CustomErrorCode code;
-    public FindOwnException (CustomErrorCode code, String errorMessage){
-        super(errorMessage);
+    public FindOwnException (CustomErrorCode code){
         this.code = code;
     }
 }
