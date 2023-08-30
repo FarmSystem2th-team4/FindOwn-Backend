@@ -5,6 +5,8 @@ import Farm.Team4.findOwn.dto.design.UpdateDesignRequest;
 import Farm.Team4.findOwn.dto.design.parsing.Response;
 import Farm.Team4.findOwn.dto.design.parsing.body.Item;
 import Farm.Team4.findOwn.dto.member.right.design.request.UpdateMemberDesignRequest;
+import Farm.Team4.findOwn.exception.CustomErrorCode;
+import Farm.Team4.findOwn.exception.FindOwnException;
 import Farm.Team4.findOwn.repository.design.DesignRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -76,7 +78,7 @@ public class DesignService {
                         item.getApplicationStatus(),
                         item.getDesignMainClassification()
                 ))
-                .orElseThrow(() -> new IllegalArgumentException("등록 상태인 디자인권이 없습니다."));
+                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_FOUND_REGISTERED));
         log.info("정확한 한 개의 디자인으로 변환 성공");
         saveDesign(design);
         log.info("해당 디자인 저장 성공");
@@ -89,7 +91,7 @@ public class DesignService {
     }
     public Design findById(Long designId){
         return designRepository.findById(designId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 디자인 id 입니다"));
+                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_FOUND_DESIGN));
     }
     @Transactional
     public Design updateDesign(UpdateMemberDesignRequest request){
