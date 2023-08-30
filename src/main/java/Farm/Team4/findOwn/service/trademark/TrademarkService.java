@@ -5,6 +5,8 @@ import Farm.Team4.findOwn.dto.member.right.trademark.request.UpdateMemberOwnTrad
 import Farm.Team4.findOwn.dto.trademark.UpdateTrademarkRequest;
 import Farm.Team4.findOwn.dto.trademark.parsing.Response;
 import Farm.Team4.findOwn.dto.trademark.parsing.body.Item;
+import Farm.Team4.findOwn.exception.CustomErrorCode;
+import Farm.Team4.findOwn.exception.FindOwnException;
 import Farm.Team4.findOwn.repository.trademark.TrademarkRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -73,7 +75,7 @@ public class TrademarkService {
                         mark.getRegistrationNumber(),
                         mark.getApplicationStatus(),
                         mark.getClassificationCode()))
-                .orElseThrow(() -> new RuntimeException("현재 등록 상태인 상표권이 없습니다."));
+                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_FOUND_REGISTERED));
         saveTrademark(trademark);
         return trademark;
     }
@@ -85,7 +87,7 @@ public class TrademarkService {
     }
     public Trademark findById(Long trademarkId){
         return trademarkRepository.findById(trademarkId)
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 아이디입니다."));
+                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_FOUND_TRADEMARK));
     }
     @Transactional
     public Trademark updateTrademark(UpdateMemberOwnTrademarkRequest request){
