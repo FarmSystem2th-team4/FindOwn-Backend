@@ -27,11 +27,11 @@ public class EmailController {
         if (redisEmailAddress.equals(request.getEmail())){
             redisService.deleteData(request.getCode());
             log.info("요청 이메일 일치 = 인증 성공");
-            return "verify email success";
+            return "email verification success";
         }
         log.info("요청 이메일 불일치 = 인증 실패");
         redisService.deleteData(request.getCode());
-        return "verify email fail";
+        return "email verification fail";
     }
 
 }
