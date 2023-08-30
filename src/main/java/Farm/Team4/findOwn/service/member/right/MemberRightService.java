@@ -11,6 +11,8 @@ import Farm.Team4.findOwn.dto.member.right.design.request.UpdateMemberDesignRequ
 import Farm.Team4.findOwn.dto.member.right.trademark.request.DeleteMemberOwnTrademarkRequest;
 import Farm.Team4.findOwn.dto.member.right.trademark.request.SaveMemberTrademarkRequestInfo;
 import Farm.Team4.findOwn.dto.member.right.trademark.request.UpdateMemberOwnTrademarkRequest;
+import Farm.Team4.findOwn.exception.CustomErrorCode;
+import Farm.Team4.findOwn.exception.FindOwnException;
 import Farm.Team4.findOwn.repository.member.MemberOwnDesignRepository;
 import Farm.Team4.findOwn.repository.member.MemberOwnTrademarkRepository;
 import Farm.Team4.findOwn.service.design.DesignService;
@@ -66,11 +68,11 @@ public class MemberRightService {
     }
     public MemberOwnDesign findMyOwnDesign(Long ownDesignId){
         return memberOwnDesignRepository.findById(ownDesignId)
-                .orElseThrow(() -> new IllegalArgumentException("회원 소유 디자인권에 대한 아이디 값이 올바르지 않습니다."));
+                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_FOUND_DESIGN_OF_MEMBER));
     }
     public MemberOwnTrademark findMyOwnTrademark(Long ownTrademarkId){
         return memberOwnTrademarkRepository.findById(ownTrademarkId)
-                .orElseThrow(()-> new IllegalArgumentException("회원 소유 상표권에 대한 아이디 값이 올바르지 않습니다."));
+                .orElseThrow(()-> new FindOwnException(CustomErrorCode.NOT_FOUND_TRADEMARK_OF_MEMBER));
     }
     @Transactional
     public MemberOwnDesign updateMemberOwnDesign(UpdateMemberDesignRequest request){
@@ -78,7 +80,7 @@ public class MemberRightService {
         log.info("사용자 소유 디자인권 조회 성공");
 
         if (!findMemberOwnDesign.getMember().getId().equals(request.getMemberId()))
-            throw new IllegalArgumentException("소유자와 수정자가 일치하지 않습니다. 동일한 사람만 수정이 가능합니다.");
+            throw new FindOwnException(CustomErrorCode.NOT_MATCH_MEMBER);
 
         Design updatedDesign = designService.updateDesign(request);
         log.info("회원 소유 디자인권 내용 수정 완료");
@@ -90,7 +92,7 @@ public class MemberRightService {
         log.info("사용자 소유 상표권 조회 성공");
 
         if (!findMyOwnTrademark.getMember().getId().equals(request.getMemberId()))
-            throw new IllegalArgumentException("소유자만이 정보를 변경할 수 있습니다.");
+            throw new FindOwnException(CustomErrorCode.NOT_MATCH_MEMBER);
 
         Trademark updatedTrademark = trademarkService.updateTrademark(request);
         log.info("상표권 정보 수정 완료");
@@ -103,7 +105,7 @@ public class MemberRightService {
         MemberOwnDesign findMemberOwnDesign = memberService.findById(request.getMemberId()).getOwnDesigns().stream()
                 .filter(memberOwnDesign -> memberOwnDesign.getId().equals(request.getMemberOwnDesignId()))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 소유 디자인입니다."));
+                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_FOUND_DESIGN_OF_MEMBER));
         memberOwnDesignRepository.delete(findMemberOwnDesign);
         log.info("회원 소유 디자인권 삭제 완료");
         return "ok";
@@ -113,7 +115,7 @@ public class MemberRightService {
         MemberOwnTrademark findMemberOwnTrademark = memberService.findById(request.getMemberId()).getOwnTrademarks().stream()
                 .filter(memberOwnTrademark -> memberOwnTrademark.getId().equals(request.getMemberOwnTrademarkId()))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 소유 상표권입니다."));
+                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_FOUND_TRADEMARK_OF_MEMBER));
         memberOwnTrademarkRepository.delete(findMemberOwnTrademark);
         log.info("회원 소유 상표권 삭제 완료");
         return "ok";
