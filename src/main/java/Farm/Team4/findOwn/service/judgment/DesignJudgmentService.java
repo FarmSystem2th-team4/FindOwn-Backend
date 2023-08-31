@@ -3,7 +3,9 @@ package Farm.Team4.findOwn.service.judgment;
 import Farm.Team4.findOwn.domain.design.Design;
 import Farm.Team4.findOwn.domain.judgment.DesignJudgment;
 import Farm.Team4.findOwn.domain.member.Member;
+import Farm.Team4.findOwn.dto.design.ConvertDesign;
 import Farm.Team4.findOwn.dto.judgment.design.request.SaveDesignJudgmentResultRequest;
+import Farm.Team4.findOwn.dto.judgment.design.response.GetDesignJudgmentResponse;
 import Farm.Team4.findOwn.dto.judgment.design.response.SaveDesignJudgmentResultResponse;
 import Farm.Team4.findOwn.repository.judgment.DesignJudgmentRepository;
 import Farm.Team4.findOwn.service.design.DesignService;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +40,23 @@ public class DesignJudgmentService {
     @Transactional
     public DesignJudgment saveTrademarkJudgment(int similarity, Member member, Design design){
         return designJudgmentRepository.save(new DesignJudgment(similarity, member, design));
+    }
+    public List<GetDesignJudgmentResponse> findMemberOwnDesignJudgment(String memberId){
+        return memberService.findById(memberId).getDesignJudgments().stream()
+                .map(designJudgment -> new GetDesignJudgmentResponse(
+                                designJudgment.getId(),
+                                designJudgment.getResult(),
+                                designJudgment.getSavedDate(),
+                                new ConvertDesign(
+                                        designJudgment.getDesign().getId(),
+                                        designJudgment.getDesign().getImage(),
+                                        designJudgment.getDesign().getApplicant(),
+                                        designJudgment.getDesign().getDesignClass(),
+                                        designJudgment.getDesign().getRegisterNum(),
+                                        designJudgment.getDesign().getState(),
+                                        designJudgment.getDesign().getClassification())
+                        )
+                ).toList();
     }
 
 }
