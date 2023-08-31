@@ -2,15 +2,13 @@ package Farm.Team4.findOwn.service.trademark;
 
 import Farm.Team4.findOwn.domain.trademark.Trademark;
 import Farm.Team4.findOwn.dto.member.right.trademark.request.UpdateMemberOwnTrademarkRequest;
-import Farm.Team4.findOwn.dto.trademark.UpdateTrademarkRequest;
+import Farm.Team4.findOwn.dto.trademark.ConvertTrademark;
 import Farm.Team4.findOwn.dto.trademark.parsing.Response;
 import Farm.Team4.findOwn.dto.trademark.parsing.body.Item;
 import Farm.Team4.findOwn.exception.CustomErrorCode;
 import Farm.Team4.findOwn.exception.FindOwnException;
 import Farm.Team4.findOwn.repository.trademark.TrademarkRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -92,7 +90,7 @@ public class TrademarkService {
     @Transactional
     public Trademark updateTrademark(UpdateMemberOwnTrademarkRequest request){
         Trademark findTrademark = findById(request.getTrademarkId());
-        UpdateTrademarkRequest updateRequest = new UpdateTrademarkRequest(
+        ConvertTrademark updateRequest = new ConvertTrademark(
                 request.getImage(),
                 request.getApplicant(),
                 request.getRegisterNum(),

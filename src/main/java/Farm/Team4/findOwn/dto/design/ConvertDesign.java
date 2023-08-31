@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UpdateDesignRequest {
+public class ConvertDesign {
     private Long designId; // 출원번호, '-'을 제외한 출원번호 전체
     private String image; // 디자인권 이미지, BLOB으로 지정하긴 했으나 URL이나 파일 경로로 이미지를 불러올 수 있다면 VARCHAR로 수정
     private String applicant; // 출원인, 특수문자를 포함 최소 8자 이상
