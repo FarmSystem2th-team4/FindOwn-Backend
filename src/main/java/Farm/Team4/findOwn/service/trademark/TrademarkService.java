@@ -91,6 +91,7 @@ public class TrademarkService {
     public Trademark updateTrademark(UpdateMemberOwnTrademarkRequest request){
         Trademark findTrademark = findById(request.getTrademarkId());
         ConvertTrademark updateRequest = new ConvertTrademark(
+                request.getTrademarkId(),
                 request.getImage(),
                 request.getApplicant(),
                 request.getRegisterNum(),
