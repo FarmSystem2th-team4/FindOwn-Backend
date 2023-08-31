@@ -1,4 +1,4 @@
-package Farm.Team4.findOwn.dto.judgment.design;
+package Farm.Team4.findOwn.dto.judgment.design.response;
 
 import Farm.Team4.findOwn.domain.design.Design;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ShowDesignJudgmentResult {
+public class SaveDesignJudgmentResultResponse {
     private int similarity;
     private Design design;
 }
