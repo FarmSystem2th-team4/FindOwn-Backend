@@ -1,7 +1,7 @@
 package Farm.Team4.findOwn.service.design;
 
 import Farm.Team4.findOwn.domain.design.Design;
-import Farm.Team4.findOwn.dto.design.UpdateDesignRequest;
+import Farm.Team4.findOwn.dto.design.ConvertDesign;
 import Farm.Team4.findOwn.dto.design.parsing.Response;
 import Farm.Team4.findOwn.dto.design.parsing.body.Item;
 import Farm.Team4.findOwn.dto.member.right.design.request.UpdateMemberDesignRequest;
@@ -96,7 +96,7 @@ public class DesignService {
     @Transactional
     public Design updateDesign(UpdateMemberDesignRequest request){
         Design findDesign = findById(request.getDesignId());
-        UpdateDesignRequest updateDesignRequest = new UpdateDesignRequest(
+        ConvertDesign convertDesign = new ConvertDesign(
                 request.getDesignId(),
                 request.getImage(),
                 request.getApplicant(),
@@ -105,6 +105,6 @@ public class DesignService {
                 request.getState(),
                 request.getClassification()
         );
-        return findDesign.update(updateDesignRequest);
+        return findDesign.update(convertDesign);
     }
 }
