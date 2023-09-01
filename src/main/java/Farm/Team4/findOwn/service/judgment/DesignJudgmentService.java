@@ -4,9 +4,12 @@ import Farm.Team4.findOwn.domain.design.Design;
 import Farm.Team4.findOwn.domain.judgment.DesignJudgment;
 import Farm.Team4.findOwn.domain.member.Member;
 import Farm.Team4.findOwn.dto.design.ConvertDesign;
+import Farm.Team4.findOwn.dto.judgment.design.request.DeleteDesignJudgmentRequest;
 import Farm.Team4.findOwn.dto.judgment.design.request.SaveDesignJudgmentResultRequest;
 import Farm.Team4.findOwn.dto.judgment.design.response.GetDesignJudgmentResponse;
 import Farm.Team4.findOwn.dto.judgment.design.response.SaveDesignJudgmentResultResponse;
+import Farm.Team4.findOwn.exception.CustomErrorCode;
+import Farm.Team4.findOwn.exception.FindOwnException;
 import Farm.Team4.findOwn.repository.judgment.DesignJudgmentRepository;
 import Farm.Team4.findOwn.service.design.DesignService;
 import Farm.Team4.findOwn.service.member.information.MemberService;
@@ -57,6 +60,17 @@ public class DesignJudgmentService {
                                         designJudgment.getDesign().getClassification())
                         )
                 ).toList();
+    }
+    @Transactional
+    public String deleteDesignJudgment(DeleteDesignJudgmentRequest request){
+        DesignJudgment findDesignJudgment = memberService.findById(request.getMemberId()).getDesignJudgments().stream()
+                .filter(designJudgment -> designJudgment.getId().equals(request.getDesignJudgmentId()))
+                .findFirst()
+                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_FOUND_DESIGN_JUDGMENT));
+        log.info("특정 디자인 침해 판단 조회 성공");
+        designJudgmentRepository.delete(findDesignJudgment);
+        log.info("디자인 침해 판단 삭제 성공");
+        return "delete complete";
     }
 
 }
