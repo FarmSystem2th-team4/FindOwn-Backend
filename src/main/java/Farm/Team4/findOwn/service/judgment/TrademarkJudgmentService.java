@@ -3,8 +3,12 @@ package Farm.Team4.findOwn.service.judgment;
 import Farm.Team4.findOwn.domain.judgment.TrademarkJudgment;
 import Farm.Team4.findOwn.domain.member.Member;
 import Farm.Team4.findOwn.domain.trademark.Trademark;
+import Farm.Team4.findOwn.dto.design.ConvertDesign;
+import Farm.Team4.findOwn.dto.judgment.design.response.GetDesignJudgmentResponse;
+import Farm.Team4.findOwn.dto.judgment.trademark.response.GetTrademarkJudgmentResponse;
 import Farm.Team4.findOwn.dto.judgment.trademark.response.SaveTrademarkJudgmentResponse;
 import Farm.Team4.findOwn.dto.judgment.trademark.request.SaveTrademarkJudgmentRequest;
+import Farm.Team4.findOwn.dto.trademark.ConvertTrademark;
 import Farm.Team4.findOwn.repository.judgment.TrademarkJudgmentRepository;
 import Farm.Team4.findOwn.service.member.information.MemberService;
 import Farm.Team4.findOwn.service.trademark.TrademarkService;
@@ -14,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,5 +42,21 @@ public class TrademarkJudgmentService {
     @Transactional
     public TrademarkJudgment saveTrademarkJudgment(int similarity, Trademark trademark, Member member){
         return trademarkJudgmentRepository.save(new TrademarkJudgment(similarity, member, trademark));
+    }
+    public List<GetTrademarkJudgmentResponse> findMemberOwnTrademarkJudgment(String memberId){
+        return memberService.findById(memberId).getTrademarkJudgments().stream()
+                .map(trademarkJudgment -> new GetTrademarkJudgmentResponse(
+                        trademarkJudgment.getId(),
+                        trademarkJudgment.getResult(),
+                        trademarkJudgment.getSavedDate(),
+                        new ConvertTrademark(
+                                trademarkJudgment.getTrademark().getId(),
+                                trademarkJudgment.getTrademark().getImage(),
+                                trademarkJudgment.getTrademark().getApplicant(),
+                                trademarkJudgment.getTrademark().getRegisterNum(),
+                                trademarkJudgment.getTrademark().getState(),
+                                trademarkJudgment.getTrademark().getClassification()
+                        )
+                )).toList();
     }
 }
