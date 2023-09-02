@@ -1,7 +1,7 @@
 package Farm.Team4.findOwn.controller.judgment.trademark;
 
-import Farm.Team4.findOwn.dto.judgment.trademark.ShowTrademarkJudgmentResult;
-import Farm.Team4.findOwn.dto.judgment.trademark.TrademarkJudgmentResult;
+import Farm.Team4.findOwn.dto.judgment.trademark.response.SaveTrademarkJudgmentResponse;
+import Farm.Team4.findOwn.dto.judgment.trademark.request.SaveTrademarkJudgmentRequest;
 import Farm.Team4.findOwn.service.judgment.TrademarkJudgmentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TrademarkJudgmentController {
     private final TrademarkJudgmentService trademarkJudgmentService;
     @PostMapping("/show/judgment/trademark")
-    public ShowTrademarkJudgmentResult showJudgmentResult(@RequestBody TrademarkJudgmentResult result) throws JsonProcessingException {
+    public SaveTrademarkJudgmentResponse showJudgmentResult(@RequestBody SaveTrademarkJudgmentRequest result) throws JsonProcessingException {
         return trademarkJudgmentService.showTrademarkJudgment(result);
     }
 }
