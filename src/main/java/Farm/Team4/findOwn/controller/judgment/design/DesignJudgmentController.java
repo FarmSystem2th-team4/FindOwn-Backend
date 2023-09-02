@@ -26,7 +26,7 @@ public class DesignJudgmentController {
     public SaveDesignJudgmentResultResponse showDesignJudgmentResult(@RequestBody SaveDesignJudgmentResultRequest result) throws IOException {
         return designJudgmentService.showDesignJudgmentResult(result);
     }
-    @GetMapping("/member/design-judgment/{memberId}")
+    @GetMapping("/member/{memberId}/design-judgment")
     public List<GetDesignJudgmentResponse> findMemberOwnDesignJudgment(@PathVariable String memberId){
        return designJudgmentService.findMemberOwnDesignJudgment(memberId);
     }
