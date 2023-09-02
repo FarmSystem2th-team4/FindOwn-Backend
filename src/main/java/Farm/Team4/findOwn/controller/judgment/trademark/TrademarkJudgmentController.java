@@ -1,5 +1,7 @@
 package Farm.Team4.findOwn.controller.judgment.trademark;
 
+import Farm.Team4.findOwn.dto.judgment.design.request.DeleteDesignJudgmentRequest;
+import Farm.Team4.findOwn.dto.judgment.trademark.request.DeleteTrademarkJudgmentRequest;
 import Farm.Team4.findOwn.dto.judgment.trademark.response.GetTrademarkJudgmentResponse;
 import Farm.Team4.findOwn.dto.judgment.trademark.response.SaveTrademarkJudgmentResponse;
 import Farm.Team4.findOwn.dto.judgment.trademark.request.SaveTrademarkJudgmentRequest;
@@ -24,5 +26,9 @@ public class TrademarkJudgmentController {
     @GetMapping("/member/{memberId}/trademark-judgment")
     public List<GetTrademarkJudgmentResponse> findMemberOwnTrademarkJudgment(@PathVariable String memberId){
         return trademarkJudgmentService.findMemberOwnTrademarkJudgment(memberId);
+    }
+    @DeleteMapping("/member/trademark-judgment")
+    public String deleteMemberOwnTrademarkJudgment(@RequestBody DeleteTrademarkJudgmentRequest request){
+        return trademarkJudgmentService.deleteMemberOwnTrademarkJudgment(request.getMemberId(), request.getTrademarkJudgmentId());
     }
 }

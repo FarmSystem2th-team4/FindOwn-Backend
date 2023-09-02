@@ -9,6 +9,8 @@ import Farm.Team4.findOwn.dto.judgment.trademark.response.GetTrademarkJudgmentRe
 import Farm.Team4.findOwn.dto.judgment.trademark.response.SaveTrademarkJudgmentResponse;
 import Farm.Team4.findOwn.dto.judgment.trademark.request.SaveTrademarkJudgmentRequest;
 import Farm.Team4.findOwn.dto.trademark.ConvertTrademark;
+import Farm.Team4.findOwn.exception.CustomErrorCode;
+import Farm.Team4.findOwn.exception.FindOwnException;
 import Farm.Team4.findOwn.repository.judgment.TrademarkJudgmentRepository;
 import Farm.Team4.findOwn.service.member.information.MemberService;
 import Farm.Team4.findOwn.service.trademark.TrademarkService;
@@ -58,5 +60,16 @@ public class TrademarkJudgmentService {
                                 trademarkJudgment.getTrademark().getClassification()
                         )
                 )).toList();
+    }
+    @Transactional
+    public String deleteMemberOwnTrademarkJudgment(String memberId, Long trademarkJudgmentId) {
+        TrademarkJudgment findTrademarkJudgment = memberService.findById(memberId).getTrademarkJudgments().stream()
+                .filter(trademarkJudgment -> trademarkJudgment.getId().equals(trademarkJudgmentId))
+                .findFirst()
+                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_FOUND_TRADEMARK_JUDGMENT));
+        log.info("상표권 침해 판단 결과 조회 성공");
+        trademarkJudgmentRepository.delete(findTrademarkJudgment);
+        log.info("상표권 침해 판단 결과 삭제 성공");
+        return "delete complete";
     }
 }
