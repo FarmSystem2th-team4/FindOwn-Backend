@@ -1,15 +1,15 @@
 package Farm.Team4.findOwn.controller.judgment.trademark;
 
+import Farm.Team4.findOwn.dto.judgment.trademark.response.GetTrademarkJudgmentResponse;
 import Farm.Team4.findOwn.dto.judgment.trademark.response.SaveTrademarkJudgmentResponse;
 import Farm.Team4.findOwn.dto.judgment.trademark.request.SaveTrademarkJudgmentRequest;
 import Farm.Team4.findOwn.service.judgment.TrademarkJudgmentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class TrademarkJudgmentController {
     private final TrademarkJudgmentService trademarkJudgmentService;
-    @PostMapping("/show/judgment/trademark")
+    @PostMapping("/member/trademark-judgment")
     public SaveTrademarkJudgmentResponse showJudgmentResult(@RequestBody SaveTrademarkJudgmentRequest result) throws JsonProcessingException {
         return trademarkJudgmentService.showTrademarkJudgment(result);
+    }
+    @GetMapping("/member/{memberId}/trademark-judgment")
+    public List<GetTrademarkJudgmentResponse> findMemberOwnTrademarkJudgment(@PathVariable String memberId){
+        return trademarkJudgmentService.findMemberOwnTrademarkJudgment(memberId);
     }
 }
