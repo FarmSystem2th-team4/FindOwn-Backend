@@ -3,9 +3,14 @@ package Farm.Team4.findOwn.service.member.information;
 import Farm.Team4.findOwn.domain.member.Member;
 import Farm.Team4.findOwn.dto.member.information.DeleteMemberRequestInfo;
 import Farm.Team4.findOwn.dto.member.information.SaveMemberRequestInfo;
+import Farm.Team4.findOwn.dto.member.login.MemberLoginRequest;
 import Farm.Team4.findOwn.exception.CustomErrorCode;
 import Farm.Team4.findOwn.exception.FindOwnException;
 import Farm.Team4.findOwn.repository.member.MemberRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -56,5 +61,21 @@ public class MemberService {
         if (!member.getPassword().equals(request.getPassword()))
             throw new FindOwnException(CustomErrorCode.NOT_MATCH_PASSWORD);
         memberRepository.delete(member);
+    }
+    public void login(HttpServletRequest httpRequest, HttpServletResponse httpResponse, MemberLoginRequest loginRequest){
+        // 회원 조회 로직
+
+        Member findMember = memberRepository.findById(loginRequest.getMemberId())
+                .filter(member -> member.getPassword().equals(loginRequest.getPassword()))
+                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_MATCH_INFORMATION));
+
+        // 로그인 성공 처리
+        HttpSession session = httpRequest.getSession(); //  세션 키 생성 (있으면 조회, 없으면 생성)
+        session.setAttribute("loginMember", findMember);
+
+        Cookie cookie  = new Cookie("JSESSIONID", session.getId());
+        httpResponse.addCookie(cookie);
+
+        return ;
     }
 }
