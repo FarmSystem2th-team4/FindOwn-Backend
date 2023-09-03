@@ -24,10 +24,10 @@ public class EmailService {
     @Value("${MAIL_USERNAME}")
     private String id;
     public String sendMessage(String dest) throws Exception{
-        redisService.deleteData(code); //  기존에 발급 했던 코드 삭제 (널 가능)
+        redisService.deleteCode(code); //  기존에 발급 했던 코드 삭제 (널 가능)
         code = createCode();
         try{
-            redisService.setDataExpire(code, dest, 180 * 1L);
+            redisService.setCodeExpire(code, dest, 180 * 1L);
             javaMailSender.send(createMessage(dest));
         }catch (MailException em){
             em.printStackTrace();

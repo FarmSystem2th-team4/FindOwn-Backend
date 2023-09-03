@@ -17,20 +17,19 @@ public class EmailController {
     @GetMapping("/mail")
     public String mailConfirm(@RequestParam String email) throws Exception{
         log.info("email: " + email);
-        String code = emailService.sendMessage(email);
-        return code;
+        return emailService.sendMessage(email);
     }
     @PostMapping("/mail")
     public String verifyCode(@RequestBody VerifyMemberRequestInfo request) {
-        String redisEmailAddress = redisService.getData(request.getCode());
+        String redisEmailAddress = redisService.getCode(request.getCode());
         log.info("email address from redis: " + redisEmailAddress);
         if (redisEmailAddress.equals(request.getEmail())){
-            redisService.deleteData(request.getCode());
+            redisService.deleteCode(request.getCode());
             log.info("요청 이메일 일치 = 인증 성공");
             return "email verification success";
         }
         log.info("요청 이메일 불일치 = 인증 실패");
-        redisService.deleteData(request.getCode());
+        redisService.deleteCode(request.getCode());
         return "email verification fail";
     }
 
