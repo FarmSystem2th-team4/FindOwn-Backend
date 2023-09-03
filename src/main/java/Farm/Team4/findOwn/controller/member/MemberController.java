@@ -5,8 +5,11 @@ import Farm.Team4.findOwn.dto.member.information.ChangeEmailRequestInfo;
 import Farm.Team4.findOwn.dto.member.information.ChangePasswordRequestInfo;
 import Farm.Team4.findOwn.dto.member.information.DeleteMemberRequestInfo;
 import Farm.Team4.findOwn.dto.member.information.SaveMemberRequestInfo;
+import Farm.Team4.findOwn.dto.member.login.MemberLoginRequest;
 import Farm.Team4.findOwn.service.member.information.MemberUtils;
 import Farm.Team4.findOwn.service.member.information.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +22,10 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
     private final MemberUtils memberUtils;
+
+    /**
+     * 회원 CRUD
+     */
     @PostMapping("/member")
     public String saveMember(@Valid @RequestBody SaveMemberRequestInfo request){
         Member saveMember = memberService.saveMember(request);
@@ -48,6 +55,14 @@ public class MemberController {
         Member findMember = memberService.findById(request.getId());
         memberService.deleteMember(findMember,request);
         return "delete complete";
+    }
+    /**
+     *  회원 로그인, 로그아웃
+     */
+    @PostMapping("/login")
+    public void login(HttpServletRequest httpRequest, HttpServletResponse httpResponse,
+                      @RequestBody MemberLoginRequest loginRequest){
+        memberService.login(httpRequest, httpResponse, loginRequest);
     }
 
 }

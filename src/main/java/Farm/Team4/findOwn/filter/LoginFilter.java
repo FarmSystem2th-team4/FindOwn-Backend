@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @Slf4j
 public class LoginFilter implements Filter {
-    private static final String[] whiteList = {"/", "/api/member", "/login"}; // 기본 홈 화면, 회원가입, 로그인
+    private static final String[] whiteList = {"/", "/api/member", "/api/login"}; // 기본 홈 화면, 회원가입, 로그인
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
@@ -24,7 +24,7 @@ public class LoginFilter implements Filter {
                 HttpSession session = httpRequest.getSession(false);
                 if (session == null || session.getAttribute("loginMember") == null){
                     log.info("인증되지 않은 사용자 요청, requestURL: {}", requestURI);
-                    //httpResponse.sendRedirect("/"); // 홈화하면으로 리다이렉트
+                    httpResponse.sendError(400, "로그인이 필요한 서비스입니다.");
                     return ;
                 }
             }
