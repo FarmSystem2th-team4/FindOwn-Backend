@@ -12,7 +12,7 @@ import java.util.UUID;
 public class LogFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        log.info("log filter 진입");
+        log.info("사용 시작");
     }
 
     @Override
@@ -28,12 +28,12 @@ public class LogFilter implements Filter {
         } catch(Exception e) {
             throw e;
         }finally {
-            log.info("log filter 종료");
+            log.info("response: randomId-[{}] responseURL-[{}]", randomId, requestURI);
         }
     }
 
     @Override
     public void destroy() {
-        log.info("log filter 종료");
+        log.info("사용 종료");
     }
 }
