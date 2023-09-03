@@ -14,8 +14,8 @@ public enum CustomErrorCode {
     NOT_MATCH_PASSWORD(400, "기존 비밀번호와 일치하지 않습니다."),
     NOT_MATCH_MEMBER(400, "작성자와 수정자가 일치하지 않습니다."),
     NOT_FOUND_REGISTERED(204, "등록 상태인 권리가 없습니다.");
-    private int status;
-    private String errorMessage;
+    private final int status;
+    private final String errorMessage;
     CustomErrorCode(int status, String errorMessage) {
         this.status = status;
         this.errorMessage = errorMessage;
