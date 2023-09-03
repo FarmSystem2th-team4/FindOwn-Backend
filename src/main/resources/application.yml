@@ -51,5 +51,6 @@ generate:
 
 logging:
   level:
+    #org.springframework.security: DEBUG
     web: debug
 
