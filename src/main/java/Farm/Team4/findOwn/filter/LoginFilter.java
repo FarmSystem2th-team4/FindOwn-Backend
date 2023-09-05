@@ -24,7 +24,7 @@ public class LoginFilter implements Filter {
                 HttpSession session = httpRequest.getSession(false);
                 if (session == null || session.getAttribute("loginMember") == null){
                     log.info("인증되지 않은 사용자 요청, requestURL: {}", requestURI);
-                    httpResponse.sendError(400, "로그인이 필요한 서비스입니다.");
+                    httpResponse.sendError(401, "로그인이 필요한 서비스입니다.");
                     return ;
                 }
             }
