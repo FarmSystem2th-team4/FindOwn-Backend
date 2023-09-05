@@ -1,6 +1,7 @@
 package Farm.Team4.findOwn.controller.member;
 
 import Farm.Team4.findOwn.domain.member.Member;
+import Farm.Team4.findOwn.dto.member.ConvertMember;
 import Farm.Team4.findOwn.dto.member.information.ChangeEmailRequestInfo;
 import Farm.Team4.findOwn.dto.member.information.ChangePasswordRequestInfo;
 import Farm.Team4.findOwn.dto.member.information.DeleteMemberRequestInfo;
@@ -10,6 +11,7 @@ import Farm.Team4.findOwn.service.member.information.MemberUtils;
 import Farm.Team4.findOwn.service.member.information.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,9 +62,18 @@ public class MemberController {
      *  회원 로그인, 로그아웃
      */
     @PostMapping("/login")
-    public void login(HttpServletRequest httpRequest, HttpServletResponse httpResponse,
-                      @RequestBody MemberLoginRequest loginRequest){
-        memberService.login(httpRequest, httpResponse, loginRequest);
+    public ConvertMember login(HttpServletRequest httpRequest, HttpServletResponse httpResponse,
+                               @RequestBody MemberLoginRequest loginRequest){
+        memberService.makeSessionId(httpRequest, httpResponse, loginRequest); // 회원에 대한 session id 생성 및 저장
+        HttpSession session = httpRequest.getSession(false);
+        if (session == null) return null;
+
+        Member loginMember = (Member) session.getAttribute("loginMember");
+        return new ConvertMember(loginMember.getId(), loginMember.getName(), loginMember.getMembershipDate());
+    }
+    @GetMapping("/logout")
+    public void logout(HttpServletRequest httpRequest, HttpServletResponse httpResponse){
+        memberService.logout(httpRequest, httpResponse);
     }
 
 }
