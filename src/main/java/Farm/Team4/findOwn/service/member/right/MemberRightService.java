@@ -9,8 +9,9 @@ import Farm.Team4.findOwn.dto.member.right.design.request.DeleteMemberOwnDesignR
 import Farm.Team4.findOwn.dto.member.right.design.request.SaveMemberDesignRequestInfo;
 import Farm.Team4.findOwn.dto.member.right.design.request.UpdateMemberDesignRequest;
 import Farm.Team4.findOwn.dto.member.right.trademark.request.DeleteMemberOwnTrademarkRequest;
-import Farm.Team4.findOwn.dto.member.right.trademark.request.SaveMemberTrademarkRequestInfo;
+import Farm.Team4.findOwn.dto.member.right.trademark.request.SaveMemberOwnTrademarkRequest;
 import Farm.Team4.findOwn.dto.member.right.trademark.request.UpdateMemberOwnTrademarkRequest;
+import Farm.Team4.findOwn.dto.trademark.ConvertTrademark;
 import Farm.Team4.findOwn.exception.CustomErrorCode;
 import Farm.Team4.findOwn.exception.FindOwnException;
 import Farm.Team4.findOwn.repository.member.MemberOwnDesignRepository;
@@ -18,6 +19,7 @@ import Farm.Team4.findOwn.repository.member.MemberOwnTrademarkRepository;
 import Farm.Team4.findOwn.service.design.DesignService;
 import Farm.Team4.findOwn.service.member.information.MemberService;
 import Farm.Team4.findOwn.service.trademark.TrademarkService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -48,7 +50,18 @@ public class MemberRightService {
         return savedInfo.getId();
     }
     @Transactional
-    public Long saveMemberOwnTrademark(SaveMemberTrademarkRequestInfo request){
+    public Long saveMemberOwnTrademark(SaveMemberOwnTrademarkRequest request) throws JsonProcessingException {
+        Trademark ownTrademark = trademarkService.findAndSelectOneById(request.getTrademarkName(), request.getTrademarkId());
+        log.info("회원 소유 상표권 조회 성공");
+        trademarkService.saveTrademark(ownTrademark);
+        log.info("회원 소유 상표권, 상표권으로 저장 완료");
+
+        Member findMember = memberService.findById(request.getMemberId());
+        log.info("회원 조회 성공");
+
+        MemberOwnTrademark memberOwnTrademark = memberOwnTrademarkRepository.save(new MemberOwnTrademark(ownTrademark, findMember));
+        return memberOwnTrademark.getId();
+        /*
         Trademark ownTrademark = request.changeToTrademark();
         trademarkService.saveTrademark(ownTrademark);
         log.info("상표권 정보 저장 완료");
@@ -59,6 +72,8 @@ public class MemberRightService {
         MemberOwnTrademark savedInfo = memberOwnTrademarkRepository.save(new MemberOwnTrademark(ownTrademark, findMember));
         log.info("멤버 소유 상표권 저장완료");
         return savedInfo.getId();
+
+         */
     }
     public List<MemberOwnDesign> findMemberOwnDesignList(String memberId){
         return memberService.findById(memberId).getOwnDesigns();
