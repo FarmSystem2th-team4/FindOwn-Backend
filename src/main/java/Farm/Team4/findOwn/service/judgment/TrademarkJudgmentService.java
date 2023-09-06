@@ -3,8 +3,6 @@ package Farm.Team4.findOwn.service.judgment;
 import Farm.Team4.findOwn.domain.judgment.TrademarkJudgment;
 import Farm.Team4.findOwn.domain.member.Member;
 import Farm.Team4.findOwn.domain.trademark.Trademark;
-import Farm.Team4.findOwn.dto.design.ConvertDesign;
-import Farm.Team4.findOwn.dto.judgment.design.response.GetDesignJudgmentResponse;
 import Farm.Team4.findOwn.dto.judgment.trademark.response.GetTrademarkJudgmentResponse;
 import Farm.Team4.findOwn.dto.judgment.trademark.response.SaveTrademarkJudgmentResponse;
 import Farm.Team4.findOwn.dto.judgment.trademark.request.SaveTrademarkJudgmentRequest;
@@ -39,7 +37,7 @@ public class TrademarkJudgmentService {
         return new SaveTrademarkJudgmentResponse(result.getSimilarity(), findTrademark);
     }
     private Trademark findAndSelectOne(String applicantName) throws JsonProcessingException {
-        return trademarkService.findAndSelectOne(applicantName);
+        return trademarkService.findAndSelectOneByApplicant(applicantName);
     }
     @Transactional
     public TrademarkJudgment saveTrademarkJudgment(int similarity, Trademark trademark, Member member){
