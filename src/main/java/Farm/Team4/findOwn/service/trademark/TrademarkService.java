@@ -62,7 +62,7 @@ public class TrademarkService {
         log.info("등록 데이터만 가져오기 성공");
         return trademarks;
     }
-    public Trademark findAndSelectOne(String applicantName) throws JsonProcessingException {
+    public Trademark findAndSelectOneByApplicant(String applicantName) throws JsonProcessingException {
         Trademark trademark = findTrademark(applicantName).stream()
                 .filter(mark -> mark.getApplicantName().equals(applicantName))
                 .findFirst()
@@ -76,6 +76,19 @@ public class TrademarkService {
                 .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_FOUND_REGISTERED));
         saveTrademark(trademark);
         return trademark;
+    }
+    public Trademark findAndSelectOneById(String trademarkName, Long trademarkId) throws JsonProcessingException {
+        return findTrademark(trademarkName).stream()
+                .filter(mark -> mark.getApplicationNumber().equals(trademarkId))
+                .findFirst()
+                .map(mark -> new Trademark(
+                        mark.getApplicationNumber(),
+                        mark.getBigDrawing(),
+                        mark.getApplicantName(),
+                        mark.getRegistrationNumber(),
+                        mark.getApplicationStatus(),
+                        mark.getClassificationCode()))
+                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_FOUND_REGISTERED));
     }
     @Transactional
     public Long saveTrademark(Trademark trademark){
