@@ -7,10 +7,11 @@ import Farm.Team4.findOwn.dto.member.right.design.request.SaveMemberDesignReques
 import Farm.Team4.findOwn.dto.member.right.design.request.UpdateMemberDesignRequest;
 import Farm.Team4.findOwn.dto.member.right.design.response.UpdateMemberOwnDesignResponse;
 import Farm.Team4.findOwn.dto.member.right.trademark.request.DeleteMemberOwnTrademarkRequest;
-import Farm.Team4.findOwn.dto.member.right.trademark.request.SaveMemberTrademarkRequestInfo;
+import Farm.Team4.findOwn.dto.member.right.trademark.request.SaveMemberOwnTrademarkRequest;
 import Farm.Team4.findOwn.dto.member.right.trademark.request.UpdateMemberOwnTrademarkRequest;
 import Farm.Team4.findOwn.dto.member.right.trademark.response.UpdateMemberOwnTrademarkResponse;
 import Farm.Team4.findOwn.service.member.right.MemberRightService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class MemberRightController {
         return "ok";
     }
     @PostMapping("/own-trademark")
-    public String saveMemberTrademark(@RequestBody SaveMemberTrademarkRequestInfo request){
+    public String saveMemberTrademark(@RequestBody SaveMemberOwnTrademarkRequest request) throws JsonProcessingException {
         Long savedMemberOwnTrademarkId = memberRightService.saveMemberOwnTrademark(request);
         log.info("회원 소유 상표권 정보 저장 완료, 해당 아이디: " + savedMemberOwnTrademarkId.toString());
         return "ok";
