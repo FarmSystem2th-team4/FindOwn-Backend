@@ -1,6 +1,6 @@
 package Farm.Team4.findOwn.controller.email;
 
-import Farm.Team4.findOwn.dto.member.information.VerifyMemberRequestInfo;
+import Farm.Team4.findOwn.dto.member.information.VerifyMemberRequest;
 import Farm.Team4.findOwn.service.email.EmailService;
 import Farm.Team4.findOwn.service.redis.RedisService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class EmailController {
         return emailService.sendMessage(email);
     }
     @PostMapping("/mail")
-    public String verifyCode(@RequestBody VerifyMemberRequestInfo request) {
+    public String verifyCode(@RequestBody VerifyMemberRequest request) {
         String redisEmailAddress = redisService.getCode(request.getCode());
         log.info("email address from redis: " + redisEmailAddress);
         if (redisEmailAddress.equals(request.getEmail())){
