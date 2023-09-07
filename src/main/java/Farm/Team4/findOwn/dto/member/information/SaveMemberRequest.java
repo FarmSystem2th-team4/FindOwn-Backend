@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class SaveMemberRequestInfo {
+public class SaveMemberRequest {
     private String id;
     private String password;
     private String name;
