@@ -58,13 +58,13 @@ public class Member {
         this.email = email;
         this.membershipDate = now;
     }
-    public String changePassword(String newPassword){
+    public Member changePassword(String newPassword){
         this.password = newPassword;
-        return this.password;
+        return this;
     }
-    public String changeEmail(String newEmail){
+    public Member changeEmail(String newEmail){
         this.email = newEmail;
-        return this.email;
+        return this;
     }
 
 }
