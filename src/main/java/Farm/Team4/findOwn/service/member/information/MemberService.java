@@ -1,8 +1,8 @@
 package Farm.Team4.findOwn.service.member.information;
 
 import Farm.Team4.findOwn.domain.member.Member;
-import Farm.Team4.findOwn.dto.member.information.DeleteMemberRequestInfo;
-import Farm.Team4.findOwn.dto.member.information.SaveMemberRequestInfo;
+import Farm.Team4.findOwn.dto.member.information.DeleteMemberRequest;
+import Farm.Team4.findOwn.dto.member.information.SaveMemberRequest;
 import Farm.Team4.findOwn.dto.member.login.MemberLoginRequest;
 import Farm.Team4.findOwn.exception.CustomErrorCode;
 import Farm.Team4.findOwn.exception.FindOwnException;
@@ -24,7 +24,7 @@ import java.util.Date;
 public class MemberService {
     private final MemberRepository memberRepository;
     @Transactional
-    public Member saveMember(SaveMemberRequestInfo tempMember){
+    public Member saveMember(SaveMemberRequest tempMember){
         return memberRepository.save(tempMember.toMember(new Date()));
     }
     public Member findById(String id){
@@ -38,13 +38,11 @@ public class MemberService {
     @Transactional
     public Member changeEmail(String oldEmail, String newEmail){
         Member member = findByEmail(oldEmail);
-        member.changeEmail(newEmail);
-        return member;
+        return member.changeEmail(newEmail);
     }
     @Transactional
     public String changeTempPassword(String id, String tempPassword){
-        Member member = findById(id);
-        return member.changePassword(tempPassword);
+        return findById(id).changePassword(tempPassword).getPassword();
     }
     @Transactional
     public String changeNewPassword(String memberId, String originPassword, String newPassword){
@@ -52,14 +50,17 @@ public class MemberService {
             throw new FindOwnException(CustomErrorCode.NOT_MATCH_PASSWORD);
         log.info("기존 비밀번호와 일치 여부 확인 완료");
 
-        Member findMember = findById(memberId);
-        return findMember.changePassword(newPassword);
+        return findById(memberId).changePassword(newPassword).getPassword();
     }
     @Transactional
-    public void deleteMember (Member member, DeleteMemberRequestInfo request){
-        if (!member.getPassword().equals(request.getPassword()))
+    public void deleteMember (DeleteMemberRequest request){
+        Member findMember = findById(request.getId());
+        log.info("회원 조회 성공");
+        if (!findMember.getPassword().equals(request.getPassword()))
             throw new FindOwnException(CustomErrorCode.NOT_MATCH_PASSWORD);
-        memberRepository.delete(member);
+        log.info("비밀번호 일치 확인");
+        memberRepository.delete(findMember);
+        log.info("회원 삭제 완료");
     }
     public void makeSessionId(HttpServletRequest httpRequest, HttpServletResponse httpResponse, MemberLoginRequest loginRequest){
         // 회원 조회 로직
