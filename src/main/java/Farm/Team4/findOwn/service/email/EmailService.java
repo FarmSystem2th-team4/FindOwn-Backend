@@ -1,5 +1,6 @@
 package Farm.Team4.findOwn.service.email;
 
+import Farm.Team4.findOwn.dto.member.information.VerifyMemberRequest;
 import Farm.Team4.findOwn.service.redis.RedisService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -23,6 +24,21 @@ public class EmailService {
     private String code = createCode();
     @Value("${MAIL_USERNAME}")
     private String id;
+
+    public String verifyCode(VerifyMemberRequest request){
+        String memberEmail = redisService.getCode(request.getCode());
+        log.info("이메일 인증 코드를 통한 이메일 가져오기 성공");
+        if (memberEmail == null || !memberEmail.equals(request.getEmail())){
+            log.info("이메일 인증 불일치 !!");
+            redisService.deleteCode(request.getCode());
+            log.info("이메일 인증 코드 삭제");
+            return "email verification fail";
+        }
+        log.info("이메일 인증 성공");
+        redisService.deleteCode(request.getCode());
+        log.info("이메일 인증 코드 삭제");
+        return "email verification success";
+    }
     public String sendMessage(String dest) throws Exception{
         redisService.deleteCode(code); //  기존에 발급 했던 코드 삭제 (널 가능)
         code = createCode();
