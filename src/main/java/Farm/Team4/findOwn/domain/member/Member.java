@@ -60,7 +60,7 @@ public class Member {
     }
     public String changePassword(String newPassword){
         this.password = newPassword;
-        return this.id;
+        return this.password;
     }
     public String changeEmail(String newEmail){
         this.email = newEmail;
