@@ -1,11 +1,11 @@
 package Farm.Team4.findOwn.domain.trademark;
 
+import Farm.Team4.findOwn.domain.member.Member;
 import Farm.Team4.findOwn.dto.trademark.ConvertTrademark;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 @Entity
 @Getter
@@ -19,6 +19,10 @@ public class Trademark {
     private Long registerNum;
     private String state;
     private String classification;// 상표 구분
+    @Nullable
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member ownMember;
 
     public Trademark(Long id, String image, String applicant, Long registerNum, String state, String classification) {
         this.id = id;
