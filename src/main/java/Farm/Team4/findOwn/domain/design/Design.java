@@ -1,11 +1,11 @@
 package Farm.Team4.findOwn.domain.design;
 
+import Farm.Team4.findOwn.domain.member.Member;
 import Farm.Team4.findOwn.dto.design.ConvertDesign;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 @Entity
 @Getter
@@ -20,6 +20,10 @@ public class Design {
     private Long registerNum; // 등록 번호, '-'을 제외한 출원번호 전체
     private String state; // 법적 상태
     private String classification; // 디자인 구분(시각 디자인, 편집 디자인 등등), 하나의 디자인은 여러 구분을 가질 수 있음
+    @Nullable
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member ownMember;
 
     public Design(Long id, String image, String applicant, String designClass, Long registerNum, String state, String classification) {
         this.id = id;
