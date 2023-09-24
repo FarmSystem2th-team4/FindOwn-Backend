@@ -50,7 +50,7 @@ public class MemberRightService {
         return savedInfo.getId();
     }
     @Transactional
-    public Long saveMemberOwnTrademark(SaveMemberOwnTrademarkRequest request) throws JsonProcessingException {
+    public MemberOwnTrademark saveMemberOwnTrademark(SaveMemberOwnTrademarkRequest request) throws JsonProcessingException {
         Trademark ownTrademark = trademarkService.findAndSelectOneById(request.getTrademarkName(), request.getTrademarkId());
         log.info("회원 소유 상표권 조회 성공");
         trademarkService.saveTrademark(ownTrademark);
@@ -59,21 +59,7 @@ public class MemberRightService {
         Member findMember = memberService.findById(request.getMemberId());
         log.info("회원 조회 성공");
 
-        MemberOwnTrademark memberOwnTrademark = memberOwnTrademarkRepository.save(new MemberOwnTrademark(ownTrademark, findMember));
-        return memberOwnTrademark.getId();
-        /*
-        Trademark ownTrademark = request.changeToTrademark();
-        trademarkService.saveTrademark(ownTrademark);
-        log.info("상표권 정보 저장 완료");
-
-        Member findMember = memberService.findById(request.getMemberId());
-        log.info("회원 찾기 완료");
-
-        MemberOwnTrademark savedInfo = memberOwnTrademarkRepository.save(new MemberOwnTrademark(ownTrademark, findMember));
-        log.info("멤버 소유 상표권 저장완료");
-        return savedInfo.getId();
-
-         */
+        return memberOwnTrademarkRepository.save(new MemberOwnTrademark(ownTrademark, findMember));
     }
     public List<MemberOwnDesign> findMemberOwnDesignList(String memberId){
         return memberService.findById(memberId).getOwnDesigns();
