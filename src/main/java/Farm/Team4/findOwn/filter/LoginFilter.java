@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @Slf4j
 public class LoginFilter implements Filter {
-    private static final String[] whiteList = {"/", "/api/member", "/api/login"}; // 기본 홈 화면, 회원가입, 로그인
+    private static final String[] whiteList = {"/", "/api/member", "/api/login", "/api/mail"}; // 기본 홈 화면, 회원가입, 로그인
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
