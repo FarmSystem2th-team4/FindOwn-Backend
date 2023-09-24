@@ -1,5 +1,6 @@
 package Farm.Team4.findOwn.controller.member;
 
+import Farm.Team4.findOwn.domain.member.Member;
 import Farm.Team4.findOwn.domain.member.MemberOwnDesign;
 import Farm.Team4.findOwn.domain.member.MemberOwnTrademark;
 import Farm.Team4.findOwn.dto.member.right.design.request.DeleteMemberOwnDesignRequest;
@@ -9,6 +10,7 @@ import Farm.Team4.findOwn.dto.member.right.design.response.UpdateMemberOwnDesign
 import Farm.Team4.findOwn.dto.member.right.trademark.request.DeleteMemberOwnTrademarkRequest;
 import Farm.Team4.findOwn.dto.member.right.trademark.request.SaveMemberOwnTrademarkRequest;
 import Farm.Team4.findOwn.dto.member.right.trademark.request.UpdateMemberOwnTrademarkRequest;
+import Farm.Team4.findOwn.dto.member.right.trademark.response.MemberTrademarkDTO;
 import Farm.Team4.findOwn.dto.member.right.trademark.response.UpdateMemberOwnTrademarkResponse;
 import Farm.Team4.findOwn.service.member.right.MemberRightService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -31,10 +33,10 @@ public class MemberRightController {
         return "ok";
     }
     @PostMapping("/own-trademark")
-    public String saveMemberTrademark(@RequestBody SaveMemberOwnTrademarkRequest request) throws JsonProcessingException {
-        Long savedMemberOwnTrademarkId = memberRightService.saveMemberOwnTrademark(request);
-        log.info("회원 소유 상표권 정보 저장 완료, 해당 아이디: " + savedMemberOwnTrademarkId.toString());
-        return "ok";
+    public MemberTrademarkDTO saveMemberTrademark(@RequestBody SaveMemberOwnTrademarkRequest request) throws JsonProcessingException {
+        MemberOwnTrademark memberOwnTrademark= memberRightService.saveMemberOwnTrademark(request);
+        log.info("회원 소유 상표권 정보 저장 완료, 해당 아이디: " + memberOwnTrademark.getId());
+        return new MemberTrademarkDTO(memberOwnTrademark.getId(), memberOwnTrademark.getTrademark().getId(), memberOwnTrademark.getTrademark().getApplicant());
     }
     @GetMapping("/own-designs")
     public List<MemberOwnDesign> memberOwnDesignList(@RequestParam String memberId){
