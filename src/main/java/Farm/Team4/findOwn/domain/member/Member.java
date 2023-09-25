@@ -1,5 +1,6 @@
 package Farm.Team4.findOwn.domain.member;
 
+import Farm.Team4.findOwn.domain.board.post.Post;
 import Farm.Team4.findOwn.domain.judgment.DesignJudgment;
 import Farm.Team4.findOwn.domain.judgment.TrademarkJudgment;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -7,7 +8,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -40,6 +40,8 @@ public class Member {
     private String email;
     @NotNull
     private Date membershipDate;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Post> myPosts = new ArrayList<>();
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<DesignJudgment> designJudgments = new ArrayList<>();
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
