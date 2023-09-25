@@ -101,8 +101,7 @@ public class TrademarkService {
                 .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_FOUND_TRADEMARK));
     }
     @Transactional
-    public Trademark updateTrademark(UpdateMemberOwnTrademarkRequest request){
-        Trademark findTrademark = findById(request.getTrademarkId());
+    public Trademark updateTrademark(Trademark findTrademark, UpdateMemberOwnTrademarkRequest request){
         ConvertTrademark updateRequest = new ConvertTrademark(
                 request.getTrademarkId(),
                 request.getImage(),
