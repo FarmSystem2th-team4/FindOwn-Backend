@@ -33,6 +33,8 @@ public class Member {
     @NotNull
     private String name;
     @NotNull
+    private String nickname;
+    @NotNull
     private String phoneNumber;
     @NotNull
     @NotEmpty(message = "이메일 입력은 필수 입니다.")
@@ -52,10 +54,11 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<MemberOwnTrademark> ownTrademarks = new ArrayList<>();
-    public Member(String id, String password, String name, String phoneNumber, String email, Date now){
+    public Member(String id, String password, String name, String nickname, String phoneNumber, String email, Date now){
         this.id = id;
         this.password = password;
         this.name = name;
+        this.nickname = nickname;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.membershipDate = now;

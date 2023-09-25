@@ -10,6 +10,7 @@ public class SaveMemberRequest {
     private String id;
     private String password;
     private String name;
+    private String nickname;
     private String phoneNumber;
     private String email;
     public Member toMember(Date now){
@@ -17,6 +18,7 @@ public class SaveMemberRequest {
                 this.id,
                 this.password,
                 this.name,
+                this.nickname,
                 this.phoneNumber,
                 this.email,
                 now);
