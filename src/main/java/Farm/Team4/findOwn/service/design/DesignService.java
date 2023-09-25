@@ -94,8 +94,7 @@ public class DesignService {
                 .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_FOUND_DESIGN));
     }
     @Transactional
-    public Design updateDesign(UpdateMemberDesignRequest request){
-        Design findDesign = findById(request.getDesignId());
+    public Design updateDesign(Design findDesign, UpdateMemberDesignRequest request){
         ConvertDesign convertDesign = new ConvertDesign(
                 request.getDesignId(),
                 request.getImage(),
