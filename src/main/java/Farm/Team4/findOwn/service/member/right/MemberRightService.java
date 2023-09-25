@@ -77,15 +77,15 @@ public class MemberRightService {
     }
     @Transactional
     public MemberOwnDesign updateMemberOwnDesign(UpdateMemberDesignRequest request){
-        MemberOwnDesign findMemberOwnDesign = findMyOwnDesign(request.getMemberOwnDesignId());
-        log.info("사용자 소유 디자인권 조회 성공");
+        MemberOwnDesign ownDesign = memberService.findById(request.getMemberId()).getOwnDesigns().stream()
+                .filter(memberDesign -> memberDesign.getId().equals(request.getMemberOwnDesignId()))
+                .findFirst()
+                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_FOUND_DESIGN_OF_MEMBER));
+        log.info("회원 소유 디자인권 조회 성공");
+        Design updatedDesign = designService.updateDesign(ownDesign.getDesign(), request);
+        log.info("디자인권 수정 성공");
 
-        if (!findMemberOwnDesign.getMember().getId().equals(request.getMemberId()))
-            throw new FindOwnException(CustomErrorCode.NOT_MATCH_MEMBER);
-
-        Design updatedDesign = designService.updateDesign(request);
-        log.info("회원 소유 디자인권 내용 수정 완료");
-        return findMemberOwnDesign.updateDesign(updatedDesign);
+        return ownDesign.updateDesign(updatedDesign);
     }
     @Transactional
     public MemberOwnTrademark updateMemberOwnTrademark(UpdateMemberOwnTrademarkRequest request){
