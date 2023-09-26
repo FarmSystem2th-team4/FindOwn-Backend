@@ -1,4 +1,4 @@
-package Farm.Team4.findOwn.service.board.post;
+package Farm.Team4.findOwn.service.board;
 
 import Farm.Team4.findOwn.domain.board.Tag;
 import Farm.Team4.findOwn.exception.CustomErrorCode;
