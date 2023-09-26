@@ -13,4 +13,8 @@ public class Tag {
     private Long id;
     @Column(unique = true)
     private String name;
+
+    public Tag(String name) {
+        this.name = name;
+    }
 }

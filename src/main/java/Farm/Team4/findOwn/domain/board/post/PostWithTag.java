@@ -18,4 +18,9 @@ public class PostWithTag {
     @ManyToOne
     @JoinColumn(name = "post")
     private Post post;
+
+    public PostWithTag(Tag tag, Post post) {
+        this.tag = tag;
+        this.post = post;
+    }
 }
