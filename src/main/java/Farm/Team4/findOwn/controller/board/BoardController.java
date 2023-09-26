@@ -2,7 +2,7 @@ package Farm.Team4.findOwn.controller.board;
 
 import Farm.Team4.findOwn.dto.board.post.request.SavePostRequest;
 import Farm.Team4.findOwn.dto.board.post.response.SavePostResponse;
-import Farm.Team4.findOwn.service.board.PostService;
+import Farm.Team4.findOwn.service.board.post.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

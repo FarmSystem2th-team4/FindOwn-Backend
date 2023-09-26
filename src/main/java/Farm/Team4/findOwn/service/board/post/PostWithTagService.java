@@ -1,4 +1,4 @@
-package Farm.Team4.findOwn.service.board;
+package Farm.Team4.findOwn.service.board.post;
 
 import Farm.Team4.findOwn.domain.board.post.Post;
 import Farm.Team4.findOwn.domain.board.post.PostWithTag;

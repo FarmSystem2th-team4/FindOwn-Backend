@@ -1,8 +1,7 @@
-package Farm.Team4.findOwn.service.board;
+package Farm.Team4.findOwn.service.board.post;
 
 import Farm.Team4.findOwn.domain.board.post.Post;
 import Farm.Team4.findOwn.dto.board.post.request.SavePostRequest;
-import Farm.Team4.findOwn.dto.board.post.response.PostDTO;
 import Farm.Team4.findOwn.dto.board.post.response.SavePostResponse;
 import Farm.Team4.findOwn.repository.board.PostRepository;
 import Farm.Team4.findOwn.service.member.information.MemberService;
@@ -10,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
