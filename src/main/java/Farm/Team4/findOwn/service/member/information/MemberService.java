@@ -35,6 +35,10 @@ public class MemberService {
         return memberRepository.findByEmail(email)
                 .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_FOUND_MEMBER));
     }
+    public Member findByNickname(String nickname){
+        return memberRepository.findByNickname(nickname)
+                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_MATCH_NICKNAME));
+    }
     @Transactional
     public Member changeEmail(String oldEmail, String newEmail){
         Member member = findByEmail(oldEmail);
