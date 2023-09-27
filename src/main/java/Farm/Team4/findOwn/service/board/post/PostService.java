@@ -1,7 +1,9 @@
 package Farm.Team4.findOwn.service.board.post;
 
 import Farm.Team4.findOwn.domain.board.post.Post;
+import Farm.Team4.findOwn.dto.board.comment.response.CommentDTO;
 import Farm.Team4.findOwn.dto.board.post.request.SavePostRequest;
+import Farm.Team4.findOwn.dto.board.post.response.DetailPostDTO;
 import Farm.Team4.findOwn.dto.board.post.response.SavePostResponse;
 import Farm.Team4.findOwn.dto.board.post.response.SimplePostDTO;
 import Farm.Team4.findOwn.exception.CustomErrorCode;
@@ -53,5 +55,20 @@ public class PostService {
                                 .toList(),
                         post.getCreatedAt()
                 )).toList();
+    }
+    public DetailPostDTO findDetailPost(Long postId){
+        Post findPost = findById(postId);
+        return new DetailPostDTO(
+                findPost.getMember().getNickname(),
+                findPost.getTitle(),
+                findPost.getContent(),
+                findPost.getCreatedAt(),
+                findPost.getTags().stream()
+                        .map(association -> association.getTag().getName())
+                        .toList(),
+                findPost.getComments().stream()
+                        .map(comment -> new CommentDTO(comment.getId(), comment.getWriter().getNickname(), comment.getContent(), comment.getCreatedAt()))
+                        .toList()
+        );
     }
 }
