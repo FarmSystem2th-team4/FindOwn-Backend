@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-public class BoardController {
+public class PostController {
     private final PostService postService;
     @PostMapping("/post")
     public SavePostResponse savePost(@RequestBody SavePostRequest request){
