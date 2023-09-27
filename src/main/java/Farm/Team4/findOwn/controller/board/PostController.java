@@ -2,6 +2,7 @@ package Farm.Team4.findOwn.controller.board;
 
 import Farm.Team4.findOwn.dto.board.BoardPageDTO;
 import Farm.Team4.findOwn.dto.board.post.request.SavePostRequest;
+import Farm.Team4.findOwn.dto.board.post.response.DetailPostDTO;
 import Farm.Team4.findOwn.dto.board.post.response.SavePostResponse;
 import Farm.Team4.findOwn.service.board.post.PostService;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,9 @@ public class PostController {
     public BoardPageDTO showBoardPage(@RequestParam int pageNum){
         PageRequest pageRequest = PageRequest.of(pageNum - 1, 5, Sort.by("createdAt").descending());
         return new BoardPageDTO(postService.countPosts(), postService.startPagingBoard(pageRequest));
+    }
+    @GetMapping("/post/{postId}")
+    public DetailPostDTO showPostDetail(@PathVariable Long postId){
+        return postService.findDetailPost(postId);
     }
 }

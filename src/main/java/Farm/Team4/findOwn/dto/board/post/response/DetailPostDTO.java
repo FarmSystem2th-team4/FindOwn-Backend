@@ -15,4 +15,12 @@ public class DetailPostDTO {
     private List<String> tagNames;
     private List<CommentDTO> comments;
 
+    public DetailPostDTO(String nickname, String title, String content, Date createdAt, List<String> tagNames, List<CommentDTO> comments) {
+        this.nickname = nickname;
+        this.title = title;
+        this.content = content;
+        this.createdAt = createdAt;
+        this.tagNames = tagNames;
+        this.comments = comments;
+    }
 }
