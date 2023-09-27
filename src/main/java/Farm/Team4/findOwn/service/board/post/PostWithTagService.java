@@ -1,8 +1,9 @@
-package Farm.Team4.findOwn.service.board;
+package Farm.Team4.findOwn.service.board.post;
 
 import Farm.Team4.findOwn.domain.board.post.Post;
 import Farm.Team4.findOwn.domain.board.post.PostWithTag;
 import Farm.Team4.findOwn.repository.board.PostWithTagRepository;
+import Farm.Team4.findOwn.service.board.TagService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
