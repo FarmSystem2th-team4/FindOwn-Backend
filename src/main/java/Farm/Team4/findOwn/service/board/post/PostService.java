@@ -3,6 +3,8 @@ package Farm.Team4.findOwn.service.board.post;
 import Farm.Team4.findOwn.domain.board.post.Post;
 import Farm.Team4.findOwn.dto.board.post.request.SavePostRequest;
 import Farm.Team4.findOwn.dto.board.post.response.SavePostResponse;
+import Farm.Team4.findOwn.exception.CustomErrorCode;
+import Farm.Team4.findOwn.exception.FindOwnException;
 import Farm.Team4.findOwn.repository.board.PostRepository;
 import Farm.Team4.findOwn.service.board.TagService;
 import Farm.Team4.findOwn.service.member.information.MemberService;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PostService {
     private final PostRepository postRepository;
     private final MemberService memberService;
@@ -28,5 +31,8 @@ public class PostService {
 
         return new SavePostResponse(savedPost.getId(), savedPost.getTitle(), savedPost.getContent(), savedPost.getCreatedAt());
     }
-
+    public Post findById(Long postId){
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_MATCH_POST));
+    }
 }
