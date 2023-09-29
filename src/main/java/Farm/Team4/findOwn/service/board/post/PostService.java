@@ -1,11 +1,15 @@
 package Farm.Team4.findOwn.service.board.post;
 
+import Farm.Team4.findOwn.domain.board.Tag;
 import Farm.Team4.findOwn.domain.board.post.Post;
+import Farm.Team4.findOwn.domain.board.post.PostWithTag;
 import Farm.Team4.findOwn.dto.board.comment.response.CommentDTO;
 import Farm.Team4.findOwn.dto.board.post.request.SavePostRequest;
+import Farm.Team4.findOwn.dto.board.post.request.UpdatePostRequest;
 import Farm.Team4.findOwn.dto.board.post.response.DetailPostDTO;
 import Farm.Team4.findOwn.dto.board.post.response.SavePostResponse;
 import Farm.Team4.findOwn.dto.board.post.response.SimplePostDTO;
+import Farm.Team4.findOwn.dto.board.post.response.UpdatePostResponse;
 import Farm.Team4.findOwn.exception.CustomErrorCode;
 import Farm.Team4.findOwn.exception.FindOwnException;
 import Farm.Team4.findOwn.repository.board.PostRepository;
@@ -33,7 +37,7 @@ public class PostService {
         Post savedPost = postRepository.save(request.changeToPost(memberService.findById(request.getWriterId())));
         log.info("게시글 저장 완료");
         tagService.saveNewTag(request.getTagNames()); // 새로운 태그 저장 & 기존 태그는 저장은 X
-        postWithTagService.saveAssociation(request.getTagNames(), savedPost);
+        postWithTagService.saveAssociations(request.getTagNames(), savedPost);
 
         return new SavePostResponse(savedPost.getId(), savedPost.getTitle(), savedPost.getContent(), savedPost.getCreatedAt());
     }
@@ -70,5 +74,14 @@ public class PostService {
                         .map(comment -> new CommentDTO(comment.getId(), comment.getWriter().getNickname(), comment.getContent(), comment.getCreatedAt()))
                         .toList()
         );
+    }
+    @Transactional
+    public Post updatePost(UpdatePostRequest request) {
+        Post findPost = memberService.findById(request.getWriterId()).getMyPosts().stream()
+                .filter(myPost -> myPost.getId().equals(request.getPostId()))
+                .findFirst()
+                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_MATCH_POST));
+        log.info("게시글 조회 성공");
+        return findPost.updatePost(request);
     }
 }
