@@ -23,11 +23,15 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "post")
     private Post post;
-
     public Comment(String content, Member writer, Post post) {
         this.content = content;
         this.writer = writer;
         this.post = post;
         this.createdAt = new Date();
+    }
+    public Comment updateComment(String content){
+        this.content = content;
+        this.createdAt = new Date();
+        return this;
     }
 }
