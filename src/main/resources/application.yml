@@ -11,6 +11,8 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+        highlight_sql: true
+        use_sql_comments: true
         dialect: org.hibernate.dialect.MySQL8Dialect
   mail:
     host: ${MAIL_HOST}
