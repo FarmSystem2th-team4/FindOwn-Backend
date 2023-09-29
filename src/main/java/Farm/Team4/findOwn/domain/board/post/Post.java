@@ -2,6 +2,7 @@ package Farm.Team4.findOwn.domain.board.post;
 
 import Farm.Team4.findOwn.domain.board.Comment;
 import Farm.Team4.findOwn.domain.member.Member;
+import Farm.Team4.findOwn.dto.board.post.request.UpdatePostRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,5 +37,12 @@ public class Post {
         this.content = content;
         this.createdAt = createdAt;
         this.member = member;
+    }
+    public Post updatePost(UpdatePostRequest request){
+        this.title = request.getTitle();
+        this.type = Enum.valueOf(Type.class, request.getType());
+        this.content = request.getContent();
+        this.createdAt = new Date();
+        return this;
     }
 }
