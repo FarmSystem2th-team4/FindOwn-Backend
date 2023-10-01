@@ -23,5 +23,10 @@ public class CommentController {
     public UpdateCommentResponse updateComment(@RequestBody UpdateCommentRequest request){
         return commentService.updateComment(request);
     }
+    @DeleteMapping("/comment/{commentId}")
+    public String deleteComment(@PathVariable Long commentId){
+        commentService.deleteComment(commentId);
+        return "delete comment complete";
+    }
 
 }
