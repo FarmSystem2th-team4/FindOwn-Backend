@@ -7,7 +7,6 @@ import java.util.List;
 @Data
 public class UpdatePostRequest {
     private String writerId;
-    private Long postId;
     private String title;
     private String type;
     private String content;

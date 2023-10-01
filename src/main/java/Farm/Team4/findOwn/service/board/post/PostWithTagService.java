@@ -26,26 +26,15 @@ public class PostWithTagService {
         postWithTagRepository.save(new PostWithTag(tag, post));
     }
     @Transactional
-    public void saveAssociations(List<String> tagNames, Post newPost){
+    public void saveAssociationsInSave(Post newPost, List<String> tagNames){
         List<PostWithTag> associations = tagNames.stream()
                 .map(tagName -> new PostWithTag(tagService.findByTagName(tagName), newPost))
                 .toList();
         postWithTagRepository.saveAll(associations);
     }
     @Transactional
-    public void saveAssociationInUpdate(List<Tag> updateTags, Post post){
-        for(Tag updateTag : updateTags){
-            int check = 0;
-            for(PostWithTag association : post.getTags()){
-                if (association.getTag().equals(updateTag)) break;
-                check++;
-            }
-            if (check == post.getTags().size())
-                postWithTagRepository.save(new PostWithTag(updateTag, post));
-        }
-    }
-    public Long countByTag(Tag tag){
-        return postWithTagRepository.countByTag(tag);
+    public void saveAssociationInUpdate(Post post, List<Tag> tags){
+        tags.forEach(tag -> saveAssociation(post, tag));
     }
     public List<PostWithTag> findAssociations(Post post){
         return postWithTagRepository.findPostWithTagsByPost(post);
@@ -54,7 +43,7 @@ public class PostWithTagService {
         return postWithTagRepository.findByPostAndTag(post, tag)
                 .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_MATCH_TAG)); // 수정 해야함
     }
-    public List<Tag> findNewAssociation(List<Tag> originTags, List<Tag> newTags){
+    private List<Tag> findNewAssociation(List<Tag> originTags, List<Tag> newTags){
         List<Tag> saveTags = new ArrayList<>();
         for (Tag newTag : newTags) {
             int check = 0;
@@ -68,7 +57,7 @@ public class PostWithTagService {
         }
         return saveTags;
     }
-    public List<Tag> findDeleteTags(List<Tag> originTags, List<Tag> newTags){
+    private List<Tag> findDeleteTags(List<Tag> originTags, List<Tag> newTags){
         List<Tag> deleteTags = new ArrayList<>();
         for(Tag originTag : originTags){
             int check = 0;
@@ -82,40 +71,22 @@ public class PostWithTagService {
         }
         return deleteTags;
     }
-    @Transactional
-    public void updatingPostWithNewTag(Post post, List<Tag> saveTags){
-        saveTags.forEach(saveTag -> saveAssociation(post, saveTag));
-        log.info("신규 연관관계 저장완료");
+    public void editAssociationInUpdate(Post post, List<Tag> originTags, List<Tag> newTags){
+        List<Tag> saveTags = findNewAssociation(originTags, newTags);
+        List<Tag> deleteTags = findDeleteTags(originTags, newTags);
+        deleteAssociation(post, deleteTags);
+        log.info("해당 사항 없는 태그 & 게시글 연관관계 삭제 완료");
+        saveAssociationInUpdate(post, saveTags);
+        log.info("새로운 태그 & 게시글 연관관계 저장 완료");
     }
     @Transactional
-    public void updatingPostWithOldTag(Post post, List<Tag> deleteTags){
-        deleteTags.forEach(deleteTag -> {
-            if (postWithTagRepository.countByTag(deleteTag) == 1)
-                tagService.deleteTag(deleteTag);
-//            PostWithTag findPostAndTag = postWithTagRepository.findByPostAndTag(post, deleteTag)
-//                    .orElseThrow(() -> new IllegalArgumentException("찾을 수 없는 게시글 태그 관계입니다."));
-//            deleteById(findPostAndTag.getId());
-        });
-    }
-    @Transactional
-    public void deleteOldAssociation(List<Long> oldAssociations){
-        log.info("========================");
-        oldAssociations.forEach(id -> deleteById(id));
-        log.info("========================");
-    }
-
-    @Transactional
-    public void updateAssociation(Post updatedPost, List<Tag> originTags, List<Tag> newTags){
-        updatingPostWithNewTag(updatedPost, newTags);
-        log.info("태그 삭제 로직 진입");
-        updatingPostWithOldTag(updatedPost, originTags);
-        log.info("제외된 태그 삭제");
-    }
-    @Transactional
-    public void deleteById(Long associationId){
-        log.info("========================");
-        postWithTagRepository.deleteById(associationId);
-        log.info("========================");
+    public void deleteAssociation(Post post, List<Tag> deleteTags){
+        deleteTags.forEach(
+                deleteTag -> {
+                    PostWithTag findAssociation = findByPostAndTag(post, deleteTag);
+                    postWithTagRepository.delete(findAssociation);
+                }
+        );
     }
 
 }

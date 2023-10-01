@@ -18,6 +18,7 @@ public enum CustomErrorCode {
     NOT_MATCH_TAG(400, "존재하지 않는 태그입니다."),
     NOT_MATCH_POST(400, "존재하지 않는 게시글입니다."),
     NOT_MATCH_NICKNAME(400, "존재하지 않는 닉네임입니다."),
+    NOT_MATCH_COMMENT(400, "존재하지 않는 댓글입니다"),
     NOT_FOUND_REGISTERED(204, "등록 상태인 권리가 없습니다.");
     private final int status;
     private final String errorMessage;

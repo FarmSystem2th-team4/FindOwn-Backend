@@ -13,6 +13,7 @@ import Farm.Team4.findOwn.dto.board.post.response.UpdatePostResponse;
 import Farm.Team4.findOwn.exception.CustomErrorCode;
 import Farm.Team4.findOwn.exception.FindOwnException;
 import Farm.Team4.findOwn.repository.board.PostRepository;
+import Farm.Team4.findOwn.repository.board.PostWithTagRepository;
 import Farm.Team4.findOwn.service.board.TagService;
 import Farm.Team4.findOwn.service.member.information.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PostService {
+    private final PostWithTagRepository postWithTagRepository;
     private final PostRepository postRepository;
     private final MemberService memberService;
     private final TagService tagService;
@@ -37,7 +39,7 @@ public class PostService {
         Post savedPost = postRepository.save(request.changeToPost(memberService.findById(request.getWriterId())));
         log.info("게시글 저장 완료");
         tagService.saveNewTag(request.getTagNames()); // 새로운 태그 저장 & 기존 태그는 저장은 X
-        postWithTagService.saveAssociations(request.getTagNames(), savedPost);
+        postWithTagService.saveAssociationsInSave(savedPost, request.getTagNames());
 
         return new SavePostResponse(savedPost.getId(), savedPost.getTitle(), savedPost.getContent(), savedPost.getCreatedAt());
     }
@@ -54,7 +56,7 @@ public class PostService {
                         post.getId(),
                         post.getMember().getNickname(),
                         post.getTitle(),
-                        post.getTags().stream()
+                        postWithTagService.findAssociations(post).stream()
                                 .map(association -> association.getTag().getName())
                                 .toList(),
                         post.getCreatedAt()
@@ -67,21 +69,36 @@ public class PostService {
                 findPost.getTitle(),
                 findPost.getContent(),
                 findPost.getCreatedAt(),
-                findPost.getTags().stream()
-                        .map(association -> association.getTag().getName())
-                        .toList(),
+                postWithTagService.findAssociations(findPost).stream()
+                                .map(association -> association.getTag().getName())
+                                .toList(),
                 findPost.getComments().stream()
                         .map(comment -> new CommentDTO(comment.getId(), comment.getWriter().getNickname(), comment.getContent(), comment.getCreatedAt()))
                         .toList()
         );
     }
     @Transactional
-    public Post updatePost(UpdatePostRequest request) {
-        Post findPost = memberService.findById(request.getWriterId()).getMyPosts().stream()
-                .filter(myPost -> myPost.getId().equals(request.getPostId()))
-                .findFirst()
-                .orElseThrow(() -> new FindOwnException(CustomErrorCode.NOT_MATCH_POST));
-        log.info("게시글 조회 성공");
-        return findPost.updatePost(request);
+    public UpdatePostResponse updatePost(Long postId, UpdatePostRequest request){
+        Post updatedPost = findById(postId).updatePost(request);
+        log.info("게시글 내용 업데이트 완료");
+        tagService.saveNewTag(request.getTagNames());
+        log.info("새로 저장해야하는 태그 저장 완료");
+
+        List<Tag> originTags = postWithTagService.findAssociations(updatedPost).stream()
+                .map(association -> association.getTag()).toList();
+        List<Tag> newTags = request.getTagNames().stream()
+                .map(tagName -> tagService.findByTagName(tagName)).toList();
+        log.info("태그 분리 목록 생성 완료");
+
+        postWithTagService.editAssociationInUpdate(updatedPost, originTags, newTags);
+        log.info("태그 & 게시글 연관관계 재정의 완료");
+
+        return new UpdatePostResponse(updatedPost.getId(), updatedPost.getTitle(), updatedPost.getContent(), updatedPost.getCreatedAt());
+
+    }
+    @Transactional
+    public String deletePost(Post post) {
+        postRepository.delete(post);
+        return "ok";
     }
 }
