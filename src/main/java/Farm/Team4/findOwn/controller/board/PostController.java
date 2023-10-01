@@ -26,8 +26,6 @@ import java.util.List;
 @RequestMapping("/api")
 public class PostController {
     private final PostService postService;
-    private final TagService tagService;
-    private final PostWithTagService postWithTagService;
 
     @PostMapping("/post")
     public SavePostResponse savePost(@RequestBody SavePostRequest request) {
@@ -44,19 +42,8 @@ public class PostController {
     public DetailPostDTO showPostDetail(@PathVariable Long postId) {
         return postService.findDetailPost(postId);
     }
-
     @PatchMapping("/post/{postId}")
-    public void updatePost(@RequestBody UpdatePostRequest request) {
-        Post updatedPost = postService.updatePost(request);// 게시글 수정
-        tagService.saveNewTag(request.getTagNames()); // 새로운 태그 저장
-
-        List<Long> oldAssociationIds = updatedPost.getTags().stream() // 기존에 유지된 태그
-                .map(PostWithTag::getId).toList();
-        oldAssociationIds.forEach( id -> {
-            log.info("association id: " + id);
-        });
-        postWithTagService.deleteOldAssociation(oldAssociationIds);
-
-
+    public UpdatePostResponse updatePost(@PathVariable Long postId, @RequestBody UpdatePostRequest request){
+        return postService.updatePost(postId, request);
     }
 }
