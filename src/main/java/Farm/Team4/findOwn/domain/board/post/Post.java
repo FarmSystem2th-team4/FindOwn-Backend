@@ -27,6 +27,8 @@ public class Post {
     @JoinColumn(name = "member_id")
     private Member member;
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<PostWithTag> postWithTags = new ArrayList<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
     public Post(String title, Type type, String content, Date createdAt, Member member) {
