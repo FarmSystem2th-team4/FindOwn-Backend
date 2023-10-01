@@ -43,4 +43,9 @@ public class CommentService {
         findComment.updateComment(request.getContent());
         return new UpdateCommentResponse(findComment.getId(), findComment.getWriter().getNickname(), findComment.getContent(), findComment.getCreatedAt());
     }
+    @Transactional
+    public void deleteComment(Long commentId){
+        Comment findComment = findById(commentId);
+        commentRepository.delete(findComment);
+    }
 }
