@@ -12,7 +12,7 @@ public class PostWithTag {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_with_tag")
     private Long id;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id")
     private Tag tag;
     @ManyToOne(fetch = FetchType.LAZY)
