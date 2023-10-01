@@ -97,8 +97,9 @@ public class PostService {
 
     }
     @Transactional
-    public String deletePost(Post post) {
-        postRepository.delete(post);
-        return "ok";
+    public void deletePost(Long postId) {
+        Post findPost = findById(postId);
+        postRepository.delete(findPost);
+        log.info("게시글 삭제 완료");
     }
 }
