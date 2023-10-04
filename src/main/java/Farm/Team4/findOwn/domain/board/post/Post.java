@@ -2,6 +2,7 @@ package Farm.Team4.findOwn.domain.board.post;
 
 import Farm.Team4.findOwn.domain.board.Comment;
 import Farm.Team4.findOwn.domain.member.Member;
+import Farm.Team4.findOwn.domain.news.News;
 import Farm.Team4.findOwn.dto.board.post.request.UpdatePostRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class Post {
     private String title;
     @Enumerated(EnumType.STRING)
     private Type type;
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
     private Date createdAt;
     @ManyToOne
