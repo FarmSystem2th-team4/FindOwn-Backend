@@ -3,6 +3,7 @@ package Farm.Team4.findOwn.domain.member;
 import Farm.Team4.findOwn.domain.board.post.Post;
 import Farm.Team4.findOwn.domain.judgment.DesignJudgment;
 import Farm.Team4.findOwn.domain.judgment.TrademarkJudgment;
+import Farm.Team4.findOwn.domain.news.Scrap;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -54,6 +55,8 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<MemberOwnTrademark> ownTrademarks = new ArrayList<>();
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Scrap> scraps = new ArrayList<>();
     public Member(String id, String password, String name, String nickname, String phoneNumber, String email, Date now){
         this.id = id;
         this.password = password;
