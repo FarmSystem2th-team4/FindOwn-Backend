@@ -16,7 +16,7 @@ public class PostWithTag {
     @JoinColumn(name = "tag_id")
     private Tag tag;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post")
+    @JoinColumn(name = "post_id")
     private Post post;
 
     public PostWithTag(Tag tag, Post post) {
